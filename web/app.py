@@ -1,8 +1,4 @@
 import os
-import json
-import base64
-from datetime import datetime
-from io import BytesIO
 import logging
 from typing import Annotated, Optional
 from uuid import uuid4
@@ -10,8 +6,7 @@ from uuid import uuid4
 import requests
 from fastapi import Depends, FastAPI, Header, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse
-from pydantic import BaseModel, Field
+from fastapi.responses import FileResponse
 
 from hh_research.client import (
     dedupe_vacancy_refs_preserve_order,
@@ -26,8 +21,9 @@ from hh_research.job_queue import (
     get_job_status,
 )
 from hh_research.pipeline import collect_refs_auto, export_refs_to_xlsx_bytes, compute_summary_for_refs
-
-MAX_VACANCIES_PER_REQUEST = int(os.environ.get("HH_EXPORT_MAX_VACANCIES", "100"))
+from hh_research.settings import max_export_vacancies
+from web.responses import xlsx_streaming_response
+from web.schemas import AutoExportBody, ManualExportBody, SummaryAutoBody
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger("hhResearchAPI")
@@ -66,6 +62,10 @@ def _require_api_key(
         raise HTTPException(status_code=401, detail="Invalid or missing X-API-Key")
 
 
+def _max_vacancies() -> int:
+    return max_export_vacancies()
+
+
 app = FastAPI(title="hhResearch API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
@@ -88,54 +88,11 @@ def health() -> dict:
     return {"status": "ok"}
 
 
-class ManualExportBody(BaseModel):
-    vacancy_ids_or_urls: list[str] = Field(..., min_length=1, max_length=MAX_VACANCIES_PER_REQUEST)
-    kw_top_n: int = Field(30, ge=1, le=200)
-    kw_max_ngram: int = Field(3, ge=1, le=5)
-    token: Optional[str] = None
-    sleep_s: float = Field(0.2, ge=0, le=5)
-
-
-class AutoExportBody(BaseModel):
-    queries: list[str] = Field(..., min_length=1, max_length=50)
-    pages: int = Field(2, ge=1, le=20)
-    per_page: int = Field(100, ge=1, le=100)
-    kw_top_n: int = Field(30, ge=1, le=200)
-    kw_max_ngram: int = Field(3, ge=1, le=5)
-    token: Optional[str] = None
-    sleep_s: float = Field(0.2, ge=0, le=5)
-    search_sleep_s: float = Field(0.2, ge=0, le=5)
-    employer_id: Optional[str] = None
-    area: Optional[str] = None
-    experience: Optional[str] = None
-    period: Optional[int] = Field(None, ge=1, le=30)
-
-
-class SummaryAutoBody(BaseModel):
-    queries: list[str] = Field(..., min_length=1, max_length=50)
-    pages: int = Field(2, ge=1, le=20)
-    per_page: int = Field(100, ge=1, le=100)
-    kw_top_n: int = Field(30, ge=1, le=200)
-    kw_max_ngram: int = Field(3, ge=1, le=5)
-    token: Optional[str] = None
-    sleep_s: float = Field(0.2, ge=0, le=5)
-    search_sleep_s: float = Field(0.2, ge=0, le=5)
-    employer_id: Optional[str] = None
-    area: Optional[str] = None
-    experience: Optional[str] = None
-    period: Optional[int] = Field(None, ge=1, le=30)
-
-
-def _attachment_filename(prefix: str) -> str:
-    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    return f"{prefix}_{ts}.xlsx"
-
-
 @app.post("/api/v1/export/manual")
 def export_manual(
     body: ManualExportBody,
     _: Annotated[None, Depends(_require_api_key)],
-) -> StreamingResponse:
+):
     request_id = str(uuid4())
     try:
         raw_refs = refs_from_lines(body.vacancy_ids_or_urls)
@@ -150,15 +107,16 @@ def export_manual(
         )
 
     refs, duplicates_removed = dedupe_vacancy_refs_preserve_order(raw_refs)
-    if len(refs) > MAX_VACANCIES_PER_REQUEST:
+    cap = _max_vacancies()
+    if len(refs) > cap:
         raise HTTPException(
             status_code=422,
             detail={
                 "error": "too_many_vacancies",
                 "message": (
-                    f"After deduplication, {len(refs)} vacancies exceed max {MAX_VACANCIES_PER_REQUEST}."
+                    f"After deduplication, {len(refs)} vacancies exceed max {cap}."
                 ),
-                "max": MAX_VACANCIES_PER_REQUEST,
+                "max": cap,
                 "after_dedup_count": len(refs),
             },
             headers={"X-Request-Id": request_id},
@@ -189,22 +147,12 @@ def export_manual(
         "unique_count": len(refs),
         "duplicates_removed": duplicates_removed,
     }
-    bio = BytesIO(data)
-    bio.seek(0)
-    out_headers: dict[str, str] = {
-        "X-Request-Id": request_id,
-    }
-    if errors:
-        out_headers["X-Export-Warnings"] = str(len(errors))
-    summary_bytes = json.dumps(summary, ensure_ascii=False).encode("utf-8")
-    out_headers["X-Export-Summary"] = base64.urlsafe_b64encode(summary_bytes).decode("ascii").rstrip("=")
-    return StreamingResponse(
-        bio,
-        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        headers={
-            "Content-Disposition": f'attachment; filename="{_attachment_filename("hh_keyskills_manual")}"',
-            **out_headers,
-        },
+    return xlsx_streaming_response(
+        data,
+        filename_prefix="hh_keyskills_manual",
+        request_id=request_id,
+        summary=summary,
+        errors=errors,
     )
 
 
@@ -212,7 +160,7 @@ def export_manual(
 def export_auto(
     body: AutoExportBody,
     _: Annotated[None, Depends(_require_api_key)],
-) -> StreamingResponse:
+):
     request_id = str(uuid4())
     session = requests.Session()
     token = _effective_token(body.token)
@@ -241,16 +189,17 @@ def export_auto(
             headers={"X-Request-Id": request_id},
         ) from e
 
-    if len(refs) > MAX_VACANCIES_PER_REQUEST:
+    cap = _max_vacancies()
+    if len(refs) > cap:
         raise HTTPException(
             status_code=422,
             detail={
                 "error": "too_many_vacancies",
                 "message": (
-                    f"Search returned {len(refs)} vacancies; max per request is {MAX_VACANCIES_PER_REQUEST}. "
+                    f"Search returned {len(refs)} vacancies; max per request is {cap}. "
                     "Reduce pages, per_page, or queries."
                 ),
-                "max": MAX_VACANCIES_PER_REQUEST,
+                "max": cap,
                 "search_count": len(refs),
             },
             headers={"X-Request-Id": request_id},
@@ -280,22 +229,12 @@ def export_auto(
         "unique_count": len(refs),
         "duplicates_removed": max(0, raw_id_hits - len(refs)),
     }
-    bio = BytesIO(data)
-    bio.seek(0)
-    out_headers: dict[str, str] = {
-        "X-Request-Id": request_id,
-    }
-    if errors:
-        out_headers["X-Export-Warnings"] = str(len(errors))
-    summary_bytes = json.dumps(summary, ensure_ascii=False).encode("utf-8")
-    out_headers["X-Export-Summary"] = base64.urlsafe_b64encode(summary_bytes).decode("ascii").rstrip("=")
-    return StreamingResponse(
-        bio,
-        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        headers={
-            "Content-Disposition": f'attachment; filename="{_attachment_filename("hh_keyskills_auto")}"',
-            **out_headers,
-        },
+    return xlsx_streaming_response(
+        data,
+        filename_prefix="hh_keyskills_auto",
+        request_id=request_id,
+        summary=summary,
+        errors=errors,
     )
 
 
@@ -365,16 +304,17 @@ def summary_auto(
             headers={"X-Request-Id": request_id},
         ) from e
 
-    if len(refs) > MAX_VACANCIES_PER_REQUEST:
+    cap = _max_vacancies()
+    if len(refs) > cap:
         raise HTTPException(
             status_code=422,
             detail={
                 "error": "too_many_vacancies",
                 "message": (
-                    f"Search returned {len(refs)} vacancies; max per request is {MAX_VACANCIES_PER_REQUEST}. "
+                    f"Search returned {len(refs)} vacancies; max per request is {cap}. "
                     "Reduce pages, per_page, or queries."
                 ),
-                "max": MAX_VACANCIES_PER_REQUEST,
+                "max": cap,
                 "search_count": len(refs),
             },
             headers={"X-Request-Id": request_id},
@@ -446,15 +386,16 @@ def export_manual_async(
         ) from e
 
     refs, duplicates_removed = dedupe_vacancy_refs_preserve_order(raw_refs)
-    if len(refs) > MAX_VACANCIES_PER_REQUEST:
+    cap = _max_vacancies()
+    if len(refs) > cap:
         raise HTTPException(
             status_code=422,
             detail={
                 "error": "too_many_vacancies",
                 "message": (
-                    f"After deduplication, {len(refs)} vacancies exceed max {MAX_VACANCIES_PER_REQUEST}."
+                    f"After deduplication, {len(refs)} vacancies exceed max {cap}."
                 ),
-                "max": MAX_VACANCIES_PER_REQUEST,
+                "max": cap,
                 "after_dedup_count": len(refs),
             },
             headers={"X-Request-Id": request_id},
@@ -494,6 +435,10 @@ def export_auto_async(
         "kw_max_ngram": body.kw_max_ngram,
         "sleep_s": body.sleep_s,
         "search_sleep_s": body.search_sleep_s,
+        "employer_id": body.employer_id,
+        "area": body.area,
+        "experience": body.experience,
+        "period": body.period,
         "token": token,
     }
     job_id = enqueue_export_job("auto", payload)
@@ -520,6 +465,7 @@ def job_status(job_id: str, response: Response) -> dict:
         "progress_total": st.get("progress_total"),
         "processed": st.get("processed"),
         "warnings_count": st.get("warnings_count"),
+        "error": st.get("error"),
         "errors_sample": st.get("errors_sample"),
         "summary": st.get("summary"),
         "download_url": download_url,

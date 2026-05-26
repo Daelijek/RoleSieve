@@ -1,5 +1,6 @@
 import re
 import time
+import os
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -91,8 +92,16 @@ def hh_get_json(
     timeout_s: float = 30.0,
     retries: int = 3,
 ) -> dict:
+    # HH API expects HH-User-Agent with app contact info.
+    # Allow override via env for deployments; provide a safe default for local dev.
+    hh_user_agent = (
+        os.environ.get("HH_USER_AGENT")
+        or os.environ.get("HH_RESEARCH_HH_USER_AGENT")
+        or "hhResearch (telegram: @daelijek_og)"
+    )
     headers: Dict[str, str] = {
         "User-Agent": "hh-research-script",
+        "HH-User-Agent": hh_user_agent,
         "Accept": "application/json",
     }
     if token:

@@ -10,6 +10,7 @@ import { SummaryView } from "@/components/summary/summary-view";
 export default function AnalyzePage() {
   const { t } = useI18n();
   const [summary, setSummary] = useState<ExportSummary | null>(null);
+  const [byQuery, setByQuery] = useState<Array<{ query: string; summary: ExportSummary }>>([]);
   const [formKey, setFormKey] = useState(0);
   const [seedPreset, setSeedPreset] = useState<ExportFormPreset | undefined>(undefined);
   /* Empty on first paint so SSR and client markup match; localStorage only after mount. */
@@ -26,6 +27,7 @@ export default function AnalyzePage() {
   function handleRepeat(entry: ExportHistoryEntry) {
     setSeedPreset(entry.preset);
     setFormKey((k) => k + 1);
+    setByQuery([]);
   }
 
   function handleDeleteHistoryEntry(id: string) {
@@ -57,7 +59,13 @@ export default function AnalyzePage() {
                 className="glass-shine surface-glass-sm flex flex-col gap-3 p-3 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:justify-between"
               >
                 <div className="min-w-0 text-[var(--muted)] sm:pr-2">
-                  <span className="font-medium text-[var(--text)]">{entry.mode === "manual" ? "Manual" : "Auto"}</span>
+                  <span className="font-medium text-[var(--text)]">
+                    {entry.mode === "manual"
+                      ? t("analyze.historyModeManual")
+                      : entry.preset.autoVariant === "per_query"
+                        ? t("analyze.historyModeAutoPerQuery")
+                        : t("analyze.historyModeAutoAggregate")}
+                  </span>
                   <span className="mx-2">{"\u00B7"}</span>
                   <span>{t("analyze.historyVacancies", { n: String(entry.summary.requested) })}</span>
                   {entry.warnings != null && entry.warnings > 0 && (
@@ -109,7 +117,14 @@ export default function AnalyzePage() {
           <ExportForm
             key={formKey}
             initialPreset={seedPreset}
-            onSummary={setSummary}
+            onSummary={(s) => {
+              setSummary(s);
+              if (s) setByQuery([]);
+            }}
+            onByQuery={(rows) => {
+              setByQuery(rows);
+              if (rows.length > 0) setSummary(null);
+            }}
             onHistoryChange={refreshHistory}
           />
         </article>
@@ -132,9 +147,26 @@ export default function AnalyzePage() {
         </aside>
       </div>
 
-      {summary && (
+      {summary && byQuery.length === 0 && (
         <section className="mt-6 sm:mt-10">
           <SummaryView summary={summary} />
+        </section>
+      )}
+
+      {byQuery.length > 0 && (
+        <section className="mt-6 sm:mt-10">
+          <h2 className="text-base font-semibold lg:text-lg">{t("summary.byQuery.title")}</h2>
+          <div className="mt-4 space-y-6">
+            {byQuery.map((row) => (
+              <article key={row.query} className="card-soft glass-shine p-4 sm:p-5">
+                <div className="mb-3">
+                  <p className="text-xs text-[var(--muted)]">{t("summary.byQuery.query")}</p>
+                  <p className="mt-1 font-semibold text-[var(--text)]">{row.query}</p>
+                </div>
+                <SummaryView summary={row.summary} />
+              </article>
+            ))}
+          </div>
         </section>
       )}
     </section>

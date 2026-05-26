@@ -148,6 +148,12 @@ export const kk = {
   "summary.periodPh": "1..30",
   "summary.errUnknown": "\u0411\u0435\u043b\u0433\u0456\u0441\u0456\u0437 \u049b\u0430\u0442\u0435",
   "summary.errBadResponse": "API \u0436\u0430\u0443\u0430\u0431\u044b \u049b\u0430\u0442\u0435.",
+  "summary.errProgressStalled":
+    "\u0411\u0456\u0440\u043d\u0435\u0448\u0435 \u043c\u0438\u043d\u0443\u0442 \u0431\u043e\u0439\u044b \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441 \u0431\u043e\u043b\u043c\u0430\u0434\u044b \u2014 \u0442\u0430\u043f\u0441\u044b\u0440\u043c\u0430 \u0442\u043e\u049b\u0442\u0430\u0442\u044b\u043b\u0434\u044b. HH API \u043d\u0435\u043c\u0435\u0441\u0435 \u0441\u0435\u0440\u0432\u0435\u0440 \u0431\u043e\u043b\u043c\u0430\u0443\u044b \u043c\u04af\u043c\u043a\u0456\u043d. \u049a\u0430\u0439\u0442\u0430 \u049b\u0430\u0439\u0442\u0430\u043b\u0430\u04a3\u044b\u0437, \u0431\u0435\u0442 \u0441\u0430\u043d\u044b\u043d \u0430\u0437\u0430\u0439\u0442\u044b\u04a3\u044b\u0437 \u043d\u0435\u043c\u0435\u0441\u0435 \u201c\u049a\u043e\u0441\u044b\u043c\u0448\u0430 \u0431\u0430\u043f\u0442\u0430\u0443\u043b\u0430\u0440\u201d \u0431\u043e\u0439\u044b\u043d\u0448\u0430 \u043f\u0430\u0443\u0437\u0430\u043d\u044b \u04e9\u0441\u0456\u0440\u0456\u04a3\u0456\u0437.",
+  "summary.errSearchPhaseStalled":
+    "\u0406\u0437\u0434\u0435\u0443 \u04af\u0437\u0430\u043a \u0443\u0430\u049b\u044b\u0442 \u0443\u0437\u0430\u049b (\u0432\u0430\u043a\u0430\u043d\u0441\u0438\u044f \u0442\u0456\u0437\u0456\u043c\u0456 \u0434\u0430\u0439\u044b\u043d). \u0422\u0430\u043f\u0441\u044b\u0440\u043c\u0430 \u0442\u043e\u049b\u0442\u0430\u0442\u044b\u043b\u0434\u044b. \u0410\u0437 \u0441\u04b1\u0440\u0430\u0443 \u043d\u0435\u043c\u0435\u0441\u0435 \u0431\u0435\u0442 \u0441\u0430\u043d\u044b\u043d \u0430\u0437\u0430\u0439\u0442\u044b\u04a3\u044b\u0437.",
+  "summary.errPollTimeout":
+    "\u0422\u0430\u043f\u0441\u044b\u0440 \u043a\u04af\u0439\u0456 \u0441\u04b1\u0440\u0430\u0443\u044b \u0443\u0430\u049b\u044b\u0442 \u043a\u04e9\u0440\u0441\u0435\u0442\u0456\u043b\u0434\u0456. \u0416\u0435\u043b\u0456\u043d\u0456 \u0436\u04d9\u043d\u0435 API \u043c\u0435\u043a\u0435\u043d\u0436\u0430\u0439\u044b\u043d \u0442\u0435\u043a\u0441\u0435\u0440\u0456\u043f, \u049b\u0430\u0439\u0442\u0430 \u049b\u0430\u0439\u0442\u0430\u043b\u0430\u04a3\u044b\u0437.",
 
   "summary.qualityTitle": "\u0414\u0435\u0440\u0435\u043a \u0441\u0430\u043f\u0430\u0441\u044b",
   "summary.donut.successful": "\u0441\u04d9\u0442\u0442\u0456",
@@ -243,7 +249,18 @@ export const kk = {
   "form.success": "Файл сақталды. Браузердің «Downloads» қалтасын тексеріңіз.",
   "form.btnBusy": "Экспорт жүріп жатыр...",
   "form.btnReady": "Excel-ді жүктеу",
+  "form.btnRun": "Талдауды бастау",
+  "form.btnDownload": "Excel-ді жүктеу",
   "form.btnCancel": "Бас тарту",
+  "form.autoVariantLegend": "Авто режимі",
+  "form.autoVariantHelp": "Авто іздеу үшін қорытындыны қалай есептеу керегін таңдаңыз.",
+  "form.autoVariantAggregate": "Барлық сұраулар бірге (бір қорытынды)",
+  "form.autoVariantPerQuery": "Әр сұрау бөлек (салыстыру)",
+  "form.perQueryExcelNote": "Excel жүктеу барлық сұраулар бойынша бөлек экспортты іске қосады.",
+
+  "analyze.historyModeManual": "Қолмен",
+  "analyze.historyModeAutoAggregate": "Авто (біріктірілген)",
+  "analyze.historyModeAutoPerQuery": "Авто (әр сұрау)",
   "form.progressExport": "Экспорт орындалып жатыр…",
   "form.progressExportPct": "Экспорт {done} / {total}…",
   "form.exportAborted": "Пайдаланушы тоқтатты.",

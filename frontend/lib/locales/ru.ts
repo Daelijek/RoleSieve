@@ -145,6 +145,11 @@ export const ru = {
   "summary.periodPh": "1..30",
   "summary.errUnknown": "Неизвестная ошибка",
   "summary.errBadResponse": "Некорректный ответ от API.",
+  "summary.errProgressStalled":
+    "Несколько минут не было прогресса — задача остановлена. API HH или сервер могли подвиснуть. Повторите попытку, уменьшите число страниц на запрос или увеличьте паузы в «Доп. настройках».",
+  "summary.errSearchPhaseStalled":
+    "Поиск занимает слишком долго (список вакансий ещё не готов). Задача остановлена. Попробуйте меньше запросов или страниц.",
+  "summary.errPollTimeout": "Запрос статуса задачи превысил время ожидания. Проверьте сеть и адрес API, затем повторите.",
 
   "summary.qualityTitle": "Качество данных",
   "summary.donut.successful": "успешно",
@@ -239,7 +244,18 @@ export const ru = {
   "form.success": "Файл сохранен. Проверьте папку загрузок браузера.",
   "form.btnBusy": "Выгрузка...",
   "form.btnReady": "Скачать Excel",
+  "form.btnRun": "Запустить анализ",
+  "form.btnDownload": "Скачать Excel",
   "form.btnCancel": "Отмена",
+  "form.autoVariantLegend": "Режим авто",
+  "form.autoVariantHelp": "Выберите, как считать сводку для авто-поиска.",
+  "form.autoVariantAggregate": "Все запросы вместе (одна сводка)",
+  "form.autoVariantPerQuery": "По каждому запросу отдельно (для сравнения)",
+  "form.perQueryExcelNote": "Скачивание Excel запустит отдельный экспорт по всем запросам вместе.",
+
+  "analyze.historyModeManual": "Ручной",
+  "analyze.historyModeAutoAggregate": "Авто (все вместе)",
+  "analyze.historyModeAutoPerQuery": "Авто (по запросам)",
   "form.progressExport": "Идёт выгрузка…",
   "form.progressExportPct": "Выгрузка {done} / {total}…",
   "form.exportAborted": "Отменено пользователем.",

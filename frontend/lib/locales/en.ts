@@ -144,6 +144,11 @@ export const en = {
   "summary.periodPh": "1..30",
   "summary.errUnknown": "Unknown error",
   "summary.errBadResponse": "Bad response from API.",
+  "summary.errProgressStalled":
+    "The job made no progress for several minutes, so it was stopped. The HH API or the server may be slow or stuck. Try again, reduce pages per query, or increase pauses in Advanced settings.",
+  "summary.errSearchPhaseStalled":
+    "Search is taking unusually long (no vacancy list yet). The job was stopped. Try again with fewer queries or smaller page counts.",
+  "summary.errPollTimeout": "Request for job status timed out. Check your network and API URL, then try again.",
 
   "summary.qualityTitle": "Data quality",
   "summary.donut.successful": "successful",
@@ -238,7 +243,18 @@ export const en = {
   "form.success": "File saved. Check your browser Downloads folder.",
   "form.btnBusy": "Exporting...",
   "form.btnReady": "Download Excel",
+  "form.btnRun": "Run analysis",
+  "form.btnDownload": "Download Excel",
   "form.btnCancel": "Cancel",
+  "form.autoVariantLegend": "Auto mode",
+  "form.autoVariantHelp": "Pick how to compute the summary for your auto searches.",
+  "form.autoVariantAggregate": "All queries together (one summary)",
+  "form.autoVariantPerQuery": "Per query (compare searches)",
+  "form.perQueryExcelNote": "Excel download runs a separate export for all queries combined.",
+
+  "analyze.historyModeManual": "Manual",
+  "analyze.historyModeAutoAggregate": "Auto (combined)",
+  "analyze.historyModeAutoPerQuery": "Auto (per query)",
   "form.progressExport": "Export in progress…",
   "form.progressExportPct": "Exporting {done} / {total}…",
   "form.exportAborted": "Cancelled by user.",

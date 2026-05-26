@@ -18,6 +18,37 @@ from hh_research.excel_export import (
 )
 
 
+def report_progress_throttled(
+    done: int,
+    total: int,
+    on_progress: Optional[Callable[[int, int], None]],
+) -> None:
+    if not on_progress or total <= 0:
+        return
+    if done == total:
+        on_progress(done, total)
+    elif total <= 20:
+        on_progress(done, total)
+    elif total <= 100 and done % 5 == 0:
+        on_progress(done, total)
+    elif done % 10 == 0:
+        on_progress(done, total)
+
+
+def error_breakdown_from_error_messages(
+    errors: List[str],
+    *,
+    top_n: int = 10,
+) -> List[Dict[str, Any]]:
+    reason_counter: Counter[str] = Counter()
+    for msg in errors:
+        reason = msg.split(": ", 1)[1].strip() if ": " in msg else msg.strip()
+        if len(reason) > 220:
+            reason = reason[:217] + "..."
+        reason_counter[reason] += 1
+    return [{"reason": r, "count": c} for r, c in reason_counter.most_common(top_n)]
+
+
 def build_default_out_path(
     project_dir: str,
     out_dir: str,
@@ -110,8 +141,7 @@ def compute_summary_for_refs(
         except Exception as e:
             errors.append(f"{vid}: {e}")
             attempted += 1
-            if on_progress and total > 0:
-                on_progress(attempted, total)
+            report_progress_throttled(attempted, total, on_progress)
             continue
 
         _title, _vid, _link, keywords, skill_names = extract_skills_and_keywords(
@@ -135,25 +165,9 @@ def compute_summary_for_refs(
 
         processed += 1
         attempted += 1
-        if on_progress and total > 0:
-            # Keep it smooth for small totals; throttle for larger sets.
-            if attempted == total:
-                on_progress(attempted, total)
-            elif total <= 20:
-                on_progress(attempted, total)
-            elif total <= 100 and attempted % 5 == 0:
-                on_progress(attempted, total)
-            elif attempted % 10 == 0:
-                on_progress(attempted, total)
+        report_progress_throttled(attempted, total, on_progress)
         if sleep_s > 0:
             time.sleep(sleep_s)
-
-    reason_counter: Counter[str] = Counter()
-    for msg in errors:
-        reason = msg.split(": ", 1)[1].strip() if ": " in msg else msg.strip()
-        if len(reason) > 220:
-            reason = reason[:217] + "..."
-        reason_counter[reason] += 1
 
     successful = processed
     summary: Dict[str, Any] = {
@@ -169,7 +183,7 @@ def compute_summary_for_refs(
             "without_description": without_description,
             "key_skills_rate": round(with_key_skills / successful, 4) if successful else 0.0,
         },
-        "error_breakdown": [{"reason": r, "count": c} for r, c in reason_counter.most_common(10)],
+        "error_breakdown": error_breakdown_from_error_messages(errors),
     }
     return errors, summary
 
@@ -252,16 +266,7 @@ def run_export_on_worksheet(
         processed += 1
         if sleep_s > 0:
             time.sleep(sleep_s)
-        if on_progress and total > 0:
-            # Smooth for small totals; throttle for large ones to avoid excessive status writes.
-            if processed == total:
-                on_progress(processed, total)
-            elif total <= 20:
-                on_progress(processed, total)
-            elif total <= 100 and processed % 5 == 0:
-                on_progress(processed, total)
-            elif processed % 10 == 0:
-                on_progress(processed, total)
+        report_progress_throttled(processed, total, on_progress)
 
     # Unique columns are placed right after "Link" by default.
     col_unique_keywords = col_link + 1
@@ -320,13 +325,6 @@ def run_export_on_worksheet(
         style_headers=format_headers,
     )
 
-    reason_counter: Counter[str] = Counter()
-    for msg in errors:
-        reason = msg.split(": ", 1)[1].strip() if ": " in msg else msg.strip()
-        if len(reason) > 220:
-            reason = reason[:217] + "..."
-        reason_counter[reason] += 1
-
     successful = processed
     summary: Dict[str, Any] = {
         "requested": total,
@@ -341,9 +339,7 @@ def run_export_on_worksheet(
             "without_description": without_description,
             "key_skills_rate": round(with_key_skills / successful, 4) if successful else 0.0,
         },
-        "error_breakdown": [
-            {"reason": r, "count": c} for r, c in reason_counter.most_common(10)
-        ],
+        "error_breakdown": error_breakdown_from_error_messages(errors),
     }
 
     return processed, row, errors, summary

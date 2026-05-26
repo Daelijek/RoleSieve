@@ -11,6 +11,7 @@ import {
   type ExportSummary,
 } from "@/lib/export-history";
 import { useI18n } from "@/lib/i18n";
+import { parseApiErrorText } from "@/lib/hh-api-helpers";
 
 function filenameFromContentDisposition(header: string | null): string {
   if (!header) return "hh_export.xlsx";
@@ -28,41 +29,16 @@ function linesFromTextarea(value: string): string[] {
     .filter(Boolean);
 }
 
-function decodeBase64UrlUtf8(input: string): string {
-  const padded = input.replace(/-/g, "+").replace(/_/g, "/").padEnd(Math.ceil(input.length / 4) * 4, "=");
-  const bin = atob(padded);
-  const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
-}
-
-function parseApiErrorText(text: string): { code?: string; message?: string; vars?: Record<string, unknown> } {
-  try {
-    const json = JSON.parse(text);
-    // FastAPI usually wraps our body as { detail: ... }
-    const detail = json?.detail;
-    if (detail && typeof detail === "object") {
-      const code = typeof detail.error === "string" ? detail.error : undefined;
-      const message = typeof detail.message === "string" ? detail.message : undefined;
-      return { code, message, vars: detail };
-    }
-    if (typeof detail === "string") {
-      return { message: detail };
-    }
-    if (typeof json?.detail?.message === "string") {
-      return { message: json.detail.message };
-    }
-    return { message: text };
-  } catch {
-    return { message: text };
-  }
-}
+type PerQueryRow = { query: string; summary: ExportSummary };
 
 export function ExportForm({
   onSummary,
+  onByQuery,
   onHistoryChange,
   initialPreset,
 }: {
   onSummary?: (summary: ExportSummary | null) => void;
+  onByQuery?: (rows: PerQueryRow[]) => void;
   onHistoryChange?: () => void;
   initialPreset?: ExportFormPreset | null;
 }) {
@@ -71,6 +47,7 @@ export function ExportForm({
   const seed = mergeExportPreset(initialPreset ?? undefined);
 
   const [mode, setMode] = useState<"manual" | "auto">(seed.mode);
+  const [autoVariant, setAutoVariant] = useState<"aggregate" | "per_query">(seed.autoVariant ?? "aggregate");
   const [manualLines, setManualLines] = useState(seed.manualLines);
   const [queriesText, setQueriesText] = useState(seed.queriesText);
   const [pages, setPages] = useState<number | "">(seed.pages);
@@ -85,15 +62,16 @@ export function ExportForm({
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [statsStatus, setStatsStatus] = useState<"idle" | "ok" | "missing" | "bad">("idle");
   const abortRef = useRef<AbortController | null>(null);
   const pollAbortRef = useRef<AbortController | null>(null);
+  const byQueryAbortRef = useRef<AbortController | null>(null);
   const [jobProgress, setJobProgress] = useState<{ done: number; total: number } | null>(null);
-
-  function stopAllRequests() {
-    abortRef.current?.abort();
-    pollAbortRef.current?.abort();
-  }
+  const [pendingDownload, setPendingDownload] = useState<{
+    downloadPath: string;
+    warnings: number | null;
+    summary: ExportSummary | null;
+    preset: ExportFormPreset;
+  } | null>(null);
 
   type JobStatus = {
     job_id: string;
@@ -106,11 +84,114 @@ export function ExportForm({
     download_url?: string | null;
   };
 
-  async function doExport() {
+  function stopAllRequests() {
+    abortRef.current?.abort();
+    pollAbortRef.current?.abort();
+    byQueryAbortRef.current?.abort();
+  }
+
+  function resetResults() {
+    setPendingDownload(null);
+    setJobProgress(null);
+    onSummary?.(null);
+    onByQuery?.([]);
+  }
+
+  function presetSnapshot(): ExportFormPreset {
+    return mergeExportPreset({
+      mode,
+      autoVariant: mode === "auto" ? autoVariant : undefined,
+      manualLines,
+      queriesText,
+      pages: pages === "" ? defaultExportPreset().pages : pages,
+      perPage: perPage === "" ? defaultExportPreset().perPage : perPage,
+      kwTopN,
+      kwMaxNgram,
+      sleepS,
+      searchSleepS,
+    });
+  }
+
+  function validateCommonAuto(): boolean {
+    const queries = linesFromTextarea(queriesText);
+    if (queries.length === 0) {
+      setError(t("form.errNoAuto"));
+      return false;
+    }
+    if (pages === "" || pages <= 0) {
+      setError(t("form.errPagesRequired"));
+      return false;
+    }
+    if (perPage === "" || perPage <= 0) {
+      setError(t("form.errPerPageRequired"));
+      return false;
+    }
+    return true;
+  }
+
+  async function downloadFromPath(downloadPath: string) {
+    if (!baseUrl) {
+      setError(t("form.errNoUrl"));
+      return;
+    }
     setError(null);
     setMessage(null);
-    setStatsStatus("idle");
+    setBusy(true);
+    const ac = new AbortController();
+    abortRef.current = ac;
+    try {
+      const downloadUrl = `${baseUrl}${downloadPath}`;
+      const fileResp = await fetch(downloadUrl, {
+        method: "GET",
+        headers: apiKey.trim() ? { "X-API-Key": apiKey.trim() } : undefined,
+        signal: ac.signal,
+      });
+      if (!fileResp.ok) throw new Error(t("form.errDownload"));
+      const blob = await fileResp.blob();
+      const fileName = filenameFromContentDisposition(fileResp.headers.get("Content-Disposition"));
+      const href = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = href;
+      anchor.download = fileName;
+      anchor.click();
+      URL.revokeObjectURL(href);
+
+      const p = pendingDownload;
+      if (p?.summary) {
+        pushExportHistory({
+          mode: p.preset.mode,
+          warnings: p.warnings,
+          fileName,
+          summary: { requested: p.summary.requested, processed: p.summary.processed, errors: p.summary.errors },
+          preset: p.preset,
+        });
+        onHistoryChange?.();
+      }
+
+      setMessage(
+        typeof pendingDownload?.warnings === "number" && pendingDownload.warnings > 0
+          ? t("form.successWarn", { n: String(pendingDownload.warnings) })
+          : t("form.success")
+      );
+    } catch (e) {
+      const isAbort = (e instanceof DOMException && e.name === "AbortError") || (e instanceof Error && e.name === "AbortError");
+      if (isAbort) {
+        setMessage(t("form.exportAborted"));
+        return;
+      }
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+      abortRef.current = null;
+    }
+  }
+
+  async function runExportJobOnly() {
+    setError(null);
+    setMessage(null);
     setJobProgress(null);
+    setPendingDownload(null);
+    onByQuery?.([]);
 
     if (!baseUrl) {
       setError(t("form.errNoUrl"));
@@ -138,19 +219,8 @@ export function ExportForm({
       };
     } else {
       url = `${baseUrl}/api/v1/export/auto/async`;
+      if (!validateCommonAuto()) return;
       const queries = linesFromTextarea(queriesText);
-      if (queries.length === 0) {
-        setError(t("form.errNoAuto"));
-        return;
-      }
-      if (pages === "" || pages <= 0) {
-        setError(t("form.errPagesRequired"));
-        return;
-      }
-      if (perPage === "" || perPage <= 0) {
-        setError(t("form.errPerPageRequired"));
-        return;
-      }
       body = {
         queries,
         pages,
@@ -168,6 +238,7 @@ export function ExportForm({
     abortRef.current = ac;
     const pollAc = new AbortController();
     pollAbortRef.current = pollAc;
+
     try {
       const startResp = await fetch(url, {
         method: "POST",
@@ -189,12 +260,7 @@ export function ExportForm({
           const maxVal = vars["max"];
           const search_count = typeof search_countVal === "number" ? String(search_countVal) : undefined;
           const max = typeof maxVal === "number" ? String(maxVal) : undefined;
-          setError(
-            t("form.errTooManyVacancies", {
-              search_count: search_count ?? "0",
-              max: max ?? "0",
-            })
-          );
+          setError(t("form.errTooManyVacancies", { search_count: search_count ?? "0", max: max ?? "0" }));
           return;
         }
 
@@ -228,17 +294,13 @@ export function ExportForm({
 
       let last: JobStatus | null = null;
       for (let attempt = 0; attempt < 10_000; attempt++) {
-        if (pollAc.signal.aborted) {
-          throw new DOMException("Aborted", "AbortError");
-        }
+        if (pollAc.signal.aborted) throw new DOMException("Aborted", "AbortError");
         const stResp = await fetch(`${baseUrl}/api/v1/jobs/${jobId}`, {
           method: "GET",
           headers: apiKey.trim() ? { "X-API-Key": apiKey.trim() } : undefined,
           signal: pollAc.signal,
         });
-        if (!stResp.ok) {
-          throw new Error(t("form.errJobStatus"));
-        }
+        if (!stResp.ok) throw new Error(t("form.errJobStatus"));
         const st = (await stResp.json()) as JobStatus;
         last = st;
 
@@ -247,86 +309,35 @@ export function ExportForm({
         if (total > 0) setJobProgress({ done, total });
 
         if (st.status === "succeeded") break;
-        if (st.status === "failed") {
-          throw new Error(t("form.errJobFailed"));
-        }
+        if (st.status === "failed") throw new Error(t("form.errJobFailed"));
         await new Promise((r) => setTimeout(r, 800));
       }
 
       const parsedSummary = last?.summary ?? null;
-      if (onSummary) {
-        if (parsedSummary) {
-          onSummary(parsedSummary);
-          setStatsStatus("ok");
-        } else {
-          onSummary(null);
-          setStatsStatus("missing");
-        }
-      }
+      if (parsedSummary) onSummary?.(parsedSummary);
+      else onSummary?.(null);
 
       const downloadPath = last?.download_url;
       if (!downloadPath) {
         setError(t("form.errJobNoDownload"));
         return;
       }
-      const downloadUrl = `${baseUrl}${downloadPath}`;
 
-      const fileResp = await fetch(downloadUrl, {
-        method: "GET",
-        headers: apiKey.trim() ? { "X-API-Key": apiKey.trim() } : undefined,
-        signal: ac.signal,
+      setPendingDownload({
+        downloadPath,
+        warnings: typeof last?.warnings_count === "number" ? last.warnings_count : null,
+        summary: parsedSummary,
+        preset: presetSnapshot(),
       });
-      if (!fileResp.ok) {
-        throw new Error(t("form.errDownload"));
-      }
-      const blob = await fileResp.blob();
-      const fileName = filenameFromContentDisposition(fileResp.headers.get("Content-Disposition"));
-      const href = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = href;
-      anchor.download = fileName;
-      anchor.click();
-      URL.revokeObjectURL(href);
 
-      if (parsedSummary) {
-        pushExportHistory({
-          mode,
-          warnings: typeof last?.warnings_count === "number" ? last.warnings_count : null,
-          fileName,
-          summary: {
-            requested: parsedSummary.requested,
-            processed: parsedSummary.processed,
-            errors: parsedSummary.errors,
-          },
-          preset: mergeExportPreset({
-            mode,
-            manualLines,
-            queriesText,
-            pages: pages === "" ? defaultExportPreset().pages : pages,
-            perPage: perPage === "" ? defaultExportPreset().perPage : perPage,
-            kwTopN,
-            kwMaxNgram,
-            sleepS,
-            searchSleepS,
-          }),
-        });
-        onHistoryChange?.();
-      }
-
-      setMessage(
-        typeof last?.warnings_count === "number" && last.warnings_count > 0
-          ? t("form.successWarn", { n: String(last.warnings_count) })
-          : t("form.success")
-      );
-    } catch (caughtError) {
-      const isAbort =
-        (caughtError instanceof DOMException && caughtError.name === "AbortError") ||
-        (caughtError instanceof Error && caughtError.name === "AbortError");
+      setMessage(t("form.summaryReady"));
+    } catch (e) {
+      const isAbort = (e instanceof DOMException && e.name === "AbortError") || (e instanceof Error && e.name === "AbortError");
       if (isAbort) {
         setMessage(t("form.exportAborted"));
         return;
       }
-      setError(caughtError instanceof Error ? caughtError.message : String(caughtError));
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
       setBusy(false);
       abortRef.current = null;
@@ -334,9 +345,243 @@ export function ExportForm({
     }
   }
 
+  async function runByQuery() {
+    setError(null);
+    setMessage(null);
+    setJobProgress(null);
+    setPendingDownload(null);
+    onSummary?.(null);
+    onByQuery?.([]);
+
+    if (!baseUrl) {
+      setError(t("form.errNoUrl"));
+      return;
+    }
+    if (!validateCommonAuto()) return;
+
+    const queries = linesFromTextarea(queriesText);
+    setMessage(t("form.jobStarted"));
+    setBusy(true);
+    const ac = new AbortController();
+    byQueryAbortRef.current = ac;
+    setJobProgress({ done: 0, total: queries.length });
+
+    try {
+      const limit = 3;
+      const results: PerQueryRow[] = [];
+      let i = 0;
+
+      async function fetchOne(q: string): Promise<ExportSummary> {
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        if (apiKey.trim()) headers["X-API-Key"] = apiKey.trim();
+        const resp = await fetch(`${baseUrl}/api/v1/summary/auto`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            queries: [q],
+            pages,
+            per_page: perPage,
+            kw_top_n: kwTopN,
+            kw_max_ngram: kwMaxNgram,
+            sleep_s: sleepS,
+            search_sleep_s: searchSleepS,
+            ...(hhToken.trim() ? { token: hhToken.trim() } : {}),
+          }),
+          signal: ac.signal,
+        });
+        if (!resp.ok) {
+          const text = await resp.text();
+          const apiErr = parseApiErrorText(text);
+          const code = apiErr.code;
+          const vars = apiErr.vars ?? {};
+          if (code === "too_many_vacancies") {
+            const search_countVal = vars["search_count"];
+            const maxVal = vars["max"];
+            const search_count = typeof search_countVal === "number" ? String(search_countVal) : "0";
+            const max = typeof maxVal === "number" ? String(maxVal) : "0";
+            throw new Error(t("form.errTooManyVacancies", { search_count, max }));
+          }
+          if (code === "search_failed") throw new Error(t("form.errSearchFailed"));
+          throw new Error(apiErr.message || resp.statusText || t("summary.errUnknown"));
+        }
+        const json = (await resp.json()) as { summary?: ExportSummary };
+        const s = json?.summary;
+        if (!s) throw new Error(t("summary.errBadResponse"));
+        return s;
+      }
+
+      async function worker() {
+        while (i < queries.length) {
+          if (ac.signal.aborted) return;
+          const idx = i++;
+          const q = queries[idx];
+          const s = await fetchOne(q);
+          results.push({ query: q, summary: s });
+          const next = [...results].sort((a, b) => a.query.localeCompare(b.query));
+          onByQuery?.(next);
+          setJobProgress({ done: results.length, total: queries.length });
+        }
+      }
+
+      await Promise.all(Array.from({ length: Math.min(limit, queries.length) }, () => worker()));
+      onByQuery?.(results);
+      setMessage(t("form.summaryReady"));
+    } catch (e) {
+      const isAbort = (e instanceof DOMException && e.name === "AbortError") || (e instanceof Error && e.name === "AbortError");
+      if (isAbort) {
+        setError(null);
+        onByQuery?.([]);
+        setMessage(t("form.exportAborted"));
+        return;
+      }
+      setMessage(null);
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+      setJobProgress(null);
+      byQueryAbortRef.current = null;
+    }
+  }
+
+  async function exportAndDownloadAutoAll() {
+    setError(null);
+    setMessage(null);
+    setJobProgress(null);
+    setPendingDownload(null);
+
+    if (!baseUrl) {
+      setError(t("form.errNoUrl"));
+      return;
+    }
+    if (!validateCommonAuto()) return;
+
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (apiKey.trim()) headers["X-API-Key"] = apiKey.trim();
+
+    const queries = linesFromTextarea(queriesText);
+    const body = {
+      queries,
+      pages,
+      per_page: perPage,
+      kw_top_n: kwTopN,
+      kw_max_ngram: kwMaxNgram,
+      sleep_s: sleepS,
+      search_sleep_s: searchSleepS,
+      ...(hhToken.trim() ? { token: hhToken.trim() } : {}),
+    };
+
+    setBusy(true);
+    const ac = new AbortController();
+    abortRef.current = ac;
+    const pollAc = new AbortController();
+    pollAbortRef.current = pollAc;
+    try {
+      const startResp = await fetch(`${baseUrl}/api/v1/export/auto/async`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+        signal: ac.signal,
+      });
+      if (!startResp.ok) {
+        const text = await startResp.text();
+        const apiErr = parseApiErrorText(text);
+        const code = apiErr.code;
+        const vars = apiErr.vars ?? {};
+        const messageFallback = apiErr.message || startResp.statusText || t("form.errUnknown");
+
+        if (code === "too_many_vacancies") {
+          const search_countVal = vars["search_count"];
+          const maxVal = vars["max"];
+          const search_count = typeof search_countVal === "number" ? String(search_countVal) : undefined;
+          const max = typeof maxVal === "number" ? String(maxVal) : undefined;
+          setError(t("form.errTooManyVacancies", { search_count: search_count ?? "0", max: max ?? "0" }));
+          return;
+        }
+        if (code === "search_failed") {
+          setError(t("form.errSearchFailed"));
+          return;
+        }
+        if (code === "export_failed") {
+          setError(t("form.errExportFailed"));
+          return;
+        }
+        setError(messageFallback);
+        return;
+      }
+
+      const started = (await startResp.json()) as any;
+      const jobId = typeof started?.job_id === "string" ? started.job_id : "";
+      if (!jobId) {
+        setError(t("form.errBadJob"));
+        return;
+      }
+      setMessage(t("form.jobStarted"));
+
+      let last: JobStatus | null = null;
+      for (let attempt = 0; attempt < 10_000; attempt++) {
+        if (pollAc.signal.aborted) throw new DOMException("Aborted", "AbortError");
+        const stResp = await fetch(`${baseUrl}/api/v1/jobs/${jobId}`, {
+          method: "GET",
+          headers: apiKey.trim() ? { "X-API-Key": apiKey.trim() } : undefined,
+          signal: pollAc.signal,
+        });
+        if (!stResp.ok) throw new Error(t("form.errJobStatus"));
+        const st = (await stResp.json()) as JobStatus;
+        last = st;
+
+        const done = typeof st.progress_done === "number" ? st.progress_done : 0;
+        const total = typeof st.progress_total === "number" ? st.progress_total : 0;
+        if (total > 0) setJobProgress({ done, total });
+
+        if (st.status === "succeeded") break;
+        if (st.status === "failed") throw new Error(t("form.errJobFailed"));
+        await new Promise((r) => setTimeout(r, 800));
+      }
+
+      const downloadPath = last?.download_url;
+      if (!downloadPath) {
+        setError(t("form.errJobNoDownload"));
+        return;
+      }
+      const parsedSummary = last?.summary ?? null;
+
+      setPendingDownload({
+        downloadPath,
+        warnings: typeof last?.warnings_count === "number" ? last.warnings_count : null,
+        summary: parsedSummary,
+        preset: mergeExportPreset({
+          ...presetSnapshot(),
+          mode: "auto",
+          autoVariant: "aggregate",
+        }),
+      });
+
+      await downloadFromPath(downloadPath);
+    } catch (e) {
+      const isAbort =
+        (e instanceof DOMException && e.name === "AbortError") || (e instanceof Error && e.name === "AbortError");
+      if (isAbort) {
+        setMessage(t("form.exportAborted"));
+        return;
+      }
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+      setJobProgress(null);
+      abortRef.current = null;
+      pollAbortRef.current = null;
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    await doExport();
+    stopAllRequests();
+    resetResults();
+    if (mode === "auto" && autoVariant === "per_query") {
+      await runByQuery();
+      return;
+    }
+    await runExportJobOnly();
   }
 
   return (
@@ -366,7 +611,10 @@ export function ExportForm({
           <input
             type="radio"
             checked={mode === "manual"}
-            onChange={() => setMode("manual")}
+            onChange={() => {
+              setMode("manual");
+              resetResults();
+            }}
             className="accent-[var(--primary)]"
           />
           {t("form.modeManual")}
@@ -375,7 +623,10 @@ export function ExportForm({
           <input
             type="radio"
             checked={mode === "auto"}
-            onChange={() => setMode("auto")}
+            onChange={() => {
+              setMode("auto");
+              resetResults();
+            }}
             className="accent-[var(--primary)]"
           />
           {t("form.modeAuto")}
@@ -390,7 +641,10 @@ export function ExportForm({
           </span>
           <textarea
             value={manualLines}
-            onChange={(e) => setManualLines(e.target.value)}
+            onChange={(e) => {
+              setManualLines(e.target.value);
+              resetResults();
+            }}
             placeholder="131474430&#10;https://hh.ru/vacancy/131234053"
             className="input-ui min-h-40 text-sm tabular-nums lg:text-base"
             spellCheck={false}
@@ -398,6 +652,37 @@ export function ExportForm({
         </label>
       ) : (
         <section className="grid gap-4">
+          <fieldset className="grid gap-3 sm:grid-cols-2">
+            <legend className="mb-2 inline-flex items-center text-sm font-medium text-[var(--muted)] lg:text-base">
+              {t("form.autoVariantLegend")}
+              <TooltipIcon text={t("form.autoVariantHelp")} alt={t("form.tooltipAlt")} />
+            </legend>
+            <label className="surface-glass-sm anim-fade-up flex cursor-pointer items-center gap-2 p-3 text-sm lg:p-3.5 lg:text-base">
+              <input
+                type="radio"
+                className="accent-[var(--primary)]"
+                checked={autoVariant === "aggregate"}
+                onChange={() => {
+                  setAutoVariant("aggregate");
+                  resetResults();
+                }}
+              />
+              {t("form.autoVariantAggregate")}
+            </label>
+            <label className="surface-glass-sm anim-fade-up flex cursor-pointer items-center gap-2 p-3 text-sm lg:p-3.5 lg:text-base">
+              <input
+                type="radio"
+                className="accent-[var(--primary)]"
+                checked={autoVariant === "per_query"}
+                onChange={() => {
+                  setAutoVariant("per_query");
+                  resetResults();
+                }}
+              />
+              {t("form.autoVariantPerQuery")}
+            </label>
+          </fieldset>
+
           <label className="form-field">
             <span className="form-label inline-flex items-center">
               {t("form.autoLabel")}
@@ -405,7 +690,10 @@ export function ExportForm({
             </span>
             <textarea
               value={queriesText}
-              onChange={(e) => setQueriesText(e.target.value)}
+              onChange={(e) => {
+                setQueriesText(e.target.value);
+                resetResults();
+              }}
               className="input-ui min-h-28 text-sm lg:text-base"
               spellCheck={false}
             />
@@ -421,7 +709,10 @@ export function ExportForm({
                 min={1}
                 max={20}
                 value={pages}
-                onChange={(e) => setPages(e.target.value === "" ? "" : Number(e.target.value))}
+                onChange={(e) => {
+                  setPages(e.target.value === "" ? "" : Number(e.target.value));
+                  resetResults();
+                }}
                 className="input-ui"
               />
             </label>
@@ -435,7 +726,10 @@ export function ExportForm({
                 min={1}
                 max={100}
                 value={perPage}
-                onChange={(e) => setPerPage(e.target.value === "" ? "" : Number(e.target.value))}
+                onChange={(e) => {
+                  setPerPage(e.target.value === "" ? "" : Number(e.target.value));
+                  resetResults();
+                }}
                 className="input-ui"
               />
             </label>
@@ -444,9 +738,7 @@ export function ExportForm({
       )}
 
       <details className="surface-glass-sm rounded-xl p-3">
-        <summary className="cursor-pointer text-sm font-semibold text-[var(--text)]">
-          {t("summary.advanced")}
-        </summary>
+        <summary className="cursor-pointer text-sm font-semibold text-[var(--text)]">{t("summary.advanced")}</summary>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <label className="form-field">
             <span className="form-label inline-flex items-center">
@@ -458,7 +750,10 @@ export function ExportForm({
               min={1}
               max={200}
               value={kwTopN}
-              onChange={(e) => setKwTopN(Number(e.target.value))}
+              onChange={(e) => {
+                setKwTopN(Number(e.target.value));
+                resetResults();
+              }}
               className="input-ui"
             />
           </label>
@@ -472,7 +767,10 @@ export function ExportForm({
               min={1}
               max={5}
               value={kwMaxNgram}
-              onChange={(e) => setKwMaxNgram(Number(e.target.value))}
+              onChange={(e) => {
+                setKwMaxNgram(Number(e.target.value));
+                resetResults();
+              }}
               className="input-ui"
             />
           </label>
@@ -487,7 +785,10 @@ export function ExportForm({
               max={5}
               step={0.05}
               value={sleepS}
-              onChange={(e) => setSleepS(Number(e.target.value))}
+              onChange={(e) => {
+                setSleepS(Number(e.target.value));
+                resetResults();
+              }}
               className="input-ui"
             />
           </label>
@@ -503,7 +804,10 @@ export function ExportForm({
                 max={5}
                 step={0.05}
                 value={searchSleepS}
-                onChange={(e) => setSearchSleepS(Number(e.target.value))}
+                onChange={(e) => {
+                  setSearchSleepS(Number(e.target.value));
+                  resetResults();
+                }}
                 className="input-ui"
               />
             </label>
@@ -516,7 +820,10 @@ export function ExportForm({
             <input
               type="password"
               value={hhToken}
-              onChange={(e) => setHhToken(e.target.value)}
+              onChange={(e) => {
+                setHhToken(e.target.value);
+                resetResults();
+              }}
               className="input-ui"
               autoComplete="off"
             />
@@ -529,7 +836,10 @@ export function ExportForm({
             <input
               type="password"
               value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
+              onChange={(e) => {
+                setApiKey(e.target.value);
+                resetResults();
+              }}
               className="input-ui"
               autoComplete="off"
             />
@@ -563,24 +873,48 @@ export function ExportForm({
         </p>
       )}
 
-      <button
-        type="button"
-        disabled={busy}
-        className="btn-primary w-full px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto lg:px-6 lg:py-3.5 lg:text-base"
-        onClick={() => void doExport()}
-      >
-        {busy ? t("form.btnBusy") : t("form.btnReady")}
-      </button>
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+        <button
+          type="submit"
+          disabled={busy}
+          className="btn-primary w-full px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto lg:px-6 lg:py-3.5 lg:text-base"
+        >
+          {busy ? t("form.btnBusy") : t("form.btnRun")}
+        </button>
+
+        {pendingDownload?.downloadPath && (
+          <button
+            type="button"
+            disabled={busy}
+            className="btn-soft w-full px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto lg:px-6 lg:py-3.5 lg:text-base"
+            onClick={() => void downloadFromPath(pendingDownload.downloadPath)}
+          >
+            {t("form.btnDownload")}
+          </button>
+        )}
+
+        {mode === "auto" && autoVariant === "per_query" && (
+          <button
+            type="button"
+            disabled={busy}
+            className="btn-soft w-full px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto lg:px-6 lg:py-3.5 lg:text-base"
+            onClick={() => void exportAndDownloadAutoAll()}
+          >
+            {t("form.btnDownload")}
+          </button>
+        )}
+      </div>
+
+      {mode === "auto" && autoVariant === "per_query" && (
+        <p className="text-sm text-[var(--muted)] lg:text-base">{t("form.perQueryExcelNote")}</p>
+      )}
 
       <LongRunningProgress
         visible={busy}
         variant={jobProgress ? "determinate" : "indeterminate"}
         label={
           jobProgress
-            ? t("form.progressExportPct", {
-                done: String(jobProgress.done),
-                total: String(jobProgress.total),
-              })
+            ? t("form.progressExportPct", { done: String(jobProgress.done), total: String(jobProgress.total) })
             : t("form.progressExport")
         }
         done={jobProgress?.done}
@@ -588,12 +922,6 @@ export function ExportForm({
         cancelLabel={t("form.btnCancel")}
         onCancel={() => stopAllRequests()}
       />
-
-      {statsStatus !== "idle" && (
-        <p className="text-xs text-[var(--muted)]">
-          Stats: {statsStatus === "ok" ? "received" : statsStatus === "missing" ? "missing from API response" : "failed to parse"}
-        </p>
-      )}
     </form>
   );
 }

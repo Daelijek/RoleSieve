@@ -112,6 +112,41 @@ class TestFastApiExports(unittest.TestCase):
         self.assertEqual(summary["dedup"]["unique_count"], 1)
         self.assertEqual(summary["dedup"]["duplicates_removed"], 0)
 
+    @patch("web.app.enqueue_export_job")
+    def test_export_auto_async_payload_includes_search_filters(
+        self, mock_enqueue: unittest.mock.MagicMock,
+    ) -> None:
+        mock_enqueue.return_value = "deadbeef"
+
+        resp = self.client.post(
+            "/api/v1/export/auto/async",
+            json={
+                "queries": ["python"],
+                "pages": 1,
+                "per_page": 10,
+                "kw_top_n": 30,
+                "kw_max_ngram": 3,
+                "sleep_s": 0.0,
+                "search_sleep_s": 0.0,
+                "token": None,
+                "employer_id": "42",
+                "area": "1",
+                "experience": "between1And3",
+                "period": 7,
+            },
+        )
+
+        self.assertEqual(resp.status_code, 200)
+        mock_enqueue.assert_called_once()
+        args, _kwargs = mock_enqueue.call_args
+        self.assertEqual(args[0], "auto")
+        payload = args[1]
+        self.assertEqual(payload["employer_id"], "42")
+        self.assertEqual(payload["area"], "1")
+        self.assertEqual(payload["experience"], "between1And3")
+        self.assertEqual(payload["period"], 7)
+        self.assertEqual(payload["queries"], ["python"])
+
 
 if __name__ == "__main__":
     unittest.main()

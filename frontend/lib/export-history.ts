@@ -1,5 +1,6 @@
 export type ExportFormPreset = {
   mode: "manual" | "auto";
+  autoVariant?: "aggregate" | "per_query";
   manualLines: string;
   queriesText: string;
   pages: number;
@@ -47,6 +48,7 @@ const MAX_ITEMS = 10;
 export function defaultExportPreset(): ExportFormPreset {
   return {
     mode: "manual",
+    autoVariant: "aggregate",
     manualLines: "",
     queriesText: "frontend developer\nfullstack developer",
     pages: 1,
@@ -63,6 +65,7 @@ export function mergeExportPreset(p?: ExportFormPreset | null): ExportFormPreset
   if (!p) return d;
   return {
     mode: p.mode ?? d.mode,
+    autoVariant: p.autoVariant ?? d.autoVariant,
     manualLines: p.manualLines ?? d.manualLines,
     queriesText: p.queriesText ?? d.queriesText,
     pages: p.pages ?? d.pages,
