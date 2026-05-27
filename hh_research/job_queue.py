@@ -86,10 +86,6 @@ def _load_status(job_id: str) -> Optional[Dict[str, Any]]:
         return json.load(f)
 
 
-def _max_vacancies() -> int:
-    return max_export_vacancies()
-
-
 def _collect_refs_from_search_payload(
     session: requests.Session,
     token: Optional[str],
@@ -147,9 +143,9 @@ def _run_summary_auto_job(
     session = requests.Session()
     refs, raw_id_hits = _collect_refs_from_search_payload(session, token, payload)
 
-    if len(refs) > _max_vacancies():
+    if len(refs) > max_export_vacancies():
         raise ValueError(
-            f"summary_auto job: {len(refs)} vacancies exceed max {_max_vacancies()} "
+            f"summary_auto job: {len(refs)} vacancies exceed max {max_export_vacancies()} "
             f"(raw hits: {raw_id_hits})"
         )
 
@@ -202,8 +198,8 @@ def _run_manual_job(
     ref_ids: List[str] = payload["ref_ids"]
     refs = [VacancyRef(vacancy_id=str(v).strip()) for v in ref_ids if str(v).strip()]
     refs, _skipped = dedupe_vacancy_refs_preserve_order(refs)
-    if len(refs) > _max_vacancies():
-        raise ValueError(f"manual job: {len(refs)} vacancies exceed max {_max_vacancies()}")
+    if len(refs) > max_export_vacancies():
+        raise ValueError(f"manual job: {len(refs)} vacancies exceed max {max_export_vacancies()}")
 
     data, processed, errors, summary = export_refs_to_xlsx_bytes(
         refs=refs,
@@ -233,9 +229,9 @@ def _run_auto_job(
     session = requests.Session()
     refs, raw_id_hits = _collect_refs_from_search_payload(session, token, payload)
 
-    if len(refs) > _max_vacancies():
+    if len(refs) > max_export_vacancies():
         raise ValueError(
-            f"auto job: {len(refs)} vacancies exceed max {_max_vacancies()} "
+            f"auto job: {len(refs)} vacancies exceed max {max_export_vacancies()} "
             f"(raw hits: {raw_id_hits})"
         )
 
@@ -267,7 +263,16 @@ def _run_export_job(job_id: str, job_kind: str, payload: Dict[str, Any]) -> None
     created_at = time.time()
     _write_status(job_id, status="running", kind=job_kind, created_at=created_at, updated_at=created_at)
 
+    # Use a mutable cell so the closure can update the timestamp without nonlocal.
+    _last_progress_write: List[float] = [0.0]
+
     def on_progress(done: int, total: int) -> None:
+        now = time.time()
+        # Always write on first (done==0) and last (done==total) tick;
+        # otherwise throttle to at most one write every 2 seconds.
+        if done not in (0, total) and now - _last_progress_write[0] < 2.0:
+            return
+        _last_progress_write[0] = now
         _write_status(
             job_id,
             status="running",

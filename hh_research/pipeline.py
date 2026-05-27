@@ -12,10 +12,38 @@ from hh_research.client import VacancyRef, fetch_vacancy, search_vacancies
 from hh_research.excel_export import (
     create_export_workbook,
     finalize_export_sheet,
-    find_next_row_after_max,
+    find_next_row_after_max_multi,
     extract_skills_and_keywords,
     write_vacancy_row_aligned,
 )
+
+
+def _build_summary(
+    total: int,
+    processed: int,
+    errors: List[str],
+    skill_freq: "Counter[str]",
+    keyword_freq: "Counter[str]",
+    with_key_skills: int,
+    without_key_skills: int,
+    without_description: int,
+) -> Dict[str, Any]:
+    successful = processed
+    return {
+        "requested": total,
+        "processed": processed,
+        "errors": len(errors),
+        "top_skills": [{"name": k, "count": v} for k, v in skill_freq.most_common(20)],
+        "top_keywords": [{"name": k, "count": v} for k, v in keyword_freq.most_common(20)],
+        "coverage": {
+            "successful": successful,
+            "with_key_skills": with_key_skills,
+            "without_key_skills": without_key_skills,
+            "without_description": without_description,
+            "key_skills_rate": round(with_key_skills / successful, 4) if successful else 0.0,
+        },
+        "error_breakdown": error_breakdown_from_error_messages(errors),
+    }
 
 
 def report_progress_throttled(
@@ -169,22 +197,16 @@ def compute_summary_for_refs(
         if sleep_s > 0:
             time.sleep(sleep_s)
 
-    successful = processed
-    summary: Dict[str, Any] = {
-        "requested": total,
-        "processed": processed,
-        "errors": len(errors),
-        "top_skills": [{"name": k, "count": v} for k, v in skill_freq.most_common(20)],
-        "top_keywords": [{"name": k, "count": v} for k, v in keyword_freq.most_common(20)],
-        "coverage": {
-            "successful": successful,
-            "with_key_skills": with_key_skills,
-            "without_key_skills": without_key_skills,
-            "without_description": without_description,
-            "key_skills_rate": round(with_key_skills / successful, 4) if successful else 0.0,
-        },
-        "error_breakdown": error_breakdown_from_error_messages(errors),
-    }
+    summary = _build_summary(
+        total=total,
+        processed=processed,
+        errors=errors,
+        skill_freq=skill_freq,
+        keyword_freq=keyword_freq,
+        with_key_skills=with_key_skills,
+        without_key_skills=without_key_skills,
+        without_description=without_description,
+    )
     return errors, summary
 
 
@@ -276,8 +298,8 @@ def run_export_on_worksheet(
     ws.cell(1, col_unique_keywords, "Unique Keywords")
     ws.cell(1, col_unique_skills, "Unique Skills")
 
-    # Popularity = frequency across the whole sheet (including already existing template content).
-    # We reconstruct it from filled values in Key Words / Key Skills columns.
+    # Single pass: collect frequencies from the full sheet (including pre-existing template rows)
+    # and clear stale unique-column values at the same time.
     keyword_freq_all: Counter[str] = Counter()
     skill_freq_all: Counter[str] = Counter()
     last_row = ws.max_row or 1
@@ -292,9 +314,6 @@ def run_export_on_worksheet(
             sk_str = str(sk_val).strip()
             if sk_str:
                 skill_freq_all[sk_str] += 1
-
-    # Clear previous unique lists (if template already had them) and rewrite fresh.
-    for r in range(2, last_row + 1):
         ws.cell(r, col_unique_keywords).value = None
         ws.cell(r, col_unique_skills).value = None
 
@@ -325,23 +344,16 @@ def run_export_on_worksheet(
         style_headers=format_headers,
     )
 
-    successful = processed
-    summary: Dict[str, Any] = {
-        "requested": total,
-        "processed": processed,
-        "errors": len(errors),
-        "top_skills": [{"name": k, "count": v} for k, v in skill_freq.most_common(20)],
-        "top_keywords": [{"name": k, "count": v} for k, v in keyword_freq.most_common(20)],
-        "coverage": {
-            "successful": successful,
-            "with_key_skills": with_key_skills,
-            "without_key_skills": without_key_skills,
-            "without_description": without_description,
-            "key_skills_rate": round(with_key_skills / successful, 4) if successful else 0.0,
-        },
-        "error_breakdown": error_breakdown_from_error_messages(errors),
-    }
-
+    summary = _build_summary(
+        total=total,
+        processed=processed,
+        errors=errors,
+        skill_freq=skill_freq,
+        keyword_freq=keyword_freq,
+        with_key_skills=with_key_skills,
+        without_key_skills=without_key_skills,
+        without_description=without_description,
+    )
     return processed, row, errors, summary
 
 
@@ -404,12 +416,8 @@ def append_refs_to_template_file(
     if sheet_name not in wb.sheetnames:
         raise ValueError(f"Sheet '{sheet_name}' not found. Available: {wb.sheetnames}")
     ws = wb[sheet_name]
-    next_row = max(
-        find_next_row_after_max(ws, col_title, start_row),
-        find_next_row_after_max(ws, col_keywords, start_row),
-        find_next_row_after_max(ws, col_skills, start_row),
-        find_next_row_after_max(ws, col_id, start_row),
-        find_next_row_after_max(ws, col_link, start_row),
+    next_row = find_next_row_after_max_multi(
+        ws, [col_title, col_keywords, col_skills, col_id, col_link], start_row
     )
     session = requests.Session()
     processed, next_row_after, errors, summary = run_export_on_worksheet(
