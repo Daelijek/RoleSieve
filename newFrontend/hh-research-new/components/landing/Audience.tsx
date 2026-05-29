@@ -19,12 +19,6 @@ const accentClasses: Record<"violet" | "coral" | "aqua", string> = {
   aqua: "text-aqua",
 };
 
-const spotlightColor: Record<"violet" | "coral" | "aqua", string> = {
-  violet: "139,108,255",
-  coral: "255,106,90",
-  aqua: "108,231,255",
-};
-
 export function Audience() {
   const a = dict.audience;
   return (
@@ -45,7 +39,7 @@ export function Audience() {
             return (
               <li key={p.role}>
                 <Spotlight
-                  color={spotlightColor[accent]}
+                  tint={accent}
                   size={420}
                   intensity={0.1}
                   className="group glass relative h-full overflow-hidden rounded-3xl p-7 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)]"
@@ -55,7 +49,7 @@ export function Audience() {
                       className={`relative flex h-12 w-12 items-center justify-center rounded-2xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] ${accentClasses[accent]}`}
                     >
                       <Icon size={20} strokeWidth={1.75} />
-                      <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
+                      <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[color:var(--color-border-subtle)]" />
                     </span>
                     <h3 className="text-[18px] font-semibold tracking-tight text-[color:var(--color-text-primary)]">
                       {p.role}

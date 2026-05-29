@@ -4,7 +4,7 @@ type SparklineProps = {
   values: readonly number[];
   width?: number;
   height?: number;
-  /** Gradient stops as CSS values, top → bottom of stroke. */
+  /** Any valid SVG color value. Defaults are theme-aware channel vars. */
   strokeFrom?: string;
   strokeTo?: string;
   /** Whether to fill area under line with a soft gradient. */
@@ -23,8 +23,8 @@ export function Sparkline({
   values,
   width = 120,
   height = 36,
-  strokeFrom = "#8B6CFF",
-  strokeTo = "#FF6A5A",
+  strokeFrom = "rgb(var(--rgb-violet))",
+  strokeTo = "rgb(var(--rgb-coral))",
   fill = true,
   className,
   ariaLabel,
@@ -65,7 +65,7 @@ export function Sparkline({
           <stop offset="100%" stopColor={strokeTo} />
         </linearGradient>
         <linearGradient id={fid} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={strokeFrom} stopOpacity="0.35" />
+          <stop offset="0%" stopColor={strokeFrom} stopOpacity="0.32" />
           <stop offset="100%" stopColor={strokeFrom} stopOpacity="0" />
         </linearGradient>
       </defs>
@@ -83,7 +83,6 @@ export function Sparkline({
         cy={points[points.length - 1][1]}
         r={2.5}
         fill={strokeTo}
-        style={{ filter: `drop-shadow(0 0 6px ${strokeTo})` }}
       />
     </svg>
   );

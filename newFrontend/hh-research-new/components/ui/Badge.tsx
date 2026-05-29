@@ -33,7 +33,7 @@ export function Badge({
       <span className={cn(variants.eyebrow, className)} {...rest}>
         <span
           aria-hidden
-          className="h-1 w-1 rounded-full bg-violet shadow-[0_0_10px_2px_rgba(139,108,255,0.6)]"
+          className="h-1 w-1 rounded-full bg-violet shadow-[var(--glow-dot)]"
         />
         {children}
       </span>

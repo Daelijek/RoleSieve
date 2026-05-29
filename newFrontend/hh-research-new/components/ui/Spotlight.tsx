@@ -3,25 +3,34 @@
 import * as React from "react";
 import { cn } from "@/lib/cn";
 
-type SpotlightProps = React.HTMLAttributes<HTMLDivElement> & {
-  /** rgba components without alpha, e.g. "139,108,255" */
-  color?: string;
+export type SpotlightTint = "violet" | "coral" | "aqua";
+
+type SpotlightProps = Omit<React.HTMLAttributes<HTMLDivElement>, "color"> & {
+  /** Named accent — maps to the theme-aware RGB channel variable. */
+  tint?: SpotlightTint;
   /** Spotlight circle size (px) */
   size?: number;
-  /** Max color alpha */
+  /** Max color alpha at the spotlight center (0..1) */
   intensity?: number;
+};
+
+const tintChannelMap: Record<SpotlightTint, string> = {
+  violet: "var(--rgb-violet)",
+  coral: "var(--rgb-coral)",
+  aqua: "var(--rgb-aqua)",
 };
 
 /**
  * Wraps content with a mouse-tracking radial-gradient overlay.
  * The overlay only shows on hover and inherits border-radius from the wrapper.
+ * Uses theme-aware channel vars so the same component looks right in both themes.
  */
 export const Spotlight = React.forwardRef<HTMLDivElement, SpotlightProps>(
   function Spotlight(
     {
-      color = "139,108,255",
+      tint = "violet",
       size = 420,
-      intensity = 0.09,
+      intensity = 0.1,
       className,
       children,
       onMouseMove,
@@ -42,6 +51,8 @@ export const Spotlight = React.forwardRef<HTMLDivElement, SpotlightProps>(
       onMouseMove?.(e);
     };
 
+    const channel = tintChannelMap[tint];
+
     return (
       <div
         ref={innerRef}
@@ -60,7 +71,7 @@ export const Spotlight = React.forwardRef<HTMLDivElement, SpotlightProps>(
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[var(--duration-base)] group-hover/spot:opacity-100"
           style={{
             borderRadius: "inherit",
-            background: `radial-gradient(${size}px circle at var(--mx) var(--my), rgba(${color},${intensity}), transparent 55%)`,
+            background: `radial-gradient(${size}px circle at var(--mx) var(--my), rgb(${channel} / ${intensity}), transparent 55%)`,
           }}
         />
         {children}

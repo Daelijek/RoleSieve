@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { LangSwitcher } from "@/components/ui/LangSwitcher";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/cn";
 import { getDict } from "@/lib/i18n";
 
@@ -29,13 +30,13 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 transition-[background-color,backdrop-filter,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)]",
+        "fixed inset-x-0 top-0 z-50 h-[var(--header-height)] transition-[background-color,backdrop-filter,border-color,box-shadow] duration-[var(--duration-base)] ease-[var(--ease-premium)]",
         scrolled
-          ? "border-b border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/70 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
+          ? "border-b border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/80 shadow-[0_8px_32px_-12px_rgb(0_0_0/0.25)] backdrop-blur-xl"
+          : "border-b border-transparent bg-[color:var(--color-canvas)]/25 backdrop-blur-md",
       )}
     >
-      <Container as="nav" className="flex h-16 items-center justify-between">
+      <Container as="nav" className="flex h-full items-center justify-between">
         <div className="flex items-center gap-10">
           <Logo />
           <ul className="hidden items-center gap-7 md:flex">
@@ -48,7 +49,7 @@ export function Header() {
                   {item.label}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-0 -bottom-px h-[1.5px] origin-left scale-x-0 rounded-full bg-[var(--signature-gradient)] opacity-0 transition-[transform,opacity] duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover/nav:scale-x-100 group-hover/nav:opacity-100"
+                    className="pointer-events-none absolute inset-x-0 -bottom-px h-[1.5px] origin-left scale-x-0 rounded-full bg-[image:var(--signature-gradient)] opacity-0 transition-[transform,opacity] duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover/nav:scale-x-100 group-hover/nav:opacity-100"
                   />
                 </a>
               </li>
@@ -56,6 +57,7 @@ export function Header() {
           </ul>
         </div>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <LangSwitcher comingSoonLabel={dict.meta.comingSoon} />
           <a
             href="/signin"

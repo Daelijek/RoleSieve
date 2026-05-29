@@ -9,7 +9,8 @@ type HaloProps = {
   left?: string;
   right?: string;
   bottom?: string;
-  /** Override opacity for stronger/softer halos. */
+  /** Override opacity for stronger/softer halos. Will be multiplied
+   *  by `--halo-multiplier` so light theme can soften the blobs. */
   opacity?: number;
   /** Variant tweaks the color stops. */
   variant?: "signature" | "violet" | "coral" | "aqua";
@@ -19,12 +20,12 @@ type HaloProps = {
 };
 
 const variants: Record<NonNullable<HaloProps["variant"]>, string> = {
-  signature: "bg-[var(--signature-gradient)]",
+  signature: "bg-[image:var(--signature-gradient)]",
   violet:
-    "bg-[radial-gradient(circle_at_center,_var(--color-violet)_0%,_transparent_70%)]",
+    "bg-[image:radial-gradient(circle_at_center,_var(--color-violet)_0%,_transparent_70%)]",
   coral:
-    "bg-[radial-gradient(circle_at_center,_var(--color-coral)_0%,_transparent_70%)]",
-  aqua: "bg-[radial-gradient(circle_at_center,_var(--color-aqua)_0%,_transparent_70%)]",
+    "bg-[image:radial-gradient(circle_at_center,_var(--color-coral)_0%,_transparent_70%)]",
+  aqua: "bg-[image:radial-gradient(circle_at_center,_var(--color-aqua)_0%,_transparent_70%)]",
 };
 
 export function Halo({
@@ -55,7 +56,7 @@ export function Halo({
         left,
         right,
         bottom,
-        opacity,
+        opacity: `calc(${opacity} * var(--halo-multiplier, 1))`,
       }}
     />
   );

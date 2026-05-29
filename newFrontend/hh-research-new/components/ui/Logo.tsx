@@ -19,7 +19,7 @@ export function Logo({ className, href = "/", showWordmark = true }: LogoProps) 
     >
       <span
         aria-hidden
-        className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--signature-gradient)] shadow-[0_8px_24px_-8px_rgba(139,108,255,0.55)] transition-transform duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover:scale-105"
+        className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-[image:var(--signature-gradient)] shadow-[var(--glow-logo)] transition-transform duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover:scale-105"
       >
         <span className="font-mono text-[14px] font-bold leading-none text-white drop-shadow-[0_1px_0_rgba(0,0,0,0.25)]">
           hh

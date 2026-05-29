@@ -79,7 +79,7 @@ function ChipGroup({
                 "rounded-full border px-3 py-1.5 text-[12.5px] transition-colors duration-[var(--duration-fast)]",
                 active
                   ? "border-violet/50 bg-[color:var(--color-violet)]/15 text-[color:var(--color-text-primary)]"
-                  : "border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]/60 text-[color:var(--color-text-muted)] hover:border-white/20 hover:text-[color:var(--color-text-primary)]",
+                  : "border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]/60 text-[color:var(--color-text-muted)] hover:border-[color:var(--color-border-strong)] hover:text-[color:var(--color-text-primary)]",
               )}
             >
               {opt}
@@ -199,13 +199,13 @@ export function TryItNow() {
         <div className="relative mt-14">
           <div
             aria-hidden
-            className="pointer-events-none absolute -inset-x-6 -bottom-6 -top-3 rounded-[36px] bg-[var(--signature-gradient-soft)] blur-3xl"
+            className="pointer-events-none absolute -inset-x-6 -bottom-6 -top-3 rounded-[36px] bg-[image:var(--signature-gradient-soft)] blur-3xl"
           />
 
           <div className="glass-strong relative overflow-hidden rounded-[28px]">
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-shimmer)] to-transparent"
             />
 
             <div className="grid gap-px bg-[color:var(--color-border-subtle)] lg:grid-cols-5">
@@ -323,7 +323,7 @@ export function TryItNow() {
                   </div>
                   {phase === "result" && preset ? (
                     <span className="inline-flex items-center gap-1.5 text-[11px] text-[color:var(--color-text-muted)]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[0_0_8px_rgba(74,222,128,0.7)]" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[var(--glow-success-dot)]" />
                       выборка · {preset.sample} вакансий
                     </span>
                   ) : null}
@@ -370,12 +370,12 @@ export function TryItNow() {
                         </div>
                         <div className="relative h-1.5 overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
                           <div
-                            className="absolute inset-y-0 left-0 rounded-full bg-[var(--signature-gradient)] shadow-[0_0_14px_rgba(139,108,255,0.55)] transition-[width] duration-[120ms] ease-out"
+                            className="absolute inset-y-0 left-0 rounded-full bg-[image:var(--signature-gradient)] shadow-[var(--glow-bar-md)] transition-[width] duration-[120ms] ease-out"
                             style={{ width: `${progress}%` }}
                           />
                           <div
                             aria-hidden
-                            className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                            className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-[color:var(--color-shimmer)] to-transparent"
                             style={{
                               animation:
                                 "shimmer-x 1.6s var(--ease-premium) infinite",
@@ -449,7 +449,7 @@ export function TryItNow() {
                                 </span>
                                 <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
                                   <motion.div
-                                    className="absolute inset-y-0 left-0 rounded-full bg-[var(--signature-gradient)]"
+                                    className="absolute inset-y-0 left-0 rounded-full bg-[image:var(--signature-gradient)]"
                                     initial={{ width: 0 }}
                                     animate={{ width: `${s.value}%` }}
                                     transition={{

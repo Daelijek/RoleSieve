@@ -45,21 +45,14 @@ export function LivePreview() {
           {/* Soft glow under card */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -inset-x-10 -bottom-10 -top-6 rounded-[40px] bg-[var(--signature-gradient-soft)] blur-3xl"
+            className="pointer-events-none absolute -inset-x-10 -bottom-10 -top-6 rounded-[40px] bg-[image:var(--signature-gradient-soft)] blur-3xl"
           />
 
           <div className="glass-strong relative overflow-hidden rounded-[28px]">
+            <div aria-hidden className="grain-overlay" />
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-overlay"
-              style={{
-                backgroundImage: "var(--noise-bg)",
-                backgroundSize: "200px 200px",
-              }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-shimmer)] to-transparent"
             />
 
             {/* Top bar */}
@@ -73,7 +66,7 @@ export function LivePreview() {
                   Python Developer · Москва · 1–3 года
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-[11px] text-[color:var(--color-text-muted)]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[0_0_8px_rgba(74,222,128,0.7)]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[var(--glow-success-dot)]" />
                   Готов
                 </span>
               </div>
@@ -118,7 +111,7 @@ export function LivePreview() {
                         </span>
                         <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
                           <div
-                            className="absolute inset-y-0 left-0 rounded-full bg-[var(--signature-gradient)] shadow-[0_0_12px_rgba(139,108,255,0.45)]"
+                            className="absolute inset-y-0 left-0 rounded-full bg-[image:var(--signature-gradient)] shadow-[var(--glow-bar-sm)]"
                             style={{ width: `${w}%` }}
                           />
                         </div>
@@ -163,7 +156,7 @@ export function LivePreview() {
                           <div className="relative min-w-0 flex-1">
                             <span
                               aria-hidden
-                              className="absolute -inset-y-1 left-0 -z-10 rounded-md bg-[var(--signature-gradient-soft)]"
+                              className="absolute -inset-y-1 left-0 -z-10 rounded-md bg-[image:var(--signature-gradient-soft)]"
                               style={{ width: `${w}%` }}
                             />
                             <span className="relative truncate text-[13px] text-[color:var(--color-text-primary)]">

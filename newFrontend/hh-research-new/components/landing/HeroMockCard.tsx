@@ -29,37 +29,22 @@ export function HeroMockCard() {
     <div className="relative w-full">
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-12 rounded-[40px] bg-[var(--signature-gradient-soft)] blur-2xl"
+        className="pointer-events-none absolute -inset-12 rounded-[40px] bg-[image:var(--signature-gradient-soft)] blur-2xl"
       />
 
       <div className="glass-strong relative overflow-hidden rounded-[24px] p-5 sm:p-6">
+        <div aria-hidden className="grain-overlay" />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-overlay"
-          style={{
-            backgroundImage: "var(--noise-bg)",
-            backgroundSize: "200px 200px",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[24px] opacity-[0.035] mix-blend-overlay"
-          style={{
-            backgroundImage: "var(--noise-bg)",
-            backgroundSize: "200px 200px",
-          }}
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-shimmer)] to-transparent"
         />
 
         {/* Browser-like header */}
         <div className="mb-5 flex items-center gap-3 border-b border-[color:var(--color-border-subtle)] pb-4">
           <div className="flex gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--color-surface-3)]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--color-surface-3)]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--color-surface-3)]" />
           </div>
           <div className="flex h-7 flex-1 items-center gap-2 rounded-md border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/70 px-3 text-[12px] font-mono text-[color:var(--color-text-muted)]">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -129,14 +114,15 @@ export function HeroMockCard() {
           </div>
           <div className="relative h-1.5 overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
             <motion.div
-              className="absolute inset-y-0 left-0 rounded-full bg-[var(--signature-gradient)] shadow-[0_0_18px_rgba(139,108,255,0.6)]"
-              initial={false}
+              key={`bar-${idx}`}
+              className="absolute inset-y-0 left-0 rounded-full bg-[image:var(--signature-gradient)] shadow-[var(--glow-bar-lg)]"
+              initial={{ width: "0%" }}
               animate={{ width: `${percent}%` }}
-              transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
+              transition={{ duration: 2.4, ease: [0.2, 0.8, 0.2, 1] }}
             />
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+              className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-[color:var(--color-shimmer)] to-transparent"
               style={{
                 animation: "shimmer-x 2.2s var(--ease-premium) infinite",
               }}
@@ -173,7 +159,7 @@ export function HeroMockCard() {
                   </AnimatePresence>
                   <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
                     <motion.div
-                      className="absolute inset-y-0 left-0 rounded-full bg-[var(--signature-gradient)]"
+                      className="absolute inset-y-0 left-0 rounded-full bg-[image:var(--signature-gradient)]"
                       initial={false}
                       animate={{ width: `${s.value}%` }}
                       transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
@@ -243,15 +229,15 @@ export function HeroMockCard() {
                   key={i}
                   className={
                     i === idx
-                      ? "h-1 w-3 rounded-full bg-[var(--signature-gradient)] transition-all duration-300"
-                      : "h-1 w-1 rounded-full bg-white/15 transition-all duration-300"
+                      ? "h-1 w-3 rounded-full bg-[image:var(--signature-gradient)] transition-all duration-300"
+                      : "h-1 w-1 rounded-full bg-[color:var(--color-text-subtle)] transition-all duration-300"
                   }
                 />
               ))}
             </div>
           </div>
           <span className="inline-flex items-center gap-1.5 text-[11px] text-[color:var(--color-text-muted)]">
-            <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[0_0_8px_rgba(74,222,128,0.7)]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[var(--glow-success-dot)]" />
             {m.apiLabel}
           </span>
         </div>

@@ -17,7 +17,7 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden pt-16 sm:pt-24"
+      className="relative isolate overflow-hidden pt-[calc(var(--header-height)+var(--section-py))] pb-[var(--section-py)] sm:pt-[calc(var(--header-height)+var(--section-py-lg))] sm:pb-[var(--section-py-lg)]"
     >
       <DotGrid fade="center" />
       <Halo size={760} top="-220px" left="-180px" opacity={0.28} />
@@ -31,11 +31,11 @@ export function Hero() {
 
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(139,108,255,0.18),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgb(var(--rgb-violet)/0.18),transparent_70%)]"
       />
 
-      <Container className="relative">
-        <div className="mx-auto max-w-3xl text-center">
+      <Container className="relative flex flex-col gap-14 sm:gap-16">
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-8 text-center sm:gap-10">
           <Reveal immediate delay={0.05}>
             <Badge variant="eyebrow" className="justify-center">
               {h.eyebrow}
@@ -45,7 +45,7 @@ export function Hero() {
           <Reveal immediate delay={0.15}>
             <h1
               id="hero-title"
-              className="mt-6 text-balance text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
+              className="text-balance text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
             >
               {h.titleStart} <GradientText>{h.titleHighlight}</GradientText>{" "}
               {h.titleEnd}
@@ -53,7 +53,7 @@ export function Hero() {
           </Reveal>
 
           <Reveal immediate delay={0.28}>
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-[17px] leading-[1.6] text-[color:var(--color-text-muted)]">
+            <p className="max-w-2xl text-pretty text-[17px] leading-[1.6] text-[color:var(--color-text-muted)]">
               {h.subtitle}
             </p>
           </Reveal>
@@ -61,7 +61,7 @@ export function Hero() {
           <Reveal
             immediate
             delay={0.4}
-            className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
+            className="flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <MagneticButton>
               <Button
@@ -78,7 +78,7 @@ export function Hero() {
           </Reveal>
 
           <Reveal immediate delay={0.55}>
-            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] text-[color:var(--color-text-muted)]">
+            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] text-[color:var(--color-text-muted)]">
               {h.reassurance.map((line) => (
                 <li key={line} className="inline-flex items-center gap-2">
                   <span
@@ -92,12 +92,7 @@ export function Hero() {
           </Reveal>
         </div>
 
-        <Reveal
-          immediate
-          delay={0.7}
-          offset={16}
-          className="relative mx-auto mt-16 max-w-5xl sm:mt-20"
-        >
+        <Reveal immediate delay={0.7} offset={16} className="mx-auto w-full max-w-5xl">
           <HeroMockCard />
         </Reveal>
       </Container>

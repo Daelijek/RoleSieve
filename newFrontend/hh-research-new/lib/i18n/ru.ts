@@ -40,7 +40,7 @@ export const ru = {
     cycles: [
       {
         queryChip: "Python Developer · Москва · 1–3 года",
-        progressCurrent: 247,
+        progressCurrent: 462,
         progressTotal: 500,
         skills: [
           { name: "Python", value: 84 },
@@ -58,7 +58,7 @@ export const ru = {
       },
       {
         queryChip: "Frontend Developer · СПб · 3–6 лет",
-        progressCurrent: 312,
+        progressCurrent: 478,
         progressTotal: 500,
         skills: [
           { name: "React", value: 91 },
@@ -76,7 +76,7 @@ export const ru = {
       },
       {
         queryChip: "Product Manager · Удалённо · 3–6 лет",
-        progressCurrent: 184,
+        progressCurrent: 372,
         progressTotal: 400,
         skills: [
           { name: "Roadmap", value: 78 },
@@ -94,7 +94,7 @@ export const ru = {
       },
       {
         queryChip: "DevOps · Алматы · от 1 года",
-        progressCurrent: 156,
+        progressCurrent: 281,
         progressTotal: 300,
         skills: [
           { name: "Kubernetes", value: 88 },

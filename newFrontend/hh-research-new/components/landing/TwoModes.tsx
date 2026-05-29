@@ -28,10 +28,10 @@ export function TwoModes() {
 
         <div className="mt-14 grid gap-5 lg:grid-cols-2">
           {/* Manual mode */}
-          <Spotlight color="139,108,255" size={480} className={cardClasses}>
+          <Spotlight tint="violet" size={480} className={cardClasses}>
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,_rgba(139,108,255,0.25),_transparent_70%)] blur-2xl"
+              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[image:var(--wash-violet)] blur-2xl"
             />
             <div className="relative flex items-start justify-between">
               <div className="flex items-center gap-3">
@@ -82,10 +82,10 @@ export function TwoModes() {
           </Spotlight>
 
           {/* Auto mode */}
-          <Spotlight color="255,106,90" size={480} className={cardClasses}>
+          <Spotlight tint="coral" size={480} className={cardClasses}>
             <div
               aria-hidden
-              className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,_rgba(255,106,90,0.22),_transparent_70%)] blur-2xl"
+              className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[image:var(--wash-coral)] blur-2xl"
             />
             <div className="relative flex items-start justify-between">
               <div className="flex items-center gap-3">

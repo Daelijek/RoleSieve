@@ -6,12 +6,6 @@ import { getDict } from "@/lib/i18n";
 
 const dict = getDict();
 
-const spotlightColor = {
-  violet: "139,108,255",
-  coral: "255,106,90",
-  aqua: "108,231,255",
-} as const;
-
 const accentText = {
   violet: "text-violet",
   coral: "text-coral",
@@ -43,7 +37,7 @@ export function Testimonials() {
               className={i === 1 ? "lg:translate-y-4" : ""}
             >
               <Spotlight
-                color={spotlightColor[item.accent]}
+                tint={item.accent}
                 size={420}
                 intensity={0.1}
                 className="group glass relative h-full overflow-hidden rounded-3xl p-7 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)]"
@@ -59,7 +53,7 @@ export function Testimonials() {
                 </blockquote>
                 <div className="mt-6 flex items-center gap-3 border-t border-[color:var(--color-border-subtle)] pt-5">
                   <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-full ${accentBg[item.accent]}/15 ${accentText[item.accent]} ring-1 ring-inset ring-white/10`}
+                    className={`flex h-10 w-10 items-center justify-center rounded-full ${accentBg[item.accent]}/15 ${accentText[item.accent]} ring-1 ring-inset ring-[color:var(--color-border-subtle)]`}
                   >
                     <span className="font-mono text-[13px] font-semibold">
                       {item.author

@@ -43,7 +43,7 @@ export function FeaturesGrid() {
             return (
               <li key={item.title}>
                 <Spotlight
-                  color={violet ? "139,108,255" : "255,106,90"}
+                  tint={violet ? "violet" : "coral"}
                   size={360}
                   intensity={0.1}
                   className="group glass relative h-full overflow-hidden rounded-2xl p-6 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)]"
@@ -52,7 +52,7 @@ export function FeaturesGrid() {
                     <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]">
                       <span
                         aria-hidden
-                        className="absolute inset-0 rounded-xl bg-[var(--signature-gradient-soft)] opacity-60"
+                        className="absolute inset-0 rounded-xl bg-[image:var(--signature-gradient-soft)] opacity-60"
                       />
                       <Icon
                         size={18}

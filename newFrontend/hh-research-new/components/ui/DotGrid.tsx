@@ -4,7 +4,7 @@ type DotGridProps = {
   className?: string;
   /** Spacing between dots, px */
   size?: number;
-  /** Dot color (rgba string) */
+  /** Dot color (any CSS color); defaults to theme-aware --dot-grid-color */
   color?: string;
   /** Fade-out mask preset */
   fade?: "center" | "top" | "bottom" | "none";
@@ -13,7 +13,7 @@ type DotGridProps = {
 export function DotGrid({
   className,
   size = 28,
-  color = "rgba(255,255,255,0.07)",
+  color = "var(--dot-grid-color)",
   fade = "center",
 }: DotGridProps) {
   const mask =
