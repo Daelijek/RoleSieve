@@ -243,6 +243,18 @@ def find_next_row_after_max(ws: Worksheet, col: int, start_row: int = 2) -> int:
     return last + 1
 
 
+def find_next_row_after_max_multi(ws: Worksheet, cols: List[int], start_row: int = 2) -> int:
+    """Single-pass equivalent of calling find_next_row_after_max for each column separately."""
+    last = start_row - 1
+    for r in range(start_row, ws.max_row + 1):
+        for col in cols:
+            v = ws.cell(r, col).value
+            if v is not None and str(v).strip() != "":
+                last = r
+                break
+    return last + 1
+
+
 def write_vacancy_row_aligned(
     ws: Worksheet,
     vac: dict,

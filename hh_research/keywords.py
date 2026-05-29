@@ -131,6 +131,7 @@ def tokenize_ru(text: str, min_token_len: int = 3, *, lemmatize: bool = False) -
     text = text.lower()
     tokens = TOKEN_RE.findall(text)
     min_token_len = max(1, int(min_token_len))
+    stopwords = _ensure_stopwords_lemmas() if lemmatize else RU_STOPWORDS
     out = []
     for t in tokens:
         t = t.strip("+-")
@@ -138,14 +139,8 @@ def tokenize_ru(text: str, min_token_len: int = 3, *, lemmatize: bool = False) -
             continue
 
         token_for_checks = _maybe_lemma(t) if lemmatize else t
-        if lemmatize:
-            stopwords = _ensure_stopwords_lemmas()
-            if token_for_checks in stopwords:
-                continue
-        else:
-            if token_for_checks in RU_STOPWORDS:
-                continue
-
+        if token_for_checks in stopwords:
+            continue
         if len(token_for_checks) < min_token_len:
             continue
         out.append(token_for_checks)
@@ -201,10 +196,13 @@ def extract_keywords_simple(
         return False
 
     # Prefer longer n-grams with the same count; then filter out redundant shorter ones.
+    # Cap candidates before the O(selected × candidates) pruning phase so it stays fast
+    # even with very long job descriptions.
+    _candidate_limit = max(top_n * 10, 300)
     sorted_candidates: List[Tuple[str, int, int]] = sorted(
         ((k, v, len(k.split())) for k, v in freq.items()),
         key=lambda x: (-x[1], -x[2], x[0]),
-    )
+    )[:_candidate_limit]
 
     selected: List[str] = []
     selected_token_seqs: List[List[str]] = []

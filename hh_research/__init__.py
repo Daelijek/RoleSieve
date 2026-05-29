@@ -12,6 +12,7 @@ from hh_research.client import (
 from hh_research.excel_export import (
     create_export_workbook,
     find_next_row_after_max,
+    find_next_row_after_max_multi,
     write_vacancy_row_aligned,
 )
 from hh_research.keywords import extract_keywords_simple, extract_text_from_html
@@ -35,6 +36,7 @@ __all__ = [
     "extract_text_from_html",
     "fetch_vacancy",
     "find_next_row_after_max",
+    "find_next_row_after_max_multi",
     "hh_get_json",
     "load_manual_refs",
     "parse_vacancy_id",

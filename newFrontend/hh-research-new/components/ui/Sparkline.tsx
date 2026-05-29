@@ -1,3 +1,6 @@
+"use client";
+
+import { useId } from "react";
 import { cn } from "@/lib/cn";
 
 type SparklineProps = {
@@ -13,12 +16,6 @@ type SparklineProps = {
   ariaLabel?: string;
 };
 
-let idCounter = 0;
-function nextId(prefix: string) {
-  idCounter += 1;
-  return `${prefix}-${idCounter}`;
-}
-
 export function Sparkline({
   values,
   width = 120,
@@ -29,6 +26,10 @@ export function Sparkline({
   className,
   ariaLabel,
 }: SparklineProps) {
+  const reactId = useId();
+  const gid = `${reactId}-grad`;
+  const fid = `${reactId}-fill`;
+
   if (values.length < 2) return null;
   const min = Math.min(...values);
   const max = Math.max(...values);
@@ -47,8 +48,6 @@ export function Sparkline({
     .map(([x, y], i) => (i === 0 ? `M ${x},${y}` : `L ${x},${y}`))
     .join(" ");
   const areaD = `${pathD} L ${points[points.length - 1][0]},${height} L ${points[0][0]},${height} Z`;
-  const gid = nextId("spark-grad");
-  const fid = nextId("spark-fill");
 
   return (
     <svg
