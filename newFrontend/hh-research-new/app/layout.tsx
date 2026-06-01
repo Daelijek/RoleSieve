@@ -68,10 +68,10 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${inter.variable} ${jetBrainsMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${jetBrainsMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full font-sans">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

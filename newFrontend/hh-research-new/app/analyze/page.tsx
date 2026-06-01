@@ -3,7 +3,7 @@ import { DotGrid } from "@/components/ui/DotGrid";
 import { Halo } from "@/components/ui/Halo";
 import { Badge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
-import { AnalyzeHeader } from "@/components/analyze/AnalyzeHeader";
+import { Header } from "@/components/landing/Header";
 import { ResultsDashboard } from "@/components/analyze/ResultsDashboard";
 import {
   mockAnalyzeRunMeta,
@@ -21,9 +21,9 @@ export default function AnalyzePage() {
       <Halo size={720} top="-180px" right="-140px" opacity={0.2} variant="violet" />
       <Halo size={560} bottom="-220px" left="-120px" opacity={0.16} variant="coral" />
 
-      <AnalyzeHeader />
+      <Header variant="analyze" />
 
-      <main className="relative pb-20 pt-8 sm:pb-28 sm:pt-12">
+      <main className="relative pb-20 pt-[calc(var(--header-height)+2rem)] sm:pb-28 sm:pt-[calc(var(--header-height)+3rem)]">
         <Container>
           <Reveal immediate>
             <header className="mb-10 max-w-2xl">

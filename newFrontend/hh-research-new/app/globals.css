@@ -69,6 +69,10 @@
   --section-py: 5rem;
   --section-py-lg: 7rem;
 
+  --header-glass-bg: color-mix(in srgb, var(--color-canvas) 28%, transparent);
+  --header-glass-bg-scrolled: color-mix(in srgb, var(--color-canvas) 82%, transparent);
+  --header-glass-highlight: rgb(255 255 255 / 0.06);
+
   /* Color channels — used everywhere we need theme-aware translucent fills */
   --rgb-violet: 139 108 255;
   --rgb-coral: 255 106 90;
@@ -194,6 +198,10 @@ html.light {
 
   --scrollbar-thumb: rgb(15 18 30 / 0.16);
   --scrollbar-thumb-hover: rgb(15 18 30 / 0.26);
+
+  --header-glass-bg: color-mix(in srgb, var(--color-canvas) 72%, transparent);
+  --header-glass-bg-scrolled: color-mix(in srgb, var(--color-canvas) 88%, transparent);
+  --header-glass-highlight: rgb(255 255 255 / 0.65);
 }
 
 /* ============================================================
@@ -203,6 +211,7 @@ html.light {
 html {
   background-color: var(--color-canvas);
   color: var(--color-text-primary);
+  overflow-x: clip;
 }
 
 body {
@@ -213,8 +222,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  position: relative;
-  overflow-x: hidden;
 }
 
 /* Premium grain on the entire viewport */
@@ -230,9 +237,42 @@ body::before {
   mix-blend-mode: var(--noise-blend-mode);
 }
 
+/* Do not set position on body children — it overrides position:fixed on direct descendants. */
 body > * {
-  position: relative;
   z-index: 2;
+}
+
+/* Fixed site header — explicit CSS so it is not overridden by global rules or Tailwind layer order. */
+.site-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: var(--header-height);
+  border-bottom: 1px solid transparent;
+  background-color: var(--header-glass-bg);
+  box-shadow: inset 0 1px 0 0 var(--header-glass-highlight);
+  transition:
+    background-color var(--duration-base) var(--ease-premium),
+    border-color var(--duration-base) var(--ease-premium),
+    box-shadow var(--duration-base) var(--ease-premium),
+    backdrop-filter var(--duration-base) var(--ease-premium);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .site-header {
+    backdrop-filter: blur(24px) saturate(1.5);
+  }
+}
+
+.site-header--scrolled {
+  border-bottom-color: var(--color-border-subtle);
+  background-color: var(--header-glass-bg-scrolled);
+  box-shadow:
+    inset 0 1px 0 0 var(--header-glass-highlight),
+    0 8px 32px -16px rgb(0 0 0 / 0.22);
 }
 
 /* ============================================================

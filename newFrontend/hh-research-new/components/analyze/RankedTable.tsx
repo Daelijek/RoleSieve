@@ -46,8 +46,15 @@ export function RankedTable({
     }
   };
 
-  const thClass =
-    "cursor-pointer select-none px-3 py-2.5 text-left font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)] transition-colors hover:text-[color:var(--color-text-muted)]";
+  const thBase =
+    "px-3 py-2.5 text-left font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]";
+  const thSortable = cn(
+    thBase,
+    "cursor-pointer select-none transition-colors hover:text-[color:var(--color-text-muted)]",
+  );
+
+  const sortMark = (key: SortKey) =>
+    sort === key ? (desc ? " ↓" : " ↑") : "";
 
   return (
     <div className="overflow-hidden rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/40">
@@ -69,20 +76,32 @@ export function RankedTable({
         <table className="w-full min-w-[280px] text-[13px]">
           <thead>
             <tr className="border-b border-[color:var(--color-border-subtle)]">
-              <th className={cn(thClass, "w-10")} onClick={() => toggleSort("count")}>
+              <th className={cn(thBase, "w-10")} scope="col">
                 {dict.analyze.table.rank}
-                {sort === "count" ? (desc ? " ↓" : " ↑") : ""}
               </th>
-              <th className={thClass} onClick={() => toggleSort("name")}>
+              <th
+                className={thSortable}
+                scope="col"
+                onClick={() => toggleSort("name")}
+              >
                 {dict.analyze.table.name}
-                {sort === "name" ? (desc ? " ↓" : " ↑") : ""}
+                {sortMark("name")}
               </th>
-              <th className={cn(thClass, "text-right")} onClick={() => toggleSort("count")}>
+              <th
+                className={cn(thSortable, "text-right")}
+                scope="col"
+                onClick={() => toggleSort("count")}
+              >
                 {dict.analyze.table.count}
+                {sortMark("count")}
               </th>
-              <th className={cn(thClass, "text-right")} onClick={() => toggleSort("share")}>
+              <th
+                className={cn(thSortable, "text-right")}
+                scope="col"
+                onClick={() => toggleSort("share")}
+              >
                 {dict.analyze.table.share}
-                {sort === "share" ? (desc ? " ↓" : " ↑") : ""}
+                {sortMark("share")}
               </th>
             </tr>
           </thead>

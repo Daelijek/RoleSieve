@@ -6,10 +6,8 @@ export const ru = {
   },
   header: {
     nav: {
-      features: "Возможности",
-      how: "Как работает",
-      audience: "Для кого",
-      faq: "FAQ",
+      home: "Главная",
+      analyze: "Анализ",
     },
     signIn: "Войти",
     cta: "Запустить анализ",

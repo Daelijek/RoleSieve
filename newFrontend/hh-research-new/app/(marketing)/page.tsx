@@ -19,7 +19,7 @@ export default function LandingPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-1 flex-col">
+      <main className="flex flex-col">
         <Hero />
         <Reveal>
           <TrustStrip />
