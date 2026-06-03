@@ -19,25 +19,25 @@ export function KpiStrip({ summary, sparklines }: KpiStripProps) {
       key: "requested" as const,
       label: dict.analyze.kpi.requested,
       value: summary.requested,
-      color: "139,108,255",
+      tint: "violet" as const,
     },
     {
       key: "processed" as const,
       label: dict.analyze.kpi.processed,
       value: summary.processed,
-      color: "108,231,255",
+      tint: "aqua" as const,
     },
     {
       key: "errors" as const,
       label: dict.analyze.kpi.errors,
       value: summary.errors,
-      color: "255,106,90",
+      tint: "coral" as const,
     },
     {
       key: "uniqueSkills" as const,
       label: dict.analyze.kpi.uniqueSkills,
       value: summary.top_skills.length,
-      color: "74,222,128",
+      tint: "violet" as const,
     },
   ];
 
@@ -48,7 +48,7 @@ export function KpiStrip({ summary, sparklines }: KpiStripProps) {
         return (
           <Spotlight
             key={item.key}
-            color={item.color}
+            tint={item.tint}
             className="glass relative bg-[color:var(--color-surface)]/40 p-5 transition-[transform,border-color] duration-[var(--duration-base)] hover:-translate-y-0.5 sm:p-6"
           >
             <div className="flex items-start justify-between gap-3">
