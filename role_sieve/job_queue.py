@@ -8,9 +8,9 @@ from uuid import uuid4
 
 import requests
 
-from hh_research.client import VacancyRef, dedupe_vacancy_refs_preserve_order
-from hh_research.pipeline import collect_refs_auto, compute_summary_for_refs, export_refs_to_xlsx_bytes
-from hh_research.settings import max_export_vacancies
+from role_sieve.client import VacancyRef, dedupe_vacancy_refs_preserve_order
+from role_sieve.pipeline import collect_refs_auto, compute_summary_for_refs, export_refs_to_xlsx_bytes
+from role_sieve.settings import max_export_vacancies
 
 logger = logging.getLogger(__name__)
 
@@ -310,7 +310,6 @@ def enqueue_export_job(job_kind: str, payload: Dict[str, Any]) -> str:
         redis_url = (
             os.environ.get("REDIS_URL")
             or os.environ.get("ROLESIEVE_REDIS_URL")
-            or os.environ.get("HH_RESEARCH_REDIS_URL")
         )
         if redis_url:
             from redis import Redis  # type: ignore

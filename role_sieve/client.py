@@ -97,7 +97,6 @@ def hh_get_json(
     hh_user_agent = (
         os.environ.get("HH_USER_AGENT")
         or os.environ.get("ROLESIEVE_HH_USER_AGENT")
-        or os.environ.get("HH_RESEARCH_HH_USER_AGENT")
         or "RoleSieve/1.0 (rolesieve@local.dev)"
     )
     headers: Dict[str, str] = {

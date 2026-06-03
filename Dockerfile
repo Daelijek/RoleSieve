@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY hh_research ./hh_research
+COPY role_sieve ./role_sieve
 COPY web ./web
 
 ENV PYTHONUNBUFFERED=1

@@ -5,8 +5,8 @@ from unittest.mock import patch
 
 from openpyxl import Workbook
 
-from hh_research.client import VacancyRef
-from hh_research.pipeline import append_refs_to_template_file
+from role_sieve.client import VacancyRef
+from role_sieve.pipeline import append_refs_to_template_file
 
 
 class TestExcelAppendAnchor(unittest.TestCase):
@@ -42,7 +42,7 @@ class TestExcelAppendAnchor(unittest.TestCase):
 
         try:
             refs = [VacancyRef(vacancy_id="123")]
-            with patch("hh_research.pipeline.run_export_on_worksheet") as mock_run:
+            with patch("role_sieve.pipeline.run_export_on_worksheet") as mock_run:
                 # processed, next_row_after_last_block, errors, summary
                 mock_run.return_value = (0, 10, [], {"coverage": {}})
 

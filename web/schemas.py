@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from hh_research.settings import max_export_vacancies
+from role_sieve.settings import max_export_vacancies
 
 _MAX_V = max_export_vacancies()
 

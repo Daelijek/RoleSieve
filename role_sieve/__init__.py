@@ -1,4 +1,4 @@
-from hh_research.client import (
+from role_sieve.client import (
     HH_API_BASE,
     VacancyRef,
     dedupe_vacancy_refs_preserve_order,
@@ -9,14 +9,14 @@ from hh_research.client import (
     refs_from_lines,
     search_vacancies,
 )
-from hh_research.excel_export import (
+from role_sieve.excel_export import (
     create_export_workbook,
     find_next_row_after_max,
     find_next_row_after_max_multi,
     write_vacancy_row_aligned,
 )
-from hh_research.keywords import extract_keywords_simple, extract_text_from_html
-from hh_research.pipeline import (
+from role_sieve.keywords import extract_keywords_simple, extract_text_from_html
+from role_sieve.pipeline import (
     append_refs_to_template_file,
     build_default_out_path,
     collect_refs_auto,

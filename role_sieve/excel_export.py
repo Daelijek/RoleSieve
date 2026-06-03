@@ -6,7 +6,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
-from hh_research.keywords import extract_keywords_simple, extract_text_from_html
+from role_sieve.keywords import extract_keywords_simple, extract_text_from_html
 
 # Approximate column widths (openpyxl units ≈ character count)
 DEFAULT_COL_WIDTHS: dict[int, float] = {

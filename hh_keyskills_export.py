@@ -3,11 +3,11 @@ import os
 
 import requests
 
-from hh_research.client import (
+from role_sieve.client import (
     dedupe_vacancy_refs_preserve_order,
     load_manual_refs,
 )
-from hh_research.pipeline import (
+from role_sieve.pipeline import (
     append_refs_to_template_file,
     build_default_out_path,
     collect_refs_auto,

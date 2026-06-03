@@ -8,8 +8,8 @@ import requests
 from openpyxl import load_workbook
 from collections import Counter
 
-from hh_research.client import VacancyRef, fetch_vacancy, search_vacancies
-from hh_research.excel_export import (
+from role_sieve.client import VacancyRef, fetch_vacancy, search_vacancies
+from role_sieve.excel_export import (
     create_export_workbook,
     finalize_export_sheet,
     find_next_row_after_max_multi,

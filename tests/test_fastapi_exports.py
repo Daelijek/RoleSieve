@@ -10,7 +10,7 @@ from fastapi.testclient import TestClient
 # Чтобы тесты не зависели от окружения пользователя:
 os.environ.pop("API_SHARED_KEY", None)
 
-from hh_research.client import VacancyRef
+from role_sieve.client import VacancyRef
 from web.app import app
 
 

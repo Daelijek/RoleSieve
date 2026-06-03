@@ -8,20 +8,20 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-from hh_research.client import (
+from role_sieve.client import (
     dedupe_vacancy_refs_preserve_order,
     refs_from_lines,
     search_employers,
     fetch_dictionaries,
     fetch_areas,
 )
-from hh_research.job_queue import (
+from role_sieve.job_queue import (
     enqueue_export_job,
     get_job_result_path,
     get_job_status,
 )
-from hh_research.pipeline import collect_refs_auto, export_refs_to_xlsx_bytes, compute_summary_for_refs
-from hh_research.settings import max_export_vacancies
+from role_sieve.pipeline import collect_refs_auto, export_refs_to_xlsx_bytes, compute_summary_for_refs
+from role_sieve.settings import max_export_vacancies
 from web.responses import xlsx_streaming_response
 from web.schemas import AutoExportBody, ManualExportBody, SummaryAutoBody
 
