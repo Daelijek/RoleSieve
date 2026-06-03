@@ -9,7 +9,8 @@ export const ru = {
       home: "Главная",
       analyze: "Анализ",
     },
-    signIn: "Войти",
+    menuOpen: "Открыть меню",
+    menuClose: "Закрыть меню",
     cta: "Запустить анализ",
   },
   hero: {

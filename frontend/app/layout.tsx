@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import "./globals.css";
 
 const inter = Inter({
@@ -78,7 +77,6 @@ export default function RootLayout({
           themes={["dark", "light"]}
           enableSystem={false}
         >
-          <ScrollProgress />
           {children}
         </ThemeProvider>
       </body>

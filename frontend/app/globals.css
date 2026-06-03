@@ -216,6 +216,7 @@ html {
 
 body {
   min-height: 100dvh;
+  overflow-x: clip;
   background-color: var(--color-canvas);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
@@ -249,11 +250,15 @@ body > * {
   right: 0;
   left: 0;
   z-index: 100;
-  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
   height: var(--header-height);
+  overflow-x: clip;
   border-bottom: 1px solid transparent;
   background-color: var(--header-glass-bg);
   box-shadow: inset 0 1px 0 0 var(--header-glass-highlight);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   transition:
     background-color var(--duration-base) var(--ease-premium),
     border-color var(--duration-base) var(--ease-premium),
@@ -399,6 +404,34 @@ html.light .glass-strong {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Skills cloud — CSS transform (compositor) instead of per-node SVG SMIL */
+@keyframes skills-cloud-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--float-y, -3px), 0);
+  }
+}
+
+.skills-cloud-stage .skills-cloud-bubble--float {
+  animation: skills-cloud-float var(--float-dur, 3.2s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.skills-cloud-stage.skills-cloud-stage--paused .skills-cloud-bubble--float {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-cloud-stage .skills-cloud-bubble--float {
+    animation: none;
   }
 }
 
