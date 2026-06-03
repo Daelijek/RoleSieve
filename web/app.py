@@ -26,7 +26,7 @@ from web.responses import xlsx_streaming_response
 from web.schemas import AutoExportBody, ManualExportBody, SummaryAutoBody
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
-logger = logging.getLogger("hhResearchAPI")
+logger = logging.getLogger("RoleSieveAPI")
 
 
 def _parse_cors_origins() -> list[str]:
@@ -66,7 +66,7 @@ def _max_vacancies() -> int:
     return max_export_vacancies()
 
 
-app = FastAPI(title="hhResearch API", version="1.0.0")
+app = FastAPI(title="RoleSieve API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_parse_cors_origins(),

@@ -1,44 +1,86 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import "./globals.css";
-import { AppShell } from "@/components/layout/app-shell";
 
-const montserrat = Montserrat({
-  subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
-  variable: "--font-montserrat",
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "cyrillic"],
   display: "swap",
 });
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
-};
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hhresearch.local"),
-  icons: {
-    icon: [{ url: "/logo.webp", type: "image/webp" }],
-  },
+  metadataBase: new URL("https://rolesieve.local"),
   title: {
-    default: "hhResearch | HH vacancy analysis to Excel",
-    template: "%s | hhResearch",
+    default: "RoleSieve — анализ вакансий HH для улучшения резюме",
+    template: "%s · RoleSieve",
   },
   description:
-    "Analyze HH vacancies, extract key skills and phrases, and export the result to an Excel report.",
+    "Превращаем вакансии HeadHunter в понятный план улучшения резюме: ключевые навыки, частотные фразы и чистый Excel-отчёт за минуты.",
+  applicationName: "RoleSieve",
+  keywords: [
+    "hh",
+    "headhunter",
+    "вакансии",
+    "анализ вакансий",
+    "ключевые навыки",
+    "резюме",
+    "карьера",
+    "рынок труда",
+  ],
   openGraph: {
-    title: "hhResearch",
-    description: "Analyze HH vacancies and export key requirements into Excel.",
     type: "website",
-    locale: "en_US",
+    locale: "ru_RU",
+    title: "RoleSieve — анализ вакансий HH",
+    description:
+      "Понять рынок и улучшить резюме на основе реальных требований из вакансий HeadHunter.",
+    siteName: "RoleSieve",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "RoleSieve — анализ вакансий HH",
+    description:
+      "Понять рынок и улучшить резюме на основе реальных требований из вакансий HeadHunter.",
+  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#07070c" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f5fb" },
+  ],
+  colorScheme: "dark light",
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${montserrat.variable} font-sans antialiased`}>
-        <AppShell>{children}</AppShell>
+    <html
+      lang="ru"
+      className={`${inter.variable} ${jetBrainsMono.variable} antialiased`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-full font-sans">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          themes={["dark", "light"]}
+          enableSystem={false}
+        >
+          <ScrollProgress />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
