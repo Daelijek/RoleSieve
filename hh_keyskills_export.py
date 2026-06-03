@@ -3,6 +3,10 @@ import os
 
 import requests
 
+from role_sieve.load_env import load_dotenv
+
+load_dotenv()
+
 from role_sieve.client import (
     dedupe_vacancy_refs_preserve_order,
     load_manual_refs,

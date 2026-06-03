@@ -1,3 +1,7 @@
+from role_sieve.load_env import load_dotenv
+
+load_dotenv()
+
 import os
 import logging
 from typing import Annotated, Optional
