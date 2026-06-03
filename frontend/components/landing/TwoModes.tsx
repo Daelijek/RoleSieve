@@ -1,15 +1,16 @@
+"use client";
+
 import { ClipboardList, SlidersHorizontal } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { SectionHeader } from "./SectionHeader";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 const cardClasses =
   "group glass relative overflow-hidden rounded-3xl p-7 transition-[transform,box-shadow,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)] sm:p-9";
 
 export function TwoModes() {
+  const dict = useDict();
   const m = dict.modes;
   return (
     <section
@@ -61,7 +62,7 @@ export function TwoModes() {
                   <span className="h-1.5 w-1.5 rounded-full bg-success" />
                   {m.manual.mockLines.length}{" "}
                   <span className="text-[color:var(--color-text-subtle)]">
-                    вакансии
+                    {m.manual.vacanciesLabel}
                   </span>
                 </span>
               </div>

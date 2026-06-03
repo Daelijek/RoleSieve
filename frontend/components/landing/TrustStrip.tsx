@@ -1,11 +1,12 @@
+"use client";
+
 import { ShieldCheck } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Counter } from "@/components/ui/Counter";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 export function TrustStrip() {
+  const dict = useDict();
   const t = dict.trust;
   return (
     <section

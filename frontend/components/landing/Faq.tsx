@@ -1,11 +1,12 @@
+"use client";
+
 import { Plus } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "./SectionHeader";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 export function Faq() {
+  const dict = useDict();
   const f = dict.faq;
   return (
     <section

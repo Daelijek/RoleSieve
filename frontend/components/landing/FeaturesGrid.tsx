@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sparkles,
   MessageSquare,
@@ -10,9 +12,7 @@ import {
 import { Container } from "@/components/ui/Container";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { SectionHeader } from "./SectionHeader";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 const iconMap: Record<string, LucideIcon> = {
   Sparkles,
@@ -24,6 +24,7 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export function FeaturesGrid() {
+  const dict = useDict();
   const f = dict.features;
   return (
     <section

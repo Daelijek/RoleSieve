@@ -9,7 +9,8 @@ export const ru = {
       home: "Главная",
       analyze: "Анализ",
     },
-    signIn: "Войти",
+    menuOpen: "Открыть меню",
+    menuClose: "Закрыть меню",
     cta: "Запустить анализ",
   },
   hero: {
@@ -190,6 +191,7 @@ export const ru = {
       tagline: "Когда вы знаете, какие вакансии анализировать",
       hint: "Просто вставьте ID или ссылки HH — по одному в строке.",
       mockTitle: "Список вакансий",
+      vacanciesLabel: "вакансий",
       mockLines: [
         "https://hh.ru/vacancy/87654321",
         "https://hh.kz/vacancy/12345678",
@@ -213,6 +215,7 @@ export const ru = {
   how: {
     eyebrow: "Как это работает",
     title: "От запроса до отчёта — 4 шага",
+    stepLabel: "Шаг {number}",
     steps: [
       {
         number: "01",
@@ -315,6 +318,9 @@ export const ru = {
   preview: {
     eyebrow: "Пример отчёта",
     title: "Так выглядит результат — без воды",
+    mockRunBadge: "Прогон #1247",
+    mockQueryChip: "Python Developer · Москва · 1–3 года",
+    statusReady: "Готов",
     description:
       "Запрос «Python Developer · Москва · 1–3 года · за 30 дней». Выборка из 247 уникальных вакансий.",
     chartTitle: "Топ-10 ключевых навыков",
@@ -396,6 +402,19 @@ export const ru = {
     fullLink: "Открыть в полной версии",
     emptyHint: "Заполните поля и нажмите «Симулировать» — увидите пример сводки.",
     resultLabel: "Результат симуляции",
+    formEyebrow: "параметры запроса",
+    queryLabel: "запрос",
+    sampleSummary: "выборка · {count} вакансий",
+    skillsTitle: "Топ навыков",
+    skillsHint: "% упоминаний",
+    phrasesTitle: "Топ фраз",
+    phrasesHint: "top 4",
+    fullRunCta: "Запустить полный прогон",
+    progressSteps: {
+      sent: "запрос отправлен",
+      collecting: "сбор вакансий",
+      extracting: "извлечение сигналов",
+    },
     note: "Это локальный мок на основе средних — для реального прогона перейдите в /analyze.",
     presets: {
       python: {
@@ -677,5 +696,7 @@ export const ru = {
       "© 2026 RoleSieve. Сервис не аффилирован с HeadHunter и работает только с публичным API.",
   },
 } as const;
+
+export type Locale = "ru" | "en";
 
 export type Dictionary = typeof ru;

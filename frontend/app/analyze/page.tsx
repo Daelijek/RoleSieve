@@ -12,13 +12,18 @@ const dict = getDict();
 export default function AnalyzePage() {
   return (
     <>
-      <DotGrid />
-      <Halo size={720} top="-180px" right="-140px" opacity={0.2} variant="violet" />
-      <Halo size={560} bottom="-220px" left="-120px" opacity={0.16} variant="coral" />
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      >
+        <DotGrid />
+        <Halo size={720} top="-180px" right="-140px" opacity={0.2} variant="violet" />
+        <Halo size={560} bottom="-220px" left="-120px" opacity={0.16} variant="coral" />
+      </div>
 
       <Header variant="analyze" />
 
-      <main className="relative pb-20 pt-[calc(var(--header-height)+2rem)] sm:pb-28 sm:pt-[calc(var(--header-height)+3rem)]">
+      <main className="relative max-w-full overflow-x-clip pb-20 pt-[calc(var(--header-height)+2rem)] sm:pb-28 sm:pt-[calc(var(--header-height)+3rem)]">
         <Container>
           <Reveal immediate>
             <header className="mb-10 max-w-2xl">

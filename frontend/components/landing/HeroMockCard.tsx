@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 const CYCLE_MS = 5200;
 
 export function HeroMockCard() {
+  const dict = useDict();
   const m = dict.heroMock;
   const cycles = m.cycles;
   const [idx, setIdx] = useState(0);

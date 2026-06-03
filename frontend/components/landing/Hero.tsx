@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -8,11 +10,10 @@ import { DotGrid } from "@/components/ui/DotGrid";
 import { Reveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { HeroMockCard } from "./HeroMockCard";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 export function Hero() {
+  const dict = useDict();
   const h = dict.hero;
   return (
     <section

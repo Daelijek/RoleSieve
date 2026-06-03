@@ -1,14 +1,15 @@
+"use client";
+
 import { ArrowRight, BookOpen } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Halo } from "@/components/ui/Halo";
 import { GradientText } from "@/components/ui/GradientText";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 export function FinalCta() {
+  const dict = useDict();
   const c = dict.finalCta;
   return (
     <section

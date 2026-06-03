@@ -1,11 +1,12 @@
+"use client";
+
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import { LangSwitcher } from "@/components/ui/LangSwitcher";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 export function Footer() {
+  const dict = useDict();
   const f = dict.footer;
   return (
     <footer className="relative mt-10 border-t border-[color:var(--color-border-subtle)] pt-16 pb-10">
@@ -20,7 +21,7 @@ export function Footer() {
               <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
                 {dict.meta.langLabel}
               </span>
-              <LangSwitcher comingSoonLabel={dict.meta.comingSoon} />
+              <LangSwitcher />
             </div>
           </div>
 
