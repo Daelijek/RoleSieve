@@ -64,24 +64,29 @@ export function ResultsDashboard({
 
         <KpiStrip summary={summary} sparklines={sparklines} />
 
-        <div className="grid gap-px bg-[color:var(--color-border-subtle)] lg:grid-cols-2">
-          <Reveal delay={0.05}>
+        <div className="grid auto-rows-fr gap-px bg-[color:var(--color-border-subtle)] lg:grid-cols-2">
+          <Reveal delay={0.05} className="h-full">
             <SkillsRankChart items={summary.top_skills} successful={successful} />
           </Reveal>
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} className="h-full">
             <PhrasesRankChart items={summary.top_keywords} successful={successful} />
           </Reveal>
-          {summary.coverage && (
-            <Reveal delay={0.15}>
-              <CoverageRing coverage={summary.coverage} errors={summary.errors} />
-            </Reveal>
-          )}
-          {summary.dedup && (
-            <Reveal delay={0.2}>
-              <DedupFlow dedup={summary.dedup} />
-            </Reveal>
-          )}
         </div>
+
+        {(summary.coverage || summary.dedup) && (
+          <div className="grid auto-rows-fr gap-px border-t border-[color:var(--color-border-subtle)] bg-[color:var(--color-border-subtle)] lg:grid-cols-2">
+            {summary.coverage && (
+              <Reveal delay={0.15} className="h-full">
+                <CoverageRing coverage={summary.coverage} errors={summary.errors} />
+              </Reveal>
+            )}
+            {summary.dedup && (
+              <Reveal delay={0.2} className="h-full">
+                <DedupFlow dedup={summary.dedup} />
+              </Reveal>
+            )}
+          </div>
+        )}
 
         <div className="border-t border-[color:var(--color-border-subtle)]">
           <Reveal delay={0.1}>

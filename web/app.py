@@ -23,6 +23,7 @@ from role_sieve.job_queue import (
     enqueue_export_job,
     get_job_result_path,
     get_job_status,
+    list_jobs,
 )
 from role_sieve.pipeline import collect_refs_auto, export_refs_to_xlsx_bytes, compute_summary_for_refs
 from role_sieve.settings import max_export_vacancies
@@ -366,6 +367,7 @@ def summary_auto_async(
         "experience": body.experience,
         "period": body.period,
         "token": token,
+        "client_meta": body.client_meta_dict(),
     }
     job_id = enqueue_export_job("summary_auto", payload)
     return {"job_id": job_id}
@@ -444,9 +446,29 @@ def export_auto_async(
         "experience": body.experience,
         "period": body.period,
         "token": token,
+        "client_meta": body.client_meta_dict(),
     }
     job_id = enqueue_export_job("auto", payload)
     return {"job_id": job_id}
+
+
+@app.get("/api/v1/jobs")
+def jobs_list(
+    response: Response,
+    limit: int = 40,
+    kind: Optional[str] = None,
+) -> dict:
+    request_id = str(uuid4())
+    response.headers["X-Request-Id"] = request_id
+
+    kinds = None
+    if kind:
+        kinds = [k.strip() for k in kind.split(",") if k.strip()]
+    else:
+        kinds = ["auto", "summary_auto"]
+
+    rows = list_jobs(limit=limit, kinds=kinds)
+    return {"jobs": rows, "count": len(rows)}
 
 
 @app.get("/api/v1/jobs/{job_id}")
@@ -465,6 +487,9 @@ def job_status(job_id: str, response: Response) -> dict:
         "job_id": job_id,
         "status": st.get("status"),
         "kind": st.get("kind"),
+        "created_at": st.get("created_at"),
+        "finished_at": st.get("finished_at"),
+        "run_meta": st.get("run_meta"),
         "progress_done": st.get("progress_done"),
         "progress_total": st.get("progress_total"),
         "processed": st.get("processed"),

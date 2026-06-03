@@ -3,33 +3,48 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Animates a number from 0 to `target` once `start` becomes truthy.
- * Uses ease-out-cubic, RAF-driven. Idempotent — never restarts.
+ * Animates from the current displayed value to `target` when `start` is true.
+ * Re-runs when `target` changes (e.g. new job loaded into the same KPI row).
  */
 export function useCountUp(
   target: number,
   duration = 1200,
   start: boolean = true,
 ) {
+  const safeTarget = Number.isFinite(target) ? Math.max(0, Math.round(target)) : 0;
   const [value, setValue] = useState(0);
-  const startedRef = useRef(false);
+  const displayedRef = useRef(0);
+  const frameRef = useRef(0);
 
   useEffect(() => {
-    if (!start || startedRef.current) return;
-    startedRef.current = true;
+    if (!start) return;
+    cancelAnimationFrame(frameRef.current);
 
-    let raf = 0;
+    if (duration <= 0) {
+      displayedRef.current = safeTarget;
+      setValue(safeTarget);
+      return;
+    }
+
+    const from = displayedRef.current;
+    if (from === safeTarget) {
+      setValue(safeTarget);
+      return;
+    }
+
     const startTime = performance.now();
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const p = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - p, 3);
-      setValue(Math.round(eased * target));
-      if (p < 1) raf = requestAnimationFrame(tick);
+      const next = Math.round(from + (safeTarget - from) * eased);
+      displayedRef.current = next;
+      setValue(next);
+      if (p < 1) frameRef.current = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration, start]);
+    frameRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameRef.current);
+  }, [safeTarget, duration, start]);
 
   return value;
 }

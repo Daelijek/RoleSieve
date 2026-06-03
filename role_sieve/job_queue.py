@@ -34,6 +34,20 @@ def _atomic_write_json(path: str, data: dict) -> None:
     os.replace(tmp_path, path)
 
 
+def _extract_run_meta(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """UI labels + query text for run history (no secrets)."""
+    raw = payload.get("client_meta")
+    meta: Dict[str, Any] = dict(raw) if isinstance(raw, dict) else {}
+    queries = payload.get("queries") or []
+    if queries and not meta.get("queryLabel"):
+        first = str(queries[0]).strip()
+        if first:
+            meta["queryLabel"] = first
+    if queries:
+        meta["queries"] = queries
+    return meta
+
+
 def _write_status(
     job_id: str,
     *,
@@ -49,8 +63,11 @@ def _write_status(
     errors_sample: Optional[List[str]] = None,
     summary: Optional[Dict[str, Any]] = None,
     error: Optional[str] = None,
+    run_meta: Optional[Dict[str, Any]] = None,
 ) -> None:
     now = time.time()
+    existing = _load_status(job_id)
+    preserved_meta = run_meta if run_meta is not None else (existing or {}).get("run_meta")
     payload: Dict[str, Any] = {
         "job_id": job_id,
         "kind": kind,
@@ -58,6 +75,8 @@ def _write_status(
         "created_at": created_at,
         "updated_at": updated_at if updated_at is not None else now,
     }
+    if preserved_meta:
+        payload["run_meta"] = preserved_meta
     if finished_at is not None:
         payload["finished_at"] = finished_at
     if progress_done is not None:
@@ -301,7 +320,15 @@ def _run_export_job(job_id: str, job_kind: str, payload: Dict[str, Any]) -> None
 def enqueue_export_job(job_kind: str, payload: Dict[str, Any]) -> str:
     job_id = uuid4().hex
     created_at = time.time()
-    _write_status(job_id, status="queued", kind=job_kind, created_at=created_at, updated_at=created_at)
+    run_meta = _extract_run_meta(payload)
+    _write_status(
+        job_id,
+        status="queued",
+        kind=job_kind,
+        created_at=created_at,
+        updated_at=created_at,
+        run_meta=run_meta,
+    )
 
     try:
         import rq  # type: ignore  # noqa: F401
@@ -346,3 +373,59 @@ def get_job_result_path(job_id: str) -> str:
     if not os.path.isfile(path):
         raise FileNotFoundError(path)
     return path
+
+
+def list_jobs(
+    *,
+    limit: int = 40,
+    kinds: Optional[List[str]] = None,
+) -> List[Dict[str, Any]]:
+    """List recent jobs newest-first (from jobs/*.json)."""
+    limit = max(1, min(int(limit), 200))
+    kinds_set = set(kinds) if kinds else None
+    items: List[Dict[str, Any]] = []
+
+    try:
+        names = os.listdir(JOBS_DIR)
+    except OSError:
+        return []
+
+    for name in names:
+        if not name.endswith(".json"):
+            continue
+        job_id = name[: -len(".json")]
+        st = _load_status(job_id)
+        if not st:
+            continue
+        kind = st.get("kind")
+        if kinds_set is not None and kind not in kinds_set:
+            continue
+
+        summary = st.get("summary") if isinstance(st.get("summary"), dict) else {}
+        run_meta = st.get("run_meta") if isinstance(st.get("run_meta"), dict) else {}
+        queries = run_meta.get("queries") or []
+        query_label = run_meta.get("queryLabel")
+        if not query_label and queries:
+            query_label = str(queries[0])
+        top_skills = summary.get("top_skills") if isinstance(summary.get("top_skills"), list) else []
+        top_skill = None
+        if top_skills and isinstance(top_skills[0], dict):
+            top_skill = top_skills[0].get("name")
+
+        items.append(
+            {
+                "job_id": job_id,
+                "status": st.get("status"),
+                "kind": kind,
+                "created_at": st.get("created_at"),
+                "finished_at": st.get("finished_at"),
+                "run_meta": run_meta,
+                "query_label": query_label or "—",
+                "processed": summary.get("processed", st.get("processed")),
+                "errors": summary.get("errors"),
+                "top_skill": top_skill,
+            }
+        )
+
+    items.sort(key=lambda row: float(row.get("created_at") or 0), reverse=True)
+    return items[:limit]

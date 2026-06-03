@@ -13,6 +13,7 @@ import {
   startAutoExport,
   type AutoExportBody,
 } from "@/lib/api/client";
+import { normalizeExportSummary } from "@/lib/analyze/normalize-summary";
 import { mapExperience, mapPeriodToDays, mapRegionToArea } from "@/lib/api/hh-filters";
 import type { AnalyzeRunMeta, ExportSummary } from "@/lib/types/export-summary";
 
@@ -21,6 +22,7 @@ const dict = getDict();
 type Phase = "idle" | "running" | "done" | "error";
 
 export type RunResult = {
+  jobId: string;
   summary: ExportSummary;
   meta: AnalyzeRunMeta;
   downloadPath: string | null;
@@ -126,7 +128,6 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
   const [perPage, setPerPage] = useState(10);
   const [kwTopN, setKwTopN] = useState(30);
   const [kwMaxNgram, setKwMaxNgram] = useState(3);
-  const [hhToken, setHhToken] = useState("");
 
   const [phase, setPhase] = useState<Phase>("idle");
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
@@ -199,7 +200,12 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
     if (area) body.area = area;
     if (experience) body.experience = experience;
     if (periodDays) body.period = periodDays;
-    if (hhToken.trim()) body.token = hhToken.trim();
+    body.client_meta = {
+      queryLabel: q,
+      region,
+      experience: exp,
+      period,
+    };
 
     try {
       const jobId = await startAutoExport(body, ac.signal);
@@ -208,8 +214,8 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
         onProgress: (done, total) => setProgress({ done, total }),
       });
 
-      const summary = job.summary;
-      if (!summary) throw new Error(t.errors.unknown);
+      if (!job.summary) throw new Error(t.errors.unknown);
+      const summary = normalizeExportSummary(job.summary);
 
       const meta: AnalyzeRunMeta = {
         runId: jobId.slice(0, 8),
@@ -222,7 +228,12 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
         status: "ready",
       };
 
-      onResult({ summary, meta, downloadPath: job.download_url ?? null });
+      onResult({
+        jobId,
+        summary,
+        meta,
+        downloadPath: job.download_url ?? null,
+      });
       setPhase("done");
     } catch (e) {
       if (isAbortError(e)) {
@@ -371,23 +382,6 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
                   onChange={setKwMaxNgram}
                 />
               </div>
-              <label className="mt-4 block">
-                <span className="block font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
-                  {t.hhTokenLabel}
-                </span>
-                <input
-                  type="password"
-                  value={hhToken}
-                  onChange={(e) => setHhToken(e.target.value)}
-                  placeholder={t.hhTokenPlaceholder}
-                  disabled={isRunning}
-                  autoComplete="off"
-                  className="mt-2 w-full rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-canvas)]/70 px-3 py-2 text-[14px] text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-subtle)] outline-none transition-colors focus:border-violet/50 disabled:opacity-60"
-                />
-                <p className="mt-2 text-[12px] leading-[1.5] text-[color:var(--color-text-subtle)]">
-                  {t.hhTokenHint}
-                </p>
-              </label>
             </details>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">

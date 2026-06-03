@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useInView, useReducedMotion } from "framer-motion";
 import { useCountUp } from "@/lib/hooks/useCountUp";
 
 type CounterProps = {
@@ -28,9 +28,10 @@ export function Counter({
   immediate = false,
 }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
+  const reduced = useReducedMotion();
   const inView = useInView(ref, { once: true, margin: "-20%" });
   const start = immediate || inView;
-  const value = useCountUp(target, duration, start);
+  const value = useCountUp(target, reduced ? 0 : duration, start);
   return (
     <span ref={ref} className={className}>
       {prefix}

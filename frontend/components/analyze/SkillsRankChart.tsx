@@ -4,6 +4,12 @@ import { motion, useReducedMotion } from "framer-motion";
 import { BarChart3 } from "lucide-react";
 import type { RankedItem } from "@/lib/types/export-summary";
 import { getDict } from "@/lib/i18n";
+import {
+  RANK_CHART_VISIBLE_ROWS,
+  rankChartCardClass,
+  rankChartListClass,
+  rankChartRowClass,
+} from "./rank-chart-shared";
 
 const dict = getDict();
 
@@ -16,15 +22,15 @@ type SkillsRankChartProps = {
 export function SkillsRankChart({
   items,
   successful,
-  maxItems = 10,
+  maxItems = RANK_CHART_VISIBLE_ROWS,
 }: SkillsRankChartProps) {
   const reduce = useReducedMotion();
   const slice = items.slice(0, maxItems);
   const maxCount = Math.max(...slice.map((s) => s.count), 1);
 
   return (
-    <div className="bg-[color:var(--color-surface)]/40 p-5 sm:p-7">
-      <div className="mb-5 flex items-center justify-between">
+    <div className={rankChartCardClass}>
+      <div className="mb-5 flex shrink-0 items-center justify-between">
         <div className="flex items-center gap-2">
           <BarChart3 size={15} strokeWidth={1.75} className="text-violet" />
           <h3 className="text-[14px] font-semibold tracking-tight text-[color:var(--color-text-primary)]">
@@ -35,12 +41,12 @@ export function SkillsRankChart({
           {dict.analyze.skillsHint}
         </span>
       </div>
-      <ul className="space-y-3">
+      <ul className={rankChartListClass}>
         {slice.map((s, i) => {
           const w = (s.count / maxCount) * 100;
           const pct = successful ? ((s.count / successful) * 100).toFixed(0) : "0";
           return (
-            <li key={s.name} className="flex items-center gap-3">
+            <li key={s.name} className={rankChartRowClass}>
               <span className="w-6 text-right font-mono text-[10px] text-[color:var(--color-text-subtle)]">
                 {(i + 1).toString().padStart(2, "0")}
               </span>

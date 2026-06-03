@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
@@ -13,6 +13,15 @@ class ManualExportBody(BaseModel):
     kw_max_ngram: int = Field(3, ge=1, le=5)
     token: Optional[str] = None
     sleep_s: float = Field(0.2, ge=0, le=5)
+
+
+class RunClientMeta(BaseModel):
+    """Optional UI labels stored on the job for run history."""
+
+    queryLabel: str = Field(..., min_length=1, max_length=200)
+    region: str = Field("", max_length=120)
+    experience: str = Field("", max_length=120)
+    period: str = Field("", max_length=120)
 
 
 class AutoSearchExportBody(BaseModel):
@@ -30,6 +39,12 @@ class AutoSearchExportBody(BaseModel):
     area: Optional[str] = None
     experience: Optional[str] = None
     period: Optional[int] = Field(None, ge=1, le=30)
+    client_meta: Optional[RunClientMeta] = None
+
+    def client_meta_dict(self) -> Optional[dict[str, Any]]:
+        if self.client_meta is None:
+            return None
+        return self.client_meta.model_dump()
 
 
 # Aliases for clearer route signatures / OpenAPI tags

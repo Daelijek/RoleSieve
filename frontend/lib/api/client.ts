@@ -1,5 +1,12 @@
 import type { ExportSummary } from "@/lib/types/export-summary";
 
+export type RunClientMeta = {
+  queryLabel: string;
+  region: string;
+  experience: string;
+  period: string;
+};
+
 export type AutoExportBody = {
   queries: string[];
   pages: number;
@@ -12,12 +19,29 @@ export type AutoExportBody = {
   experience?: string;
   period?: number;
   token?: string;
+  client_meta?: RunClientMeta;
+};
+
+export type RunHistoryItem = {
+  job_id: string;
+  status: string;
+  kind?: string | null;
+  created_at?: number | null;
+  finished_at?: number | null;
+  query_label?: string;
+  processed?: number | null;
+  errors?: number | null;
+  top_skill?: string | null;
+  run_meta?: RunClientMeta & { queries?: string[] };
 };
 
 export type JobStatus = {
   job_id: string;
   status: "queued" | "running" | "succeeded" | "failed" | string;
   kind?: string | null;
+  created_at?: number | null;
+  finished_at?: number | null;
+  run_meta?: RunClientMeta | null;
   progress_done?: number | null;
   progress_total?: number | null;
   warnings_count?: number | null;
@@ -119,6 +143,28 @@ export async function startAutoExport(
   const jobId = typeof json?.job_id === "string" ? json.job_id : "";
   if (!jobId) throw new Error("BAD_JOB");
   return jobId;
+}
+
+/** GET /api/v1/jobs — recent analyze/export runs. */
+export async function listRunHistory(
+  opts: { limit?: number; signal?: AbortSignal } = {},
+): Promise<RunHistoryItem[]> {
+  const base = getApiBaseUrl();
+  if (!base) throw new Error("NO_API_URL");
+
+  const limit = opts.limit ?? 30;
+  const resp = await fetch(`${base}/api/v1/jobs?limit=${limit}`, {
+    method: "GET",
+    headers: authHeaders(),
+    signal: opts.signal,
+  });
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new ApiError(resp.status, parseApiErrorText(text));
+  }
+  const json = (await resp.json()) as { jobs?: unknown };
+  if (!Array.isArray(json.jobs)) return [];
+  return json.jobs as RunHistoryItem[];
 }
 
 /** GET /api/v1/jobs/{id} (single fetch). */

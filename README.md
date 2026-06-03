@@ -201,8 +201,7 @@ Invoke-RestMethod -Uri "https://hh.ru/oauth/token" -Method Post `
 
 **Куда положить токен:**
 
-1. **На бэкенде (рекомендуется):** в корневом `.env` строка `HH_TOKEN=...` (см. `.env.example`), затем перезапустите `uvicorn`. На хостинге (Railway/Render) — те же переменные в панели env (не файл `.env`).
-2. **В UI:** поле «Токен HH» на `/analyze` (удобно для локальной проверки; `client_secret` в браузер не вводите).
+1. **На бэкенде:** в `.env` или env хостинга — `HH_TOKEN=...`, затем перезапустите API.
 
 В `.env` же задайте контакт приложения (как при регистрации на dev.hh.ru):
 
@@ -216,7 +215,7 @@ ROLESIEVE_HH_USER_AGENT=RoleSieve/1.0 (you@email.com)
 
 | Переменная | Назначение |
 |------------|------------|
-| `HH_TOKEN` | Bearer `access_token` приложения HH (см. выше). Можно не задавать, если пользователь вводит токен в форме на `/analyze`. |
+| `HH_TOKEN` | Bearer `access_token` приложения HH (см. выше). Задаётся только на сервере API. |
 | `HH_CLIENT_ID` / `HH_CLIENT_SECRET` | Только для скрипта `scripts/hh_app_token.py` (получение `access_token`). |
 | `CORS_ORIGINS` | Разрешённые origin через запятую (по умолчанию `http://localhost:3000`). Для Vercel добавьте URL вида `https://your-app.vercel.app`. |
 | `API_SHARED_KEY` | Если задан — клиент обязан передать заголовок `X-API-Key` с тем же значением. |

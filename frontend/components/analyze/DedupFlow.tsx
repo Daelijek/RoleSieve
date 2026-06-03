@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Layers } from "lucide-react";
 import type { ExportSummary } from "@/lib/types/export-summary";
 import { getDict } from "@/lib/i18n";
+import { rankChartCardClass, resultsPanelBodyClass } from "./rank-chart-shared";
 
 const dict = getDict();
 
@@ -40,15 +41,17 @@ export function DedupFlow({ dedup }: DedupFlowProps) {
   ];
 
   return (
-    <div className="bg-[color:var(--color-surface)]/40 p-5 sm:p-7">
-      <div className="mb-5 flex items-center gap-2">
+    <div className={rankChartCardClass}>
+      <div className="mb-5 flex shrink-0 items-center gap-2">
         <Layers size={15} strokeWidth={1.75} className="text-coral" />
         <h3 className="text-[14px] font-semibold tracking-tight text-[color:var(--color-text-primary)]">
           {dict.analyze.dedupTitle}
         </h3>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-3">
+      <div
+        className={`${resultsPanelBodyClass} gap-4 sm:flex-row sm:items-end sm:justify-start sm:gap-3`}
+      >
         {steps.map((step, i) => {
           const w = (step.value / max) * 100;
           return (

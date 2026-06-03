@@ -3,6 +3,12 @@
 import { Quote } from "lucide-react";
 import type { RankedItem } from "@/lib/types/export-summary";
 import { getDict } from "@/lib/i18n";
+import {
+  RANK_CHART_VISIBLE_ROWS,
+  rankChartCardClass,
+  rankChartListClass,
+  rankChartRowClass,
+} from "./rank-chart-shared";
 
 const dict = getDict();
 
@@ -15,14 +21,14 @@ type PhrasesRankChartProps = {
 export function PhrasesRankChart({
   items,
   successful,
-  maxItems = 8,
+  maxItems = RANK_CHART_VISIBLE_ROWS,
 }: PhrasesRankChartProps) {
   const slice = items.slice(0, maxItems);
   const maxCount = Math.max(...slice.map((s) => s.count), 1);
 
   return (
-    <div className="bg-[color:var(--color-surface)]/40 p-5 sm:p-7">
-      <div className="mb-5 flex items-center justify-between">
+    <div className={rankChartCardClass}>
+      <div className="mb-5 flex shrink-0 items-center justify-between">
         <div className="flex items-center gap-2">
           <Quote size={15} strokeWidth={1.75} className="text-coral" />
           <h3 className="text-[14px] font-semibold tracking-tight text-[color:var(--color-text-primary)]">
@@ -33,7 +39,7 @@ export function PhrasesRankChart({
           {dict.analyze.phrasesHint}
         </span>
       </div>
-      <ul className="space-y-2.5">
+      <ul className={rankChartListClass}>
         {slice.map((phrase, i) => {
           const w = (phrase.count / maxCount) * 100;
           const pct = successful
@@ -42,7 +48,7 @@ export function PhrasesRankChart({
           return (
             <li
               key={phrase.name}
-              className="flex items-center justify-between gap-3 rounded-lg border border-transparent px-2 py-1.5 transition-colors hover:border-[color:var(--color-border-subtle)] hover:bg-[color:var(--color-surface-2)]/40"
+              className={`${rankChartRowClass} justify-between rounded-lg border border-transparent px-2 transition-colors hover:border-[color:var(--color-border-subtle)] hover:bg-[color:var(--color-surface-2)]/40`}
             >
               <div className="flex min-w-0 flex-1 items-center gap-2.5">
                 <span className="font-mono text-[10px] text-[color:var(--color-text-subtle)]">
@@ -59,7 +65,7 @@ export function PhrasesRankChart({
                   </span>
                 </div>
               </div>
-              <span className="font-mono text-[12px] tabular-nums text-[color:var(--color-text-muted)]">
+              <span className="shrink-0 font-mono text-[12px] tabular-nums text-[color:var(--color-text-muted)]">
                 {pct}%
               </span>
             </li>

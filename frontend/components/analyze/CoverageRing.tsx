@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { ShieldCheck } from "lucide-react";
 import type { ExportSummary } from "@/lib/types/export-summary";
 import { getDict } from "@/lib/i18n";
+import { rankChartCardClass, resultsPanelBodyClass } from "./rank-chart-shared";
 
 const dict = getDict();
 
@@ -84,8 +85,8 @@ export function CoverageRing({ coverage, errors }: CoverageRingProps) {
   const ratePct = Math.round(coverage.key_skills_rate * 100);
 
   return (
-    <div className="bg-[color:var(--color-surface)]/40 p-5 sm:p-7">
-      <div className="mb-5 flex items-center gap-2">
+    <div className={rankChartCardClass}>
+      <div className="mb-5 flex shrink-0 items-center gap-2">
         <ShieldCheck size={15} strokeWidth={1.75} className="text-violet" />
         <h3 className="text-[14px] font-semibold tracking-tight text-[color:var(--color-text-primary)]">
           {dict.analyze.coverageTitle}
@@ -95,7 +96,7 @@ export function CoverageRing({ coverage, errors }: CoverageRingProps) {
       {total <= 0 ? (
         <p className="text-[13px] text-[color:var(--color-text-muted)]">—</p>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-[180px_1fr] sm:items-center">
+        <div className={`${resultsPanelBodyClass} grid gap-5 sm:grid-cols-[180px_1fr] sm:items-center`}>
           <div className="flex items-center justify-center rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/40 p-4">
             <svg
               width={size}

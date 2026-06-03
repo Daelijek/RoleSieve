@@ -5,11 +5,6 @@ import { Badge } from "@/components/ui/Badge";
 import { Reveal } from "@/components/ui/Reveal";
 import { Header } from "@/components/landing/Header";
 import { AnalyzeWorkspace } from "@/components/analyze/AnalyzeWorkspace";
-import {
-  mockAnalyzeRunMeta,
-  mockExportSummary,
-  mockKpiSparklines,
-} from "@/lib/mocks/analyze-summary";
 import { getDict } from "@/lib/i18n";
 
 const dict = getDict();
@@ -35,16 +30,11 @@ export default function AnalyzePage() {
                 {dict.analyze.pageDescription}
               </p>
               <p className="mt-2 font-mono text-[11px] text-[color:var(--color-text-subtle)]">
-                {dict.analyze.mockNote}
+                {dict.analyze.pageHint}
               </p>
             </header>
           </Reveal>
-
-          <AnalyzeWorkspace
-            initialSummary={mockExportSummary}
-            initialMeta={mockAnalyzeRunMeta}
-            initialSparklines={mockKpiSparklines}
-          />
+          <AnalyzeWorkspace />
         </Container>
       </main>
     </>
