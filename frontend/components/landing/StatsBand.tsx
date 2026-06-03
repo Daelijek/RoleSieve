@@ -7,10 +7,8 @@ import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Container";
 import { Counter } from "@/components/ui/Counter";
 import { SectionHeader } from "./SectionHeader";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import { usePinnedScrollSteps } from "@/lib/hooks/usePinnedScrollSteps";
-
-const dict = getDict();
 
 /** Scroll space per stat, in vh. Lower = quicker cycling. */
 const PER_STAT_VH = 40;
@@ -153,6 +151,7 @@ function AnimatedSparkline({
 }
 
 export function StatsBand() {
+  const dict = useDict();
   const s = dict.stats;
   const scrollRef = useRef<HTMLDivElement>(null);
   const { activeIdx, runwayHeightVh } = usePinnedScrollSteps(scrollRef, {

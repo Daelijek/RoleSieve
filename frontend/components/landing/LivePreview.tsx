@@ -1,12 +1,13 @@
+"use client";
+
 import { Download, BarChart3, Quote, ShieldCheck, Layers } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "./SectionHeader";
 import { Halo } from "@/components/ui/Halo";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 export function LivePreview() {
+  const dict = useDict();
   const p = dict.preview;
   const maxSkill = Math.max(...p.skills.map((s) => s.value));
   const maxPhrase = Math.max(...p.phrases.map((s) => s.value));
@@ -59,15 +60,15 @@ export function LivePreview() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--color-border-subtle)] px-5 py-4 sm:px-7">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
-                  Прогон #1247
+                  {p.mockRunBadge}
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] px-3 py-1 font-mono text-[11px] text-[color:var(--color-text-primary)]">
                   <span className="h-1 w-1 rounded-full bg-aqua" />
-                  Python Developer · Москва · 1–3 года
+                  {p.mockQueryChip}
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-[11px] text-[color:var(--color-text-muted)]">
                   <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[var(--glow-success-dot)]" />
-                  Готов
+                  {p.statusReady}
                 </span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]/70 px-3 py-1.5 text-[12px] text-[color:var(--color-text-primary)]">

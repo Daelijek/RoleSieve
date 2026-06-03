@@ -1,55 +1,57 @@
 "use client";
 
-import { useState } from "react";
 import { cn } from "@/lib/cn";
+import { useLocale, type Locale } from "@/lib/i18n";
 
 type LangSwitcherProps = {
-  comingSoonLabel?: string;
   className?: string;
 };
 
-export function LangSwitcher({
-  comingSoonLabel = "Скоро",
-  className,
-}: LangSwitcherProps) {
-  const [tooltip, setTooltip] = useState(false);
+export function LangSwitcher({ className }: LangSwitcherProps) {
+  const { locale, setLocale, dict } = useLocale();
+
+  const btn =
+    "relative z-10 rounded-full px-3 py-1 text-[12px] font-mono font-medium tracking-wider transition-colors";
+
+  function select(next: Locale) {
+    if (next !== locale) setLocale(next);
+  }
+
   return (
     <div
       className={cn(
-        "relative inline-flex items-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/60 p-0.5 backdrop-blur",
+        "inline-flex items-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/60 p-0.5 backdrop-blur",
         className,
       )}
       role="group"
-      aria-label="Переключатель языка"
+      aria-label={dict.meta.langLabel}
     >
       <button
         type="button"
-        aria-pressed
-        className="relative z-10 rounded-full bg-[color:var(--color-surface-2)] px-3 py-1 text-[12px] font-mono font-medium tracking-wider text-[color:var(--color-text-primary)] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset]"
+        aria-pressed={locale === "ru"}
+        onClick={() => select("ru")}
+        className={cn(
+          btn,
+          locale === "ru"
+            ? "bg-[color:var(--color-surface-2)] text-[color:var(--color-text-primary)] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset]"
+            : "text-[color:var(--color-text-subtle)] hover:text-[color:var(--color-text-muted)]",
+        )}
       >
         RU
       </button>
       <button
         type="button"
-        aria-pressed="false"
-        aria-disabled="true"
-        onMouseEnter={() => setTooltip(true)}
-        onMouseLeave={() => setTooltip(false)}
-        onFocus={() => setTooltip(true)}
-        onBlur={() => setTooltip(false)}
-        className="relative z-10 cursor-not-allowed rounded-full px-3 py-1 text-[12px] font-mono font-medium tracking-wider text-[color:var(--color-text-subtle)] transition-colors hover:text-[color:var(--color-text-muted)]"
+        aria-pressed={locale === "en"}
+        onClick={() => select("en")}
+        className={cn(
+          btn,
+          locale === "en"
+            ? "bg-[color:var(--color-surface-2)] text-[color:var(--color-text-primary)] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset]"
+            : "text-[color:var(--color-text-subtle)] hover:text-[color:var(--color-text-muted)]",
+        )}
       >
         EN
       </button>
-      <span
-        role="tooltip"
-        className={cn(
-          "pointer-events-none absolute left-1/2 top-full z-30 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] px-2 py-1 text-[11px] font-medium text-[color:var(--color-text-primary)] shadow-lg transition-opacity duration-150",
-          tooltip ? "opacity-100" : "opacity-0",
-        )}
-      >
-        {comingSoonLabel}
-      </span>
     </div>
   );
 }

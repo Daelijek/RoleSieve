@@ -6,10 +6,9 @@ import { Inbox, DownloadCloud, Sparkles, FileSpreadsheet, Check } from "lucide-r
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "./SectionHeader";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import { usePinnedScrollSteps } from "@/lib/hooks/usePinnedScrollSteps";
 
-const dict = getDict();
 const stepIcons = [Inbox, DownloadCloud, Sparkles, FileSpreadsheet];
 
 /** Scroll space allocated to each step, in vh. Lower = faster cycling. */
@@ -18,6 +17,7 @@ const PER_STEP_VH = 38;
 const TRAILING_VH = 25;
 
 export function HowItWorks() {
+  const dict = useDict();
   const h = dict.how;
   const scrollRef = useRef<HTMLDivElement>(null);
   const { activeIdx, runwayHeightVh } = usePinnedScrollSteps(scrollRef, {
@@ -135,7 +135,7 @@ export function HowItWorks() {
 
                         <div>
                           <p className="text-gradient font-mono text-[12px] font-semibold tracking-widest uppercase">
-                            Шаг {step.number}
+                            {h.stepLabel.replace("{number}", step.number)}
                           </p>
                           <h3 className="mt-1 text-[19px] font-semibold tracking-tight text-[color:var(--color-text-primary)] sm:text-[22px]">
                             {step.title}

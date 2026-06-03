@@ -16,20 +16,21 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Halo } from "@/components/ui/Halo";
 import { cn } from "@/lib/cn";
-import { getDict } from "@/lib/i18n";
+import { useDict, type Dictionary } from "@/lib/i18n";
 
-const dict = getDict();
-
-type Preset = (typeof dict.tryIt.presets)[keyof typeof dict.tryIt.presets];
+type Preset =
+  Dictionary["tryIt"]["presets"][keyof Dictionary["tryIt"]["presets"]];
 
 type Phase = "idle" | "running" | "result";
 
 const RUN_MS = 2200;
 const PROGRESS_TICK_MS = 60;
 
-function pickPreset(query: string): Preset {
+function pickPreset(
+  query: string,
+  presets: Dictionary["tryIt"]["presets"],
+): Preset {
   const q = query.toLowerCase();
-  const presets = dict.tryIt.presets;
   if (q.includes("front") || q.includes("react") || q.includes("js")) {
     return presets.frontend;
   }
@@ -92,6 +93,7 @@ function ChipGroup({
 }
 
 export function TryItNow() {
+  const dict = useDict();
   const t = dict.tryIt;
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState<string>(t.regions[0]);
@@ -113,7 +115,7 @@ export function TryItNow() {
   const ease = (x: number) => 1 - Math.pow(1 - x, 3);
 
   const run = () => {
-    const chosen = pickPreset(query || "python");
+    const chosen = pickPreset(query || "python", t.presets);
     setPreset(chosen);
     setProgress(0);
 
@@ -214,7 +216,7 @@ export function TryItNow() {
                 <div className="flex items-center gap-2">
                   <Search size={14} strokeWidth={1.75} className="text-violet" />
                   <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
-                    параметры запроса
+                    {t.formEyebrow}
                   </span>
                 </div>
                 <div className="mt-4">
@@ -222,7 +224,7 @@ export function TryItNow() {
                     htmlFor="try-query"
                     className="block font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]"
                   >
-                    запрос
+                    {t.queryLabel}
                   </label>
                   <div className="relative mt-2">
                     <input
@@ -324,7 +326,7 @@ export function TryItNow() {
                   {phase === "result" && preset ? (
                     <span className="inline-flex items-center gap-1.5 text-[11px] text-[color:var(--color-text-muted)]">
                       <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[var(--glow-success-dot)]" />
-                      выборка · {preset.sample} вакансий
+                      {t.sampleSummary.replace("{count}", String(preset.sample))}
                     </span>
                   ) : null}
                 </div>
@@ -391,7 +393,7 @@ export function TryItNow() {
                                 : "",
                             )}
                           >
-                            запрос отправлен
+                            {t.progressSteps.sent}
                           </li>
                           <li
                             className={cn(
@@ -401,7 +403,7 @@ export function TryItNow() {
                                 : "",
                             )}
                           >
-                            сбор вакансий
+                            {t.progressSteps.collecting}
                           </li>
                           <li
                             className={cn(
@@ -411,7 +413,7 @@ export function TryItNow() {
                                 : "",
                             )}
                           >
-                            извлечение сигналов
+                            {t.progressSteps.extracting}
                           </li>
                         </ul>
                       </motion.div>
@@ -429,10 +431,10 @@ export function TryItNow() {
                         <div className="sm:col-span-3">
                           <div className="mb-3 flex items-center justify-between">
                             <span className="text-[12.5px] font-medium text-[color:var(--color-text-primary)]">
-                              Топ навыков
+                              {t.skillsTitle}
                             </span>
                             <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
-                              % упоминаний
+                              {t.skillsHint}
                             </span>
                           </div>
                           <ul className="space-y-2.5">
@@ -469,10 +471,10 @@ export function TryItNow() {
                         <div className="sm:col-span-2">
                           <div className="mb-3 flex items-center justify-between">
                             <span className="text-[12.5px] font-medium text-[color:var(--color-text-primary)]">
-                              Топ фраз
+                              {t.phrasesTitle}
                             </span>
                             <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
-                              top 4
+                              {t.phrasesHint}
                             </span>
                           </div>
                           <ul className="flex flex-wrap gap-1.5">
@@ -496,7 +498,7 @@ export function TryItNow() {
                             href="/analyze"
                             className="mt-5 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-violet transition-colors hover:text-violet-soft"
                           >
-                            Запустить полный прогон
+                            {t.fullRunCta}
                             <ArrowRight size={12} strokeWidth={2} />
                           </a>
                         </div>

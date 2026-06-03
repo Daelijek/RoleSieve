@@ -1,10 +1,10 @@
+"use client";
+
 import { Quote, User, UserCheck, LineChart } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { SectionHeader } from "./SectionHeader";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 const personaIcons = [User, UserCheck, LineChart];
 const personaAccents: Array<"violet" | "coral" | "aqua"> = [
@@ -20,6 +20,7 @@ const accentClasses: Record<"violet" | "coral" | "aqua", string> = {
 };
 
 export function Audience() {
+  const dict = useDict();
   const a = dict.audience;
   return (
     <section

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { LocaleProvider } from "@/lib/i18n";
 import "./globals.css";
 
 const inter = Inter({
@@ -77,7 +78,7 @@ export default function RootLayout({
           themes={["dark", "light"]}
           enableSystem={false}
         >
-          {children}
+          <LocaleProvider>{children}</LocaleProvider>
         </ThemeProvider>
       </body>
     </html>

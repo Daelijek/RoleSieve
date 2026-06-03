@@ -8,9 +8,7 @@ import {
   type Ref,
 } from "react";
 import { Container } from "@/components/ui/Container";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 /** Pixels per second — keeps scroll speed stable as content width grows. */
 const MARQUEE_SPEED_PX_PER_SEC = 72;
@@ -46,6 +44,7 @@ function MarqueeTrack({
 }
 
 export function LogoMarquee() {
+  const dict = useDict();
   const l = dict.logos;
   const items = l.items;
 

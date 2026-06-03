@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -12,14 +12,7 @@ import { LangSwitcher } from "@/components/ui/LangSwitcher";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { cn } from "@/lib/cn";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
-
-const navItems = [
-  { label: dict.header.nav.home, href: "/" },
-  { label: dict.header.nav.analyze, href: "/analyze" },
-] as const;
+import { useDict } from "@/lib/i18n";
 
 type HeaderProps = {
   /** `analyze` — badge + «На главную» вместо CTA */
@@ -93,6 +86,15 @@ const navList = {
 };
 
 export function Header({ variant = "default" }: HeaderProps) {
+  const dict = useDict();
+  const navItems = useMemo(
+    () =>
+      [
+        { label: dict.header.nav.home, href: "/" },
+        { label: dict.header.nav.analyze, href: "/analyze" },
+      ] as const,
+    [dict],
+  );
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const reducedMotion = useReducedMotion();
@@ -173,7 +175,7 @@ export function Header({ variant = "default" }: HeaderProps) {
 
         <div className="hidden shrink-0 items-center gap-3 md:flex">
           <ThemeToggle />
-          <LangSwitcher comingSoonLabel={dict.meta.comingSoon} />
+          <LangSwitcher />
           {variant === "analyze" ? (
             <Button href="/" variant="ghost" size="sm">
               {dict.analyze.backHome}
@@ -317,7 +319,7 @@ export function Header({ variant = "default" }: HeaderProps) {
                     </span>
                     <div className="flex min-w-0 shrink-0 items-center gap-3">
                       <ThemeToggle />
-                      <LangSwitcher comingSoonLabel={dict.meta.comingSoon} />
+                      <LangSwitcher />
                     </div>
                   </motion.div>
 
