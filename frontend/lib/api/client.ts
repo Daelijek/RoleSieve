@@ -5,6 +5,12 @@ export type RunClientMeta = {
   region: string;
   experience: string;
   period: string;
+  workFormat: string;
+};
+
+export type AreaSuggestion = {
+  id: string;
+  text: string;
 };
 
 export type AutoExportBody = {
@@ -17,6 +23,7 @@ export type AutoExportBody = {
   search_sleep_s?: number;
   area?: string;
   experience?: string;
+  work_format?: string;
   period?: number;
   token?: string;
   client_meta?: RunClientMeta;
@@ -165,6 +172,37 @@ export async function listRunHistory(
   const json = (await resp.json()) as { jobs?: unknown };
   if (!Array.isArray(json.jobs)) return [];
   return json.jobs as RunHistoryItem[];
+}
+
+/** GET /api/v1/meta/areas/suggest?text= → region autocomplete suggestions. */
+export async function suggestAreas(
+  text: string,
+  signal?: AbortSignal,
+): Promise<AreaSuggestion[]> {
+  const base = getApiBaseUrl();
+  if (!base) throw new Error("NO_API_URL");
+
+  const q = text.trim();
+  if (!q) return [];
+
+  const resp = await fetch(
+    `${base}/api/v1/meta/areas/suggest?text=${encodeURIComponent(q)}`,
+    { method: "GET", headers: authHeaders(), signal },
+  );
+  if (!resp.ok) {
+    const body = await resp.text();
+    throw new ApiError(resp.status, parseApiErrorText(body));
+  }
+  const json = (await resp.json()) as unknown;
+  if (!Array.isArray(json)) return [];
+  return json
+    .map((item) => {
+      const obj = (item ?? {}) as Record<string, unknown>;
+      const id = typeof obj.id === "string" ? obj.id : String(obj.id ?? "");
+      const label = typeof obj.text === "string" ? obj.text : "";
+      return { id, text: label };
+    })
+    .filter((a): a is AreaSuggestion => Boolean(a.id && a.text));
 }
 
 /** GET /api/v1/jobs/{id} (single fetch). */

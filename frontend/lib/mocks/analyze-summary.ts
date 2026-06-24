@@ -17,6 +17,7 @@ export const mockAnalyzeRunMeta: AnalyzeRunMeta = {
   region: "Москва",
   experience: "1–3 года",
   period: "За 30 дней",
+  workFormat: "Удалённо",
   completedAt: "2026-05-28T14:32:00+03:00",
   fileSizeLabel: "28 KB",
   status: "ready",

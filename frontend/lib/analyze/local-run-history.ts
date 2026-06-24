@@ -9,6 +9,7 @@ export type StoredRun = {
   region: string;
   experience: string;
   period: string;
+  workFormat?: string;
   completedAt: string;
   status: "succeeded" | "failed";
   processed?: number | null;
@@ -69,6 +70,7 @@ export function storedRunToHistoryItem(run: StoredRun): RunHistoryItem {
       region: run.region,
       experience: run.experience,
       period: run.period,
+      workFormat: run.workFormat ?? "",
     },
   };
 }

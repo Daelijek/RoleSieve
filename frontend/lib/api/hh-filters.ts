@@ -1,43 +1,28 @@
 /**
- * Maps human-readable launcher chips (defined in `lib/i18n` `tryIt.regions/experiences/periods`)
- * to HeadHunter API codes accepted by the backend `AutoSearchExportBody` (`web/schemas.py`).
+ * Helpers mapping launcher selections to HeadHunter API codes accepted by the
+ * backend `AutoSearchExportBody` (`web/schemas.py`).
+ *
+ * Option lists (region presets, work formats, experiences, periods) live in
+ * `lib/i18n` as `{ id, label }` / `{ days, label }` objects so the HH codes stay
+ * locale-independent while the labels are localized. That avoids fragile
+ * label-to-id lookups that would break between ru/en.
  *
  * Notes / limitations:
- * - "Удалённо" is a schedule on HH, not an area; the backend has no `schedule` field,
- *   so it maps to no area filter.
- * - Backend caps `period` to 1..30 days, so longer periods are clamped to 30.
+ * - HH `area` accepts a numeric region id (e.g. Москва = "1"), not a name, so
+ *   free-text regions are resolved to an id via `/suggests/areas` autocomplete.
+ * - Backend caps `period` to 1..30 days, so longer values are clamped to 30.
  */
 
-const AREA_BY_LABEL: Record<string, string> = {
-  Москва: "1",
-  СПб: "2",
-  Алматы: "160",
-};
+export const PERIOD_MAX_DAYS = 30;
 
-const EXPERIENCE_BY_LABEL: Record<string, string> = {
-  "Без опыта": "noExperience",
-  "1–3 года": "between1And3",
-  "3–6 лет": "between3And6",
-  "6+ лет": "moreThan6",
-};
-
-const PERIOD_MAX_DAYS = 30;
-
-/** "Москва" → "1"; unknown / "Удалённо" → undefined. */
-export function mapRegionToArea(label: string): string | undefined {
-  return AREA_BY_LABEL[label];
-}
-
-/** "1–3 года" → "between1And3"; "Любой" / unknown → undefined. */
-export function mapExperience(label: string): string | undefined {
-  return EXPERIENCE_BY_LABEL[label];
-}
-
-/** "За 7 дней" → 7; clamps to backend max of 30 days. undefined if unparseable. */
-export function mapPeriodToDays(label: string): number | undefined {
-  const match = label.match(/\d+/);
-  if (!match) return undefined;
-  const days = Number(match[0]);
+/** Clamp a period in days to the backend-supported range; undefined if invalid. */
+export function clampPeriodDays(days: number): number | undefined {
   if (!Number.isFinite(days) || days <= 0) return undefined;
-  return Math.min(days, PERIOD_MAX_DAYS);
+  return Math.min(Math.round(days), PERIOD_MAX_DAYS);
+}
+
+/** Empty string ids ("any" option) and falsy values become undefined (no filter). */
+export function filterValue(id: string): string | undefined {
+  const v = id.trim();
+  return v ? v : undefined;
 }

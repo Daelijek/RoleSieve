@@ -18,6 +18,7 @@ from role_sieve.client import (
     search_employers,
     fetch_dictionaries,
     fetch_areas,
+    suggest_areas,
 )
 from role_sieve.job_queue import (
     enqueue_export_job,
@@ -181,6 +182,7 @@ def export_auto(
             employer_id=body.employer_id,
             area=body.area,
             experience=body.experience,
+            work_format=body.work_format,
             period=body.period,
         )
     except Exception as e:
@@ -263,6 +265,20 @@ def meta_areas(
     return fetch_areas(session=session, token=eff)
 
 
+@app.get("/api/v1/meta/areas/suggest")
+def meta_areas_suggest(
+    text: str,
+    token: Optional[str] = None,
+    _: Annotated[None, Depends(_require_api_key)] = None,
+) -> list:
+    text = (text or "").strip()
+    if not text:
+        return []
+    session = requests.Session()
+    eff = _effective_token(token)
+    return suggest_areas(session=session, token=eff, text=text)
+
+
 @app.get("/api/v1/meta/employers")
 def meta_employers(
     text: str,
@@ -299,6 +315,7 @@ def summary_auto(
             employer_id=body.employer_id,
             area=body.area,
             experience=body.experience,
+            work_format=body.work_format,
             period=body.period,
         )
     except Exception as e:
@@ -365,6 +382,7 @@ def summary_auto_async(
         "employer_id": body.employer_id,
         "area": body.area,
         "experience": body.experience,
+        "work_format": body.work_format,
         "period": body.period,
         "token": token,
         "client_meta": body.client_meta_dict(),
@@ -444,6 +462,7 @@ def export_auto_async(
         "employer_id": body.employer_id,
         "area": body.area,
         "experience": body.experience,
+        "work_format": body.work_format,
         "period": body.period,
         "token": token,
         "client_meta": body.client_meta_dict(),

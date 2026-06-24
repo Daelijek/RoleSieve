@@ -12,7 +12,9 @@ type RunMetaBarProps = {
 };
 
 export function RunMetaBar({ meta, downloadPath, downloading, onDownload }: RunMetaBarProps) {
-  const queryChip = `${meta.queryLabel} · ${meta.region} · ${meta.experience}`;
+  const queryChip = [meta.queryLabel, meta.region, meta.experience, meta.workFormat]
+    .filter(Boolean)
+    .join(" · ");
   const canDownload = Boolean(downloadPath && onDownload);
 
   return (

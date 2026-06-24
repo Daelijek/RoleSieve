@@ -105,6 +105,7 @@ def collect_refs_auto(
     employer_id: Optional[str] = None,
     area: Optional[str] = None,
     experience: Optional[str] = None,
+    work_format: Optional[str] = None,
     period: Optional[int] = None,
 ) -> Tuple[List[VacancyRef], int]:
     """Returns (unique_refs, raw_id_hits) where raw_id_hits counts every search item with a valid id (incl. duplicates)."""
@@ -122,6 +123,7 @@ def collect_refs_auto(
                 employer_id=employer_id,
                 area=area,
                 experience=experience,
+                work_format=work_format,
                 period=period,
             )
             for it in items:

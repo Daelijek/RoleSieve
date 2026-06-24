@@ -22,6 +22,7 @@ class RunClientMeta(BaseModel):
     region: str = Field("", max_length=120)
     experience: str = Field("", max_length=120)
     period: str = Field("", max_length=120)
+    workFormat: str = Field("", max_length=120)
 
 
 class AutoSearchExportBody(BaseModel):
@@ -38,6 +39,7 @@ class AutoSearchExportBody(BaseModel):
     employer_id: Optional[str] = None
     area: Optional[str] = None
     experience: Optional[str] = None
+    work_format: Optional[str] = None
     period: Optional[int] = Field(None, ge=1, le=30)
     client_meta: Optional[RunClientMeta] = None
 

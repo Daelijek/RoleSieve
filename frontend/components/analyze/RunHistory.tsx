@@ -133,7 +133,11 @@ export function RunHistory({ activeJobId, refreshToken = 0, onSelect }: RunHisto
             {items.map((row) => {
               const active = row.job_id === activeJobId;
               const failed = row.status === "failed";
-              const chip = [row.run_meta?.region, row.run_meta?.experience]
+              const chip = [
+                row.run_meta?.region,
+                row.run_meta?.experience,
+                row.run_meta?.workFormat,
+              ]
                 .filter(Boolean)
                 .join(" · ");
               return (
