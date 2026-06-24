@@ -2,15 +2,14 @@
 
 import { AlertTriangle } from "lucide-react";
 import type { ExportSummary } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 type ErrorBreakdownProps = {
   items: NonNullable<ExportSummary["error_breakdown"]>;
 };
 
 export function ErrorBreakdown({ items }: ErrorBreakdownProps) {
+  const dict = useDict();
   if (!items.length) return null;
 
   const max = Math.max(...items.map((e) => e.count), 1);

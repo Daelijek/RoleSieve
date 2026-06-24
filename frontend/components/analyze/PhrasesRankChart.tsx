@@ -2,15 +2,13 @@
 
 import { Quote } from "lucide-react";
 import type { RankedItem } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import {
   RANK_CHART_VISIBLE_ROWS,
   rankChartCardClass,
   rankChartListClass,
   rankChartRowClass,
 } from "./rank-chart-shared";
-
-const dict = getDict();
 
 type PhrasesRankChartProps = {
   items: RankedItem[];
@@ -23,6 +21,7 @@ export function PhrasesRankChart({
   successful,
   maxItems = RANK_CHART_VISIBLE_ROWS,
 }: PhrasesRankChartProps) {
+  const dict = useDict();
   const slice = items.slice(0, maxItems);
   const maxCount = Math.max(...slice.map((s) => s.count), 1);
 

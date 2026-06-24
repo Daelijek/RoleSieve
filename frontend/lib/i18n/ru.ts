@@ -686,7 +686,6 @@ export const ru = {
       count: "Кол-во",
       share: "Доля",
       csv: "CSV",
-      csvSoon: "Экспорт CSV — скоро",
     },
   },
   finalCta: {

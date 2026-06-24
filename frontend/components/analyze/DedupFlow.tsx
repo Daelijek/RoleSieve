@@ -3,16 +3,15 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Layers } from "lucide-react";
 import type { ExportSummary } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import { rankChartCardClass, resultsPanelBodyClass } from "./rank-chart-shared";
-
-const dict = getDict();
 
 type DedupFlowProps = {
   dedup: NonNullable<ExportSummary["dedup"]>;
 };
 
 export function DedupFlow({ dedup }: DedupFlowProps) {
+  const dict = useDict();
   const reduce = useReducedMotion();
   const max = Math.max(dedup.input_count, dedup.unique_count, dedup.duplicates_removed, 1);
 

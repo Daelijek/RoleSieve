@@ -15,8 +15,8 @@ import { cn } from "@/lib/cn";
 import { useDict } from "@/lib/i18n";
 
 type HeaderProps = {
-  /** `analyze` — badge + «На главную» вместо CTA */
-  variant?: "default" | "analyze";
+  /** `analyze` / `docs` — badge у логотипа + подсветка раздела в навигации */
+  variant?: "default" | "analyze" | "docs";
 };
 
 const navLinkClass = (active: boolean) =>
@@ -87,6 +87,14 @@ const navList = {
 
 export function Header({ variant = "default" }: HeaderProps) {
   const dict = useDict();
+  const sectionBadge =
+    variant === "analyze"
+      ? dict.analyze.badge
+      : variant === "docs"
+        ? dict.docs.meta.eyebrow
+        : null;
+  const activeHref =
+    variant === "analyze" ? "/analyze" : variant === "docs" ? "/docs" : null;
   const navItems = useMemo(
     () =>
       [
@@ -141,12 +149,12 @@ export function Header({ variant = "default" }: HeaderProps) {
       >
         <div className="flex min-w-0 flex-1 items-center gap-4 sm:gap-6 md:gap-10">
           <Logo className="shrink-0" />
-          {variant === "analyze" ? (
+          {sectionBadge ? (
             <Badge
               variant="eyebrow"
               className="hidden min-w-0 max-w-[9rem] overflow-hidden truncate sm:max-w-[11rem] md:inline-flex lg:max-w-none"
             >
-              {dict.analyze.badge}
+              {sectionBadge}
             </Badge>
           ) : null}
           <ul className="hidden items-center gap-7 md:flex">
@@ -155,12 +163,10 @@ export function Header({ variant = "default" }: HeaderProps) {
                 <Link
                   href={item.href}
                   aria-current={
-                    variant === "analyze" && item.href === "/analyze"
-                      ? "page"
-                      : undefined
+                    activeHref && item.href === activeHref ? "page" : undefined
                   }
                   className={navLinkClass(
-                    variant === "analyze" && item.href === "/analyze",
+                    Boolean(activeHref && item.href === activeHref),
                   )}
                 >
                   {item.label}
@@ -274,10 +280,10 @@ export function Header({ variant = "default" }: HeaderProps) {
                   animate="visible"
                   exit="exit"
                 >
-                  {variant === "analyze" ? (
+                  {sectionBadge ? (
                     <motion.div variants={reducedMotion ? undefined : menuItem}>
                       <Badge variant="eyebrow" className="w-fit sm:hidden">
-                        {dict.analyze.badge}
+                        {sectionBadge}
                       </Badge>
                     </motion.div>
                   ) : null}
@@ -296,12 +302,12 @@ export function Header({ variant = "default" }: HeaderProps) {
                             href={item.href}
                             onClick={closeMenu}
                             aria-current={
-                              variant === "analyze" && item.href === "/analyze"
+                              activeHref && item.href === activeHref
                                 ? "page"
                                 : undefined
                             }
                             className={navLinkClass(
-                              variant === "analyze" && item.href === "/analyze",
+                              Boolean(activeHref && item.href === activeHref),
                             )}
                           >
                             {item.label}
