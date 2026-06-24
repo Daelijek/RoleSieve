@@ -21,7 +21,7 @@ export default function DocsLayout({
         <Halo size={560} bottom="-220px" left="-120px" opacity={0.14} variant="coral" />
       </div>
 
-      <Header />
+      <Header variant="docs" />
 
       <main className="relative max-w-full overflow-x-clip pb-20 pt-[calc(var(--header-height)+2rem)] sm:pb-28 sm:pt-[calc(var(--header-height)+3rem)]">
         <Container>
