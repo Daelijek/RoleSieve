@@ -4,14 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { Clock, Loader2, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useHydrated } from "@/lib/hooks/useHydrated";
-import { getDict } from "@/lib/i18n";
+import { useDict, useLocale } from "@/lib/i18n";
 import {
   loadStoredRuns,
   mergeHistoryItems,
 } from "@/lib/analyze/local-run-history";
 import { ApiError, listRunHistory, type RunHistoryItem } from "@/lib/api/client";
-
-const dict = getDict();
 
 type RunHistoryProps = {
   activeJobId: string | null;
@@ -19,10 +17,10 @@ type RunHistoryProps = {
   onSelect: (jobId: string) => void;
 };
 
-function formatWhen(ts?: number | null): string {
+function formatWhen(ts: number | null | undefined, locale: string): string {
   if (!ts) return "—";
   try {
-    return new Intl.DateTimeFormat("ru-RU", {
+    return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "ru-RU", {
       day: "2-digit",
       month: "short",
       hour: "2-digit",
@@ -33,16 +31,20 @@ function formatWhen(ts?: number | null): string {
   }
 }
 
-function statusLabel(status: string): string {
-  const h = dict.analyze.history.status;
-  if (status === "succeeded") return h.succeeded;
-  if (status === "failed") return h.failed;
-  if (status === "running") return h.running;
-  if (status === "queued") return h.queued;
+function statusLabel(
+  status: string,
+  labels: ReturnType<typeof useDict>["analyze"]["history"]["status"],
+): string {
+  if (status === "succeeded") return labels.succeeded;
+  if (status === "failed") return labels.failed;
+  if (status === "running") return labels.running;
+  if (status === "queued") return labels.queued;
   return status;
 }
 
 export function RunHistory({ activeJobId, refreshToken = 0, onSelect }: RunHistoryProps) {
+  const dict = useDict();
+  const { locale } = useLocale();
   const t = dict.analyze.history;
   const hydrated = useHydrated();
   const [items, setItems] = useState<RunHistoryItem[]>([]);
@@ -173,12 +175,12 @@ export function RunHistory({ activeJobId, refreshToken = 0, onSelect }: RunHisto
                               : "bg-[color:var(--color-surface-3)] text-[color:var(--color-text-subtle)]",
                         )}
                       >
-                        {statusLabel(row.status)}
+                        {statusLabel(row.status, t.status)}
                       </span>
                     </div>
                     <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-[10px] tabular-nums text-[color:var(--color-text-subtle)]">
                       <span suppressHydrationWarning>
-                        {formatWhen(row.finished_at ?? row.created_at)}
+                        {formatWhen(row.finished_at ?? row.created_at, locale)}
                       </span>
                       {row.status === "succeeded" && row.processed != null && (
                         <span>

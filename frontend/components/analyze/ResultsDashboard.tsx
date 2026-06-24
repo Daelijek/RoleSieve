@@ -2,7 +2,7 @@
 
 import { Reveal } from "@/components/ui/Reveal";
 import type { AnalyzeRunMeta, ExportSummary, KpiSparkline } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import { RunMetaBar } from "./RunMetaBar";
 import { KpiStrip } from "./KpiStrip";
 import { SkillsRankChart } from "./SkillsRankChart";
@@ -12,8 +12,6 @@ import { DedupFlow } from "./DedupFlow";
 import { SkillsCloud } from "./SkillsCloud";
 import { ErrorBreakdown } from "./ErrorBreakdown";
 import { RankedTable } from "./RankedTable";
-
-const dict = getDict();
 
 type ResultsDashboardProps = {
   summary: ExportSummary;
@@ -32,6 +30,7 @@ export function ResultsDashboard({
   downloading,
   onDownload,
 }: ResultsDashboardProps) {
+  const dict = useDict();
   const successful = summary.coverage?.successful ?? summary.processed;
 
   return (

@@ -3,10 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Check, Loader2, MapPin, Search, X } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import { isAbortError, suggestAreas, type AreaSuggestion } from "@/lib/api/client";
-
-const dict = getDict();
 
 export type RegionValue = { id: string; label: string };
 
@@ -20,6 +18,7 @@ const DEBOUNCE_MS = 250;
 const MIN_CHARS = 2;
 
 export function RegionPicker({ value, onChange, disabled }: RegionPickerProps) {
+  const dict = useDict();
   const t = dict.analyze.launcher;
   const presets = t.regionPresets;
 

@@ -3,15 +3,13 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { BarChart3 } from "lucide-react";
 import type { RankedItem } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import {
   RANK_CHART_VISIBLE_ROWS,
   rankChartCardClass,
   rankChartListClass,
   rankChartRowClass,
 } from "./rank-chart-shared";
-
-const dict = getDict();
 
 type SkillsRankChartProps = {
   items: RankedItem[];
@@ -24,6 +22,7 @@ export function SkillsRankChart({
   successful,
   maxItems = RANK_CHART_VISIBLE_ROWS,
 }: SkillsRankChartProps) {
+  const dict = useDict();
   const reduce = useReducedMotion();
   const slice = items.slice(0, maxItems);
   const maxCount = Math.max(...slice.map((s) => s.count), 1);

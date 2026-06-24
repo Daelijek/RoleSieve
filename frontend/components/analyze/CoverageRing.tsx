@@ -3,10 +3,8 @@
 import { useMemo } from "react";
 import { ShieldCheck } from "lucide-react";
 import type { ExportSummary } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import { rankChartCardClass, resultsPanelBodyClass } from "./rank-chart-shared";
-
-const dict = getDict();
 
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
@@ -32,6 +30,7 @@ type CoverageRingProps = {
 };
 
 export function CoverageRing({ coverage, errors }: CoverageRingProps) {
+  const dict = useDict();
   const slices = useMemo(() => {
     const legend = dict.analyze.coverageLegend;
     return [
@@ -60,7 +59,7 @@ export function CoverageRing({ coverage, errors }: CoverageRingProps) {
         color: "#FF6A5A",
       },
     ].filter((s) => s.value > 0);
-  }, [coverage, errors]);
+  }, [coverage, errors, dict]);
 
   const total = Math.max(0, coverage.successful) + Math.max(0, errors);
 

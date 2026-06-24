@@ -4,9 +4,7 @@ import { useMemo, useState } from "react";
 import { Download } from "lucide-react";
 import type { RankedItem } from "@/lib/types/export-summary";
 import { cn } from "@/lib/cn";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict, useLocale } from "@/lib/i18n";
 
 type SortKey = "count" | "name" | "share";
 
@@ -42,6 +40,8 @@ export function RankedTable({
   successful,
   filenameStem,
 }: RankedTableProps) {
+  const dict = useDict();
+  const { locale } = useLocale();
   const [sort, setSort] = useState<SortKey>("count");
   const [desc, setDesc] = useState(true);
 
@@ -50,12 +50,12 @@ export function RankedTable({
     copy.sort((a, b) => {
       let cmp = 0;
       if (sort === "count") cmp = a.count - b.count;
-      else if (sort === "name") cmp = a.name.localeCompare(b.name, "ru");
+      else if (sort === "name") cmp = a.name.localeCompare(b.name, locale);
       else cmp = a.count / successful - b.count / successful;
       return desc ? -cmp : cmp;
     });
     return copy;
-  }, [items, sort, desc, successful]);
+  }, [items, sort, desc, successful, locale]);
 
   const toggleSort = (key: SortKey) => {
     if (sort === key) setDesc((d) => !d);

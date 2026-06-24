@@ -3,9 +3,7 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { Sparkles } from "lucide-react";
 import type { RankedItem } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 /** Precomputed positions for up to 10 bubbles in a 400×220 viewBox */
 const POSITIONS: ReadonlyArray<{ x: number; y: number }> = [
@@ -42,6 +40,7 @@ function usePrefersReducedMotion() {
 }
 
 export function SkillsCloud({ items, maxItems = 10 }: SkillsCloudProps) {
+  const dict = useDict();
   const reduce = usePrefersReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
   const uid = useId().replace(/:/g, "");

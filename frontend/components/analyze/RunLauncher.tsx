@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Loader2, Play, RotateCcw, Search, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import {
   ApiError,
   JobFailedError,
@@ -17,8 +17,6 @@ import { normalizeExportSummary } from "@/lib/analyze/normalize-summary";
 import { clampPeriodDays, filterValue } from "@/lib/api/hh-filters";
 import { RegionPicker, type RegionValue } from "./RegionPicker";
 import type { AnalyzeRunMeta, ExportSummary } from "@/lib/types/export-summary";
-
-const dict = getDict();
 
 type Phase = "idle" | "running" | "done" | "error";
 
@@ -124,6 +122,7 @@ function labelFromId(
 }
 
 export function RunLauncher({ onResult }: RunLauncherProps) {
+  const dict = useDict();
   const t = dict.analyze.launcher;
 
   const [query, setQuery] = useState("");

@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { BarChart3 } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
-import { getDict } from "@/lib/i18n";
+import { useDict } from "@/lib/i18n";
 import { getJob, JobFailedError, downloadJob, formatFileSize, isAbortError } from "@/lib/api/client";
 import { runResultFromJob } from "@/lib/analyze/run-from-job";
 import { saveStoredRun } from "@/lib/analyze/local-run-history";
@@ -11,8 +11,6 @@ import { ResultsDashboard } from "./ResultsDashboard";
 import { RunHistory } from "./RunHistory";
 import { RunLauncher, type RunResult } from "./RunLauncher";
 import type { ExportSummary, KpiSparkline } from "@/lib/types/export-summary";
-
-const dict = getDict();
 
 function rampTo(target: number, points = 6): number[] {
   if (points <= 1) return [target];
@@ -36,6 +34,7 @@ function buildSparklines(summary: ExportSummary): KpiSparkline[] {
 }
 
 function ResultsEmptyState() {
+  const dict = useDict();
   return (
     <section className="relative">
       <div className="glass relative overflow-hidden rounded-[28px] border border-dashed border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/20 px-6 py-14 text-center sm:px-10 sm:py-16">
@@ -54,6 +53,7 @@ function ResultsEmptyState() {
 }
 
 export function AnalyzeWorkspace() {
+  const dict = useDict();
   const [result, setResult] = useState<RunResult | null>(null);
   const [sparklines, setSparklines] = useState<KpiSparkline[]>([]);
   const [downloading, setDownloading] = useState(false);

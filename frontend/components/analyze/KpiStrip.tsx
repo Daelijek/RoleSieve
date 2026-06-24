@@ -4,9 +4,7 @@ import { Spotlight } from "@/components/ui/Spotlight";
 import { Counter } from "@/components/ui/Counter";
 import { Sparkline } from "@/components/ui/Sparkline";
 import type { ExportSummary, KpiSparkline } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 type KpiStripProps = {
   summary: ExportSummary;
@@ -14,6 +12,7 @@ type KpiStripProps = {
 };
 
 export function KpiStrip({ summary, sparklines }: KpiStripProps) {
+  const dict = useDict();
   const items = [
     {
       key: "requested" as const,

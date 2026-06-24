@@ -1,8 +1,8 @@
+"use client";
+
 import { Download, Loader2 } from "lucide-react";
 import type { AnalyzeRunMeta } from "@/lib/types/export-summary";
-import { getDict } from "@/lib/i18n";
-
-const dict = getDict();
+import { useDict } from "@/lib/i18n";
 
 type RunMetaBarProps = {
   meta: AnalyzeRunMeta;
@@ -12,6 +12,7 @@ type RunMetaBarProps = {
 };
 
 export function RunMetaBar({ meta, downloadPath, downloading, onDownload }: RunMetaBarProps) {
+  const dict = useDict();
   const queryChip = [meta.queryLabel, meta.region, meta.experience, meta.workFormat]
     .filter(Boolean)
     .join(" · ");
