@@ -92,6 +92,7 @@ export function Header({ variant = "default" }: HeaderProps) {
       [
         { label: dict.header.nav.home, href: "/" },
         { label: dict.header.nav.analyze, href: "/analyze" },
+        { label: dict.header.nav.docs, href: "/docs" },
       ] as const,
     [dict],
   );
