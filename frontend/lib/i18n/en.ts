@@ -11,6 +11,7 @@ export const en = {
     nav: {
       home: "Home",
       analyze: "Analyze",
+      docs: "Documentation",
     },
     menuOpen: "Open menu",
     menuClose: "Close menu",
@@ -585,5 +586,185 @@ export const en = {
     ],
     copyright:
       "© 2026 RoleSieve. Not affiliated with HeadHunter. Uses only the public API.",
+  },
+  docs: {
+    meta: {
+      eyebrow: "Documentation",
+      title: "RoleSieve documentation",
+      description:
+        "How to collect a set of HeadHunter vacancies, run the analysis, and turn the result into a plan to improve your resume.",
+    },
+    nav: {
+      label: "Sections",
+      items: [
+        { slug: "", label: "Overview" },
+        { slug: "quickstart", label: "Quick start" },
+        { slug: "modes", label: "Modes & parameters" },
+        { slug: "report", label: "Reading the report" },
+        { slug: "faq", label: "Questions & issues" },
+      ],
+    },
+    prevNext: { prevLabel: "Previous", nextLabel: "Next" },
+    overview: {
+      title: "Overview",
+      lead: "RoleSieve collects a set of vacancies from HeadHunter, extracts key skills and frequent phrases, and returns a clean Excel report summarizing what the market actually asks for.",
+      whatTitle: "What it is",
+      what: "Instead of re-reading dozens of vacancies by hand, you get an aggregated picture of requirements for a chosen role: which skills appear most often and how employers phrase them.",
+      outputTitle: "What you get",
+      output: [
+        "An Excel report with the vacancy list, skills, and key phrases.",
+        "A quick visual summary right on the analysis page.",
+        "Ranked lists of skills and phrases by frequency.",
+      ],
+      audienceTitle: "Who it is for",
+      audience: "For job seekers preparing to move into a new role who want to tailor their resume to real market requirements rather than guesses.",
+      cardsTitle: "Where to start",
+      cards: [
+        {
+          slug: "quickstart",
+          title: "Quick start",
+          description: "Run your first analysis in a couple of minutes.",
+        },
+        {
+          slug: "modes",
+          title: "Modes & parameters",
+          description: "Manual and auto modes, fine-tuning the sample.",
+        },
+        {
+          slug: "report",
+          title: "Reading the report",
+          description: "Excel and the dashboard, step by step.",
+        },
+      ],
+    },
+    quickstart: {
+      title: "Quick start",
+      lead: "Your first run needs no signup — just open the analysis page and tell it which vacancies to process.",
+      stepsTitle: "First analysis in 4 steps",
+      steps: [
+        {
+          title: "Open Analyze",
+          description: "Go to the analysis page via the button below or from the site header.",
+        },
+        {
+          title: "Pick a mode",
+          description: "Manual if you already selected the best vacancies. Auto if you want to collect a sample by a search query.",
+        },
+        {
+          title: "Add vacancies or a query",
+          description: "In manual mode paste vacancy IDs or links (one per line). In auto mode set search queries and depth.",
+        },
+        {
+          title: "Run and download Excel",
+          description: "Click Run. When it finishes you get a summary and a link to the ready Excel file.",
+        },
+      ],
+      cta: "Run analysis",
+      tipTitle: "Tip",
+      tip: "Start with manual mode and 10–20 carefully selected vacancies — the report will have less noise than a broad auto search.",
+    },
+    modes: {
+      title: "Modes & parameters",
+      lead: "There are two ways to collect a sample of vacancies. The choice depends on how precisely you already know which vacancies you care about.",
+      manualTitle: "Manual mode",
+      manual: "You select vacancies yourself and pass them by ID or link. Best when you already have a list of interesting positions.",
+      manualPoints: [
+        "One vacancy per line: an ID (e.g. 131474430) or a link like https://hh.ru/vacancy/131474430.",
+        "Less noise: only the vacancies you chose are analyzed.",
+      ],
+      autoTitle: "Auto mode",
+      auto: "The service finds vacancies by your search queries via the HH API. Best for a broad market overview of a role.",
+      autoPoints: [
+        "Provide one or more search queries (e.g. \"Python developer\").",
+        "Search depth sets how many result pages to collect per query.",
+      ],
+      whenTitle: "When to use which",
+      when: [
+        {
+          mode: "Manual",
+          use: "You already have a short list of vacancies you want to analyze precisely.",
+        },
+        {
+          mode: "Auto",
+          use: "You want the overall picture of requirements for a role and are not tied to specific vacancies.",
+        },
+      ],
+      paramsTitle: "Parameters",
+      params: [
+        {
+          name: "Number of key phrases",
+          description: "How many frequent phrases to extract from each vacancy description. More means more detail but more noise.",
+        },
+        {
+          name: "Phrase size",
+          description: "Maximum phrase length in words (1–3). Helps capture stable combinations like \"experience with Docker\".",
+        },
+        {
+          name: "Search depth (auto)",
+          description: "How many result pages to collect per query in auto mode.",
+        },
+      ],
+      limitTitle: "Limit",
+      limit: "Up to 100 vacancies are processed per run. For more, split the sample into several runs.",
+    },
+    report: {
+      title: "Reading the report",
+      lead: "The result has two parts: a visual summary on the analysis page and an Excel file for further work with filters and pivot tables.",
+      excelTitle: "Excel structure",
+      excelIntro: "Each vacancy is a block of rows: key phrases and skills sit side by side, while ID and link are filled only on the first row of the block.",
+      columnsHead: ["Column", "What's inside"],
+      columns: [
+        { col: "Vacancy Title", desc: "The vacancy title." },
+        { col: "Key Words", desc: "Key phrases extracted from the vacancy text." },
+        { col: "Key Skills", desc: "Skills from HH's official key_skills field." },
+        { col: "ID", desc: "The vacancy ID on HH." },
+        { col: "Link", desc: "A direct link to the vacancy." },
+      ],
+      dashboardTitle: "Summary on the analysis page",
+      dashboard: [
+        { title: "Top skills", description: "The most frequent skills in the sample — the basis for your resume's Skills section." },
+        { title: "Frequent phrases", description: "Stable wordings from descriptions — they hint at how to phrase your experience." },
+        { title: "Skills cloud", description: "Word size reflects mention frequency — a quick visual overview." },
+        { title: "Coverage", description: "Shows what share of vacancies actually fill the key_skills field." },
+        { title: "Deduplication", description: "How many duplicate skills and phrases were removed when counting frequencies." },
+        { title: "Errors", description: "Vacancies that could not be processed, broken down by reason." },
+      ],
+      resumeTitle: "How to apply it to your resume",
+      resume: [
+        "Take the top skills from the summary and make sure they are clearly reflected in your resume.",
+        "Reuse frequent phrases as wordings in your experience descriptions.",
+        "Compare your strengths with market requirements and close the visible gaps.",
+      ],
+    },
+    faq: {
+      title: "Questions & issues",
+      lead: "Short answers to common questions and fixes for typical situations.",
+      items: [
+        {
+          q: "Is this legal and safe?",
+          a: "Yes. The service works only with public vacancies via the official HH API, is not affiliated with HeadHunter, and does not copy full vacancy texts.",
+        },
+        {
+          q: "Do I need to sign up or get a token?",
+          a: "No signup is needed for the first run. An HH token may be required only for large volumes or when the API rate-limits.",
+        },
+        {
+          q: "The Skills field is empty — why?",
+          a: "Some employers don't fill the key_skills field on HH. That's normal: rely on the key phrases from the description instead.",
+        },
+        {
+          q: "There's a lot of noise in key phrases",
+          a: "Phrase extraction is based on a frequency heuristic, so noise is possible. Reduce the number of phrases and the phrase size, or filter the result in Excel.",
+        },
+        {
+          q: "How many vacancies can I process at once?",
+          a: "Up to 100 per run. For more, split the sample into several runs.",
+        },
+        {
+          q: "How long does a run take?",
+          a: "From a few seconds to a couple of minutes depending on sample size. The Excel file is ready right after it finishes.",
+        },
+      ],
+    },
   },
 } as unknown as Dictionary;
