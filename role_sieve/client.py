@@ -144,6 +144,7 @@ def search_vacancies(
     employer_id: Optional[str] = None,
     area: Optional[str] = None,
     experience: Optional[str] = None,
+    work_format: Optional[str] = None,
     period: Optional[int] = None,
     timeout_s: float = 30.0,
     retries: int = 3,
@@ -159,6 +160,8 @@ def search_vacancies(
         params["area"] = area
     if experience:
         params["experience"] = experience
+    if work_format:
+        params["work_format"] = work_format
     if period is not None:
         params["period"] = int(period)
     data = hh_get_json(
@@ -239,6 +242,30 @@ def fetch_areas(
         retries=retries,
     )
     return data if isinstance(data, list) else []
+
+
+def suggest_areas(
+    session: requests.Session,
+    token: Optional[str],
+    text: str,
+    *,
+    timeout_s: float = 30.0,
+    retries: int = 3,
+) -> list:
+    """
+    GET /suggests/areas — region autocomplete; returns items with HH area ids.
+    https://api.hh.ru/openapi/redoc#tag/Podskazki/operation/get-areas-suggests
+    """
+    data = hh_get_json(
+        f"{HH_API_BASE}/suggests/areas",
+        session=session,
+        token=token,
+        params={"text": text},
+        timeout_s=timeout_s,
+        retries=retries,
+    )
+    items = data.get("items") if isinstance(data, dict) else None
+    return items if isinstance(items, list) else []
 
 def fetch_vacancy(
     session: requests.Session,

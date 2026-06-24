@@ -30,6 +30,7 @@ export type AnalyzeRunMeta = {
   region: string;
   experience: string;
   period: string;
+  workFormat: string;
   completedAt: string;
   fileSizeLabel: string;
   status: "ready" | "running" | "failed";

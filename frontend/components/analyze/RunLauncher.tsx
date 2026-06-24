@@ -14,7 +14,8 @@ import {
   type AutoExportBody,
 } from "@/lib/api/client";
 import { normalizeExportSummary } from "@/lib/analyze/normalize-summary";
-import { mapExperience, mapPeriodToDays, mapRegionToArea } from "@/lib/api/hh-filters";
+import { clampPeriodDays, filterValue } from "@/lib/api/hh-filters";
+import { RegionPicker, type RegionValue } from "./RegionPicker";
 import type { AnalyzeRunMeta, ExportSummary } from "@/lib/types/export-summary";
 
 const dict = getDict();
@@ -46,7 +47,7 @@ function ChipGroup({
   disabled,
 }: {
   label: string;
-  options: readonly string[];
+  options: readonly { id: string; label: string }[];
   value: string;
   onChange: (v: string) => void;
   disabled?: boolean;
@@ -58,12 +59,12 @@ function ChipGroup({
       </span>
       <div className="mt-2 flex flex-wrap gap-1.5">
         {options.map((opt) => {
-          const active = opt === value;
+          const active = opt.id === value;
           return (
             <button
               type="button"
-              key={opt}
-              onClick={() => onChange(opt)}
+              key={opt.id || "any"}
+              onClick={() => onChange(opt.id)}
               disabled={disabled}
               aria-pressed={active}
               className={cn(
@@ -73,7 +74,7 @@ function ChipGroup({
                   : "border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]/60 text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)]",
               )}
             >
-              {opt}
+              {opt.label}
             </button>
           );
         })}
@@ -115,14 +116,24 @@ function NumberField({
   );
 }
 
+function labelFromId(
+  options: readonly { id: string; label: string }[],
+  id: string,
+): string {
+  return options.find((o) => o.id === id)?.label ?? "";
+}
+
 export function RunLauncher({ onResult }: RunLauncherProps) {
   const t = dict.analyze.launcher;
-  const chips = dict.tryIt;
 
   const [query, setQuery] = useState("");
-  const [region, setRegion] = useState<string>(chips.regions[0]);
-  const [exp, setExp] = useState<string>(chips.experiences[2]);
-  const [period, setPeriod] = useState<string>(chips.periods[1]);
+  const [region, setRegion] = useState<RegionValue>({
+    id: t.regionPresets[0].id,
+    label: t.regionPresets[0].label,
+  });
+  const [workFormat, setWorkFormat] = useState<string>("");
+  const [exp, setExp] = useState<string>("");
+  const [periodDays, setPeriodDays] = useState<number>(t.periods[1].days);
 
   const [pages, setPages] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -194,17 +205,28 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
       kw_top_n: kwTopN,
       kw_max_ngram: kwMaxNgram,
     };
-    const area = mapRegionToArea(region);
-    const experience = mapExperience(exp);
-    const periodDays = mapPeriodToDays(period);
+    const area = filterValue(region.id);
+    const experience = filterValue(exp);
+    const wf = filterValue(workFormat);
+    const period = clampPeriodDays(periodDays);
+
+    const expLabel = labelFromId(t.experiences, exp);
+    const workFormatLabel = labelFromId(t.workFormats, workFormat);
+    const periodLabel = labelFromId(
+      t.periods.map((p) => ({ id: String(p.days), label: p.label })),
+      String(periodDays),
+    );
+
     if (area) body.area = area;
     if (experience) body.experience = experience;
-    if (periodDays) body.period = periodDays;
+    if (wf) body.work_format = wf;
+    if (period) body.period = period;
     body.client_meta = {
       queryLabel: q,
-      region,
-      experience: exp,
-      period,
+      region: region.label,
+      experience: expLabel,
+      period: periodLabel,
+      workFormat: workFormatLabel,
     };
 
     try {
@@ -220,9 +242,10 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
       const meta: AnalyzeRunMeta = {
         runId: jobId.slice(0, 8),
         queryLabel: q,
-        region,
-        experience: exp,
-        period,
+        region: region.label,
+        experience: expLabel,
+        period: periodLabel,
+        workFormat: workFormatLabel,
         completedAt: new Date().toISOString(),
         fileSizeLabel: "—",
         status: "ready",
@@ -321,25 +344,33 @@ export function RunLauncher({ onResult }: RunLauncherProps) {
             </div>
 
             <div className="mt-5 space-y-4">
-              <ChipGroup
-                label={chips.regionLabel}
-                options={chips.regions}
+              <RegionPicker
                 value={region}
                 onChange={setRegion}
                 disabled={isRunning}
               />
               <ChipGroup
-                label={chips.expLabel}
-                options={chips.experiences}
+                label={t.workFormatLabel}
+                options={t.workFormats}
+                value={workFormat}
+                onChange={setWorkFormat}
+                disabled={isRunning}
+              />
+              <ChipGroup
+                label={t.expLabel}
+                options={t.experiences}
                 value={exp}
                 onChange={setExp}
                 disabled={isRunning}
               />
               <ChipGroup
-                label={chips.periodLabel}
-                options={chips.periods}
-                value={period}
-                onChange={setPeriod}
+                label={t.periodLabel}
+                options={t.periods.map((p) => ({
+                  id: String(p.days),
+                  label: p.label,
+                }))}
+                value={String(periodDays)}
+                onChange={(v) => setPeriodDays(Number(v))}
                 disabled={isRunning}
               />
             </div>

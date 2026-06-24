@@ -96,7 +96,8 @@ export function TryItNow() {
   const dict = useDict();
   const t = dict.tryIt;
   const [query, setQuery] = useState("");
-  const [region, setRegion] = useState<string>(t.regions[0]);
+  const [region, setRegion] = useState<string>(t.regions[1]);
+  const [workFormat, setWorkFormat] = useState<string>(t.workFormats[1]);
   const [exp, setExp] = useState<string>(t.experiences[2]);
   const [period, setPeriod] = useState<string>(t.periods[1]);
   const [phase, setPhase] = useState<Phase>("idle");
@@ -155,10 +156,11 @@ export function TryItNow() {
       [
         (query || preset?.title || "Python Developer").trim(),
         region,
+        workFormat,
         exp,
         period,
       ].join(" · "),
-    [query, region, exp, period, preset],
+    [query, region, workFormat, exp, period, preset],
   );
 
   return (
@@ -250,6 +252,12 @@ export function TryItNow() {
                     options={t.regions}
                     value={region}
                     onChange={setRegion}
+                  />
+                  <ChipGroup
+                    label={t.workFormatLabel}
+                    options={t.workFormats}
+                    value={workFormat}
+                    onChange={setWorkFormat}
                   />
                   <ChipGroup
                     label={t.expLabel}

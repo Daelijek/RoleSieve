@@ -78,6 +78,7 @@ export function AnalyzeWorkspace() {
       region: next.meta.region,
       experience: next.meta.experience,
       period: next.meta.period,
+      workFormat: next.meta.workFormat,
       completedAt: next.meta.completedAt,
       status: "succeeded",
       processed: next.summary.processed,

@@ -8,6 +8,7 @@ type RunMetaPayload = {
   region?: string;
   experience?: string;
   period?: string;
+  workFormat?: string;
 };
 
 export function metaFromJob(job: JobStatus): AnalyzeRunMeta {
@@ -29,6 +30,7 @@ export function metaFromJob(job: JobStatus): AnalyzeRunMeta {
     region: rm.region ?? "",
     experience: rm.experience ?? "",
     period: rm.period ?? "",
+    workFormat: rm.workFormat ?? "",
     completedAt: finishedAt,
     fileSizeLabel: "—",
     status,

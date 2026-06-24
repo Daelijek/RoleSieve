@@ -122,6 +122,7 @@ def _collect_refs_from_search_payload(
         employer_id=payload.get("employer_id"),
         area=payload.get("area"),
         experience=payload.get("experience"),
+        work_format=payload.get("work_format"),
         period=payload.get("period"),
     )
 
