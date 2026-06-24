@@ -10,6 +10,25 @@ const dict = getDict();
 
 type SortKey = "count" | "name" | "share";
 
+function csvEscape(value: string): string {
+  if (/[",\n\r]/.test(value)) {
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
+}
+
+function downloadCsv(filename: string, content: string): void {
+  const blob = new Blob(["\uFEFF", content], {
+    type: "text/csv;charset=utf-8",
+  });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
 type RankedTableProps = {
   title: string;
   items: RankedItem[];
@@ -56,6 +75,20 @@ export function RankedTable({
   const sortMark = (key: SortKey) =>
     sort === key ? (desc ? " ↓" : " ↑") : "";
 
+  const exportCsv = () => {
+    const t = dict.analyze.table;
+    const header = [t.rank, t.name, t.count, t.share].map(csvEscape).join(",");
+    const rows = sorted.map((row, i) => {
+      const sharePct = successful
+        ? ((row.count / successful) * 100).toFixed(1)
+        : "0.0";
+      return [String(i + 1), row.name, String(row.count), `${sharePct}%`]
+        .map(csvEscape)
+        .join(",");
+    });
+    downloadCsv(`${filenameStem}.csv`, [header, ...rows].join("\n"));
+  };
+
   return (
     <div className="overflow-hidden rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/40">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[color:var(--color-border-subtle)] px-4 py-3 sm:px-5">
@@ -64,9 +97,10 @@ export function RankedTable({
         </h3>
         <button
           type="button"
-          disabled
-          title={dict.analyze.table.csvSoon}
-          className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-lg border border-[color:var(--color-border-strong)] px-2.5 py-1 text-[11px] text-[color:var(--color-text-muted)] opacity-60"
+          onClick={exportCsv}
+          disabled={sorted.length === 0}
+          title={dict.analyze.table.csv}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border-strong)] px-2.5 py-1 text-[11px] text-[color:var(--color-text-muted)] transition-colors hover:border-violet/40 hover:bg-[color:var(--color-surface-2)] hover:text-[color:var(--color-text-primary)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Download size={12} />
           {dict.analyze.table.csv}
@@ -133,7 +167,6 @@ export function RankedTable({
           </tbody>
         </table>
       </div>
-      <span className="sr-only">{filenameStem}</span>
     </div>
   );
 }
