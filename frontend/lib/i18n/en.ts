@@ -8,9 +8,63 @@ export const en = {
   },
   header: {
     nav: {
-      home: "Home",
-      analyze: "Analyze",
+      product: "Product",
       docs: "Documentation",
+      contact: "Contact",
+    },
+    productMenu: {
+      cards: [
+        {
+          id: "home",
+          href: "/",
+          title: "Home",
+          description: "RoleSieve landing and product overview",
+        },
+        {
+          id: "analyze",
+          href: "/analyze",
+          title: "Analyze",
+          description: "Run vacancy collection and get a report",
+        },
+        {
+          id: "sample",
+          href: "/sample",
+          title: "Sample report",
+          description: "See what an analysis result looks like",
+        },
+      ],
+      links: [
+        { id: "howItWorks", href: "/how-it-works", title: "How it works" },
+        { id: "features", href: "/features", title: "Features" },
+        { id: "forWho", href: "/for-who", title: "Who it's for" },
+        { id: "contact", href: "/contact", title: "Contact" },
+      ],
+    },
+    docsMenu: {
+      cards: [
+        {
+          id: "quickstart",
+          href: "/docs/quickstart",
+          title: "Quickstart",
+          description: "Your first run in a few minutes",
+        },
+        {
+          id: "report",
+          href: "/docs/report",
+          title: "Reading the report",
+          description: "Skills, phrases, and the Excel summary",
+        },
+      ],
+      bottom: [
+        { id: "overview", href: "/docs", title: "Overview" },
+        { id: "modes", href: "/docs/modes", title: "Modes & parameters" },
+        { id: "faq", href: "/docs/faq", title: "FAQ" },
+      ],
+      side: [
+        { id: "export", href: "/docs/export", title: "CSV export" },
+        { id: "manual", href: "/docs/manual", title: "Manual mode" },
+        { id: "compare", href: "/docs/compare", title: "Comparing runs" },
+      ],
     },
     menuOpen: "Open menu",
     menuClose: "Close menu",
@@ -697,31 +751,23 @@ export const en = {
     ctaPrimary: "Run analysis",
     ctaGhost: "Documentation",
   },
+  contact: {
+    title: "Contact",
+    lead: "Questions, bugs, and ideas — reach out via GitHub Issues.",
+    channelsTitle: "How to reach us",
+    githubLabel: "GitHub Issues",
+    githubDescription: "Report a bug or suggest an improvement",
+    githubHref: "https://github.com/Daelijek/RoleSieve/issues",
+    docsHint: "For how to use RoleSieve, check the documentation first.",
+    docsLink: "Documentation",
+  },
   footer: {
     tagline: "Turn HeadHunter vacancies into a clear plan to improve your resume.",
     columns: [
       {
         title: "Product",
         links: [
-          { label: "Features", href: "#features" },
-          { label: "How it works", href: "#how" },
-          { label: "Sample report", href: "#preview" },
           { label: "Documentation", href: "/docs" },
-        ],
-      },
-      {
-        title: "Resources",
-        links: [
-          { label: "Blog", href: "/blog" },
-          { label: "Roadmap", href: "/roadmap" },
-          { label: "Changelog", href: "/changelog" },
-        ],
-      },
-      {
-        title: "Legal",
-        links: [
-          { label: "Terms", href: "/legal/terms" },
-          { label: "Privacy", href: "/legal/privacy" },
           { label: "Contact", href: "/contact" },
         ],
       },

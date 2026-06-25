@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 /* ============================================================
    RoleSieve — design tokens
@@ -8,6 +9,27 @@
    ============================================================ */
 
 @theme inline {
+  /* shadcn/ui semantic tokens — mapped to RoleSieve design system */
+  --color-background: var(--color-canvas);
+  --color-foreground: var(--color-text-primary);
+  --color-muted: var(--color-surface-2);
+  --color-muted-foreground: var(--color-text-muted);
+  --color-accent: var(--color-surface-2);
+  --color-accent-foreground: var(--color-text-primary);
+  --color-popover-foreground: var(--color-text-primary);
+  --color-primary: var(--color-violet);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--color-surface-2);
+  --color-secondary-foreground: var(--color-text-primary);
+  --color-destructive: var(--color-coral);
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--color-border-subtle);
+  --color-input: var(--color-border-strong);
+  --color-ring: var(--color-violet);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
   /* Surfaces — dark theme */
   --color-canvas: #07070c;
   --color-surface: #0e0e14;
@@ -73,9 +95,21 @@
   --header-glass-bg-scrolled: color-mix(in srgb, var(--color-canvas) 82%, transparent);
   --header-glass-highlight: rgb(255 255 255 / 0.06);
 
+  /* Navigation mega-menu — aligned with site-header glass */
+  --nav-menu-panel-bg: color-mix(in srgb, var(--color-canvas) 86%, transparent);
+
   /* Color channels — used everywhere we need theme-aware translucent fills */
   --rgb-violet: 139 108 255;
   --rgb-coral: 255 106 90;
+
+  /* Grid card hover glow — signature coral ↔ violet (like original conic sweep) */
+  --nav-card-hover-glow: conic-gradient(
+    rgb(var(--rgb-coral)) 0deg,
+    rgb(var(--rgb-coral)) 117deg,
+    rgb(var(--rgb-violet)) 180deg,
+    rgb(var(--rgb-violet)) 240deg,
+    rgb(var(--rgb-coral)) 360deg
+  );
   --rgb-aqua: 108 231 255;
   --rgb-success: 74 222 128;
   --rgb-text-primary: 232 233 238;
@@ -202,6 +236,8 @@ html.light {
   --header-glass-bg: color-mix(in srgb, var(--color-canvas) 72%, transparent);
   --header-glass-bg-scrolled: color-mix(in srgb, var(--color-canvas) 88%, transparent);
   --header-glass-highlight: rgb(255 255 255 / 0.65);
+
+  --nav-menu-panel-bg: color-mix(in srgb, var(--color-canvas) 94%, transparent);
 }
 
 /* ============================================================
@@ -353,6 +389,50 @@ html.light .glass-strong {
   );
 }
 
+@utility nav-card-glow {
+  background: var(--nav-card-hover-glow);
+}
+
+@utility nav-menu-panel {
+  background-color: var(--nav-menu-panel-bg);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow:
+    inset 0 1px 0 0 var(--header-glass-highlight),
+    var(--shadow-card);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  backdrop-filter: blur(24px) saturate(1.5);
+}
+
+@utility nav-menu-item {
+  color: var(--color-text-primary);
+  transition:
+    background-color var(--duration-fast) var(--ease-premium),
+    border-color var(--duration-fast) var(--ease-premium),
+    color var(--duration-fast) var(--ease-premium);
+}
+
+@utility nav-menu-item-hover {
+  background-color: color-mix(in oklab, var(--color-surface-2) 88%, transparent);
+  color: var(--color-text-primary);
+}
+
+@utility nav-menu-trigger {
+  color: var(--color-text-muted);
+  transition:
+    background-color var(--duration-fast) var(--ease-premium),
+    color var(--duration-fast) var(--ease-premium);
+}
+
+@utility nav-menu-trigger-hover {
+  background-color: color-mix(in oklab, var(--color-surface-2) 72%, transparent);
+  color: var(--color-text-primary);
+}
+
+@utility nav-menu-trigger-open {
+  background-color: color-mix(in oklab, var(--color-surface-2) 88%, transparent);
+  color: var(--color-text-primary);
+}
+
 @utility hairline-top {
   position: relative;
 }
@@ -383,6 +463,24 @@ html.light .glass-strong {
 /* ============================================================
    Animations
    ============================================================ */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
 
 @keyframes halo-pulse {
   0%,

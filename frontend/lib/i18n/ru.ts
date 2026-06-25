@@ -6,9 +6,63 @@ export const ru = {
   },
   header: {
     nav: {
-      home: "Главная",
-      analyze: "Анализ",
+      product: "Продукт",
       docs: "Документация",
+      contact: "Контакты",
+    },
+    productMenu: {
+      cards: [
+        {
+          id: "home",
+          href: "/",
+          title: "Главная",
+          description: "Лендинг RoleSieve и обзор сервиса",
+        },
+        {
+          id: "analyze",
+          href: "/analyze",
+          title: "Анализ",
+          description: "Запустить сбор вакансий и получить отчёт",
+        },
+        {
+          id: "sample",
+          href: "/sample",
+          title: "Пример отчёта",
+          description: "Посмотреть, как выглядит результат анализа",
+        },
+      ],
+      links: [
+        { id: "howItWorks", href: "/how-it-works", title: "Как это работает" },
+        { id: "features", href: "/features", title: "Возможности" },
+        { id: "forWho", href: "/for-who", title: "Для кого" },
+        { id: "contact", href: "/contact", title: "Контакты" },
+      ],
+    },
+    docsMenu: {
+      cards: [
+        {
+          id: "quickstart",
+          href: "/docs/quickstart",
+          title: "Быстрый старт",
+          description: "Первый прогон за несколько минут",
+        },
+        {
+          id: "report",
+          href: "/docs/report",
+          title: "Как читать отчёт",
+          description: "Навыки, фразы и сводка в Excel",
+        },
+      ],
+      bottom: [
+        { id: "overview", href: "/docs", title: "Обзор" },
+        { id: "modes", href: "/docs/modes", title: "Режимы и параметры" },
+        { id: "faq", href: "/docs/faq", title: "Вопросы и проблемы" },
+      ],
+      side: [
+        { id: "export", href: "/docs/export", title: "Экспорт в CSV" },
+        { id: "manual", href: "/docs/manual", title: "Ручной режим" },
+        { id: "compare", href: "/docs/compare", title: "Сравнение прогонов" },
+      ],
     },
     menuOpen: "Открыть меню",
     menuClose: "Закрыть меню",
@@ -696,6 +750,16 @@ export const ru = {
     ctaPrimary: "Запустить анализ",
     ctaGhost: "Документация",
   },
+  contact: {
+    title: "Контакты",
+    lead: "Вопросы по сервису, баги и идеи — напишите через GitHub Issues.",
+    channelsTitle: "Как связаться",
+    githubLabel: "GitHub Issues",
+    githubDescription: "Сообщить об ошибке или предложить улучшение",
+    githubHref: "https://github.com/Daelijek/RoleSieve/issues",
+    docsHint: "По использованию RoleSieve сначала загляните в документацию.",
+    docsLink: "Документация",
+  },
   footer: {
     tagline:
       "Превращаем вакансии HeadHunter в понятный план улучшения резюме.",
@@ -703,25 +767,7 @@ export const ru = {
       {
         title: "Продукт",
         links: [
-          { label: "Возможности", href: "#features" },
-          { label: "Как работает", href: "#how" },
-          { label: "Пример отчёта", href: "#preview" },
           { label: "Документация", href: "/docs" },
-        ],
-      },
-      {
-        title: "Ресурсы",
-        links: [
-          { label: "Блог", href: "/blog" },
-          { label: "Roadmap", href: "/roadmap" },
-          { label: "Changelog", href: "/changelog" },
-        ],
-      },
-      {
-        title: "Юридическое",
-        links: [
-          { label: "Условия", href: "/legal/terms" },
-          { label: "Конфиденциальность", href: "/legal/privacy" },
           { label: "Контакты", href: "/contact" },
         ],
       },
