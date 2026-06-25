@@ -6,9 +6,63 @@ export const ru = {
   },
   header: {
     nav: {
-      home: "Главная",
-      analyze: "Анализ",
+      product: "Продукт",
       docs: "Документация",
+      contact: "Контакты",
+    },
+    productMenu: {
+      cards: [
+        {
+          id: "home",
+          href: "/",
+          title: "Главная",
+          description: "Лендинг RoleSieve и обзор сервиса",
+        },
+        {
+          id: "analyze",
+          href: "/analyze",
+          title: "Анализ",
+          description: "Запустить сбор вакансий и получить отчёт",
+        },
+        {
+          id: "sample",
+          href: "/sample",
+          title: "Пример отчёта",
+          description: "Посмотреть, как выглядит результат анализа",
+        },
+      ],
+      links: [
+        { id: "howItWorks", href: "/how-it-works", title: "Как это работает" },
+        { id: "features", href: "/features", title: "Возможности" },
+        { id: "forWho", href: "/for-who", title: "Для кого" },
+        { id: "contact", href: "/contact", title: "Контакты" },
+      ],
+    },
+    docsMenu: {
+      cards: [
+        {
+          id: "quickstart",
+          href: "/docs/quickstart",
+          title: "Быстрый старт",
+          description: "Первый прогон за несколько минут",
+        },
+        {
+          id: "report",
+          href: "/docs/report",
+          title: "Как читать отчёт",
+          description: "Навыки, фразы и сводка в Excel",
+        },
+      ],
+      bottom: [
+        { id: "overview", href: "/docs", title: "Обзор" },
+        { id: "modes", href: "/docs/modes", title: "Режимы и параметры" },
+        { id: "faq", href: "/docs/faq", title: "Вопросы и проблемы" },
+      ],
+      side: [
+        { id: "export", href: "/docs/export", title: "Экспорт в CSV" },
+        { id: "manual", href: "/docs/manual", title: "Ручной режим" },
+        { id: "compare", href: "/docs/compare", title: "Сравнение прогонов" },
+      ],
     },
     menuOpen: "Открыть меню",
     menuClose: "Закрыть меню",

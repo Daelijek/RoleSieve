@@ -8,9 +8,63 @@ export const en = {
   },
   header: {
     nav: {
-      home: "Home",
-      analyze: "Analyze",
+      product: "Product",
       docs: "Documentation",
+      contact: "Contact",
+    },
+    productMenu: {
+      cards: [
+        {
+          id: "home",
+          href: "/",
+          title: "Home",
+          description: "RoleSieve landing and product overview",
+        },
+        {
+          id: "analyze",
+          href: "/analyze",
+          title: "Analyze",
+          description: "Run vacancy collection and get a report",
+        },
+        {
+          id: "sample",
+          href: "/sample",
+          title: "Sample report",
+          description: "See what an analysis result looks like",
+        },
+      ],
+      links: [
+        { id: "howItWorks", href: "/how-it-works", title: "How it works" },
+        { id: "features", href: "/features", title: "Features" },
+        { id: "forWho", href: "/for-who", title: "Who it's for" },
+        { id: "contact", href: "/contact", title: "Contact" },
+      ],
+    },
+    docsMenu: {
+      cards: [
+        {
+          id: "quickstart",
+          href: "/docs/quickstart",
+          title: "Quickstart",
+          description: "Your first run in a few minutes",
+        },
+        {
+          id: "report",
+          href: "/docs/report",
+          title: "Reading the report",
+          description: "Skills, phrases, and the Excel summary",
+        },
+      ],
+      bottom: [
+        { id: "overview", href: "/docs", title: "Overview" },
+        { id: "modes", href: "/docs/modes", title: "Modes & parameters" },
+        { id: "faq", href: "/docs/faq", title: "FAQ" },
+      ],
+      side: [
+        { id: "export", href: "/docs/export", title: "CSV export" },
+        { id: "manual", href: "/docs/manual", title: "Manual mode" },
+        { id: "compare", href: "/docs/compare", title: "Comparing runs" },
+      ],
     },
     menuOpen: "Open menu",
     menuClose: "Close menu",
