@@ -15,8 +15,8 @@ import { cn } from "@/lib/cn";
 import { useDict } from "@/lib/i18n";
 
 type HeaderProps = {
-  /** `analyze` / `docs` — badge у логотипа + подсветка раздела в навигации */
-  variant?: "default" | "analyze" | "docs";
+  /** `analyze` / `docs` / `contact` — badge у логотипа + подсветка раздела в навигации */
+  variant?: "default" | "analyze" | "docs" | "contact";
 };
 
 const navLinkClass = (active: boolean) =>
@@ -92,7 +92,9 @@ export function Header({ variant = "default" }: HeaderProps) {
       ? dict.analyze.badge
       : variant === "docs"
         ? dict.docs.meta.eyebrow
-        : null;
+        : variant === "contact"
+          ? dict.contact.title
+          : null;
   const activeHref =
     variant === "analyze" ? "/analyze" : variant === "docs" ? "/docs" : null;
   const navItems = useMemo(

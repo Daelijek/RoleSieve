@@ -3,15 +3,24 @@
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import { LangSwitcher } from "@/components/ui/LangSwitcher";
+import { cn } from "@/lib/cn";
 import { useDict } from "@/lib/i18n";
 
 export function Footer() {
   const dict = useDict();
   const f = dict.footer;
+  const colCount: number = f.columns.length;
   return (
     <footer className="relative mt-10 border-t border-[color:var(--color-border-subtle)] pt-16 pb-10">
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <div
+          className={cn(
+            "grid gap-10",
+            colCount <= 1 && "lg:grid-cols-[1.4fr_1fr]",
+            colCount === 2 && "lg:grid-cols-[1.4fr_1fr_1fr]",
+            colCount >= 3 && "lg:grid-cols-[1.4fr_repeat(3,1fr)]",
+          )}
+        >
           <div className="max-w-sm">
             <Logo />
             <p className="mt-5 text-[14px] leading-[1.6] text-[color:var(--color-text-muted)]">

@@ -696,6 +696,16 @@ export const ru = {
     ctaPrimary: "Запустить анализ",
     ctaGhost: "Документация",
   },
+  contact: {
+    title: "Контакты",
+    lead: "Вопросы по сервису, баги и идеи — напишите через GitHub Issues.",
+    channelsTitle: "Как связаться",
+    githubLabel: "GitHub Issues",
+    githubDescription: "Сообщить об ошибке или предложить улучшение",
+    githubHref: "https://github.com/Daelijek/RoleSieve/issues",
+    docsHint: "По использованию RoleSieve сначала загляните в документацию.",
+    docsLink: "Документация",
+  },
   footer: {
     tagline:
       "Превращаем вакансии HeadHunter в понятный план улучшения резюме.",
@@ -703,25 +713,7 @@ export const ru = {
       {
         title: "Продукт",
         links: [
-          { label: "Возможности", href: "#features" },
-          { label: "Как работает", href: "#how" },
-          { label: "Пример отчёта", href: "#preview" },
           { label: "Документация", href: "/docs" },
-        ],
-      },
-      {
-        title: "Ресурсы",
-        links: [
-          { label: "Блог", href: "/blog" },
-          { label: "Roadmap", href: "/roadmap" },
-          { label: "Changelog", href: "/changelog" },
-        ],
-      },
-      {
-        title: "Юридическое",
-        links: [
-          { label: "Условия", href: "/legal/terms" },
-          { label: "Конфиденциальность", href: "/legal/privacy" },
           { label: "Контакты", href: "/contact" },
         ],
       },

@@ -697,31 +697,23 @@ export const en = {
     ctaPrimary: "Run analysis",
     ctaGhost: "Documentation",
   },
+  contact: {
+    title: "Contact",
+    lead: "Questions, bugs, and ideas — reach out via GitHub Issues.",
+    channelsTitle: "How to reach us",
+    githubLabel: "GitHub Issues",
+    githubDescription: "Report a bug or suggest an improvement",
+    githubHref: "https://github.com/Daelijek/RoleSieve/issues",
+    docsHint: "For how to use RoleSieve, check the documentation first.",
+    docsLink: "Documentation",
+  },
   footer: {
     tagline: "Turn HeadHunter vacancies into a clear plan to improve your resume.",
     columns: [
       {
         title: "Product",
         links: [
-          { label: "Features", href: "#features" },
-          { label: "How it works", href: "#how" },
-          { label: "Sample report", href: "#preview" },
           { label: "Documentation", href: "/docs" },
-        ],
-      },
-      {
-        title: "Resources",
-        links: [
-          { label: "Blog", href: "/blog" },
-          { label: "Roadmap", href: "/roadmap" },
-          { label: "Changelog", href: "/changelog" },
-        ],
-      },
-      {
-        title: "Legal",
-        links: [
-          { label: "Terms", href: "/legal/terms" },
-          { label: "Privacy", href: "/legal/privacy" },
           { label: "Contact", href: "/contact" },
         ],
       },
