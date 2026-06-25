@@ -29,7 +29,7 @@ export default function ContactPage() {
       <Header variant="contact" />
 
       <main className="relative max-w-full overflow-x-clip pb-20 pt-[calc(var(--header-height)+2rem)] sm:pb-28 sm:pt-[calc(var(--header-height)+3rem)]">
-        <Container className="max-w-2xl">
+        <Container>
           <ContactContent />
         </Container>
       </main>
