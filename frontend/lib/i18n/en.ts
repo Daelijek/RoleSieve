@@ -788,7 +788,10 @@ export const en = {
         { slug: "", label: "Overview" },
         { slug: "quickstart", label: "Quick start" },
         { slug: "modes", label: "Modes & parameters" },
+        { slug: "manual", label: "Manual mode" },
         { slug: "report", label: "Reading the report" },
+        { slug: "export", label: "CSV export" },
+        { slug: "compare", label: "Comparing runs" },
         { slug: "faq", label: "Questions & issues" },
       ],
     },
@@ -822,6 +825,16 @@ export const en = {
           slug: "report",
           title: "Reading the report",
           description: "Excel and the dashboard, step by step.",
+        },
+        {
+          slug: "export",
+          title: "CSV export",
+          description: "Download skills and phrase tables for Excel.",
+        },
+        {
+          slug: "compare",
+          title: "Comparing runs",
+          description: "How to compare results from different runs.",
         },
       ],
     },
@@ -923,6 +936,122 @@ export const en = {
         "Reuse frequent phrases as wordings in your experience descriptions.",
         "Compare your strengths with market requirements and close the visible gaps.",
       ],
+    },
+    export: {
+      title: "CSV export",
+      lead: "Besides the Excel report you can download the skills and phrase tables from the analysis page as CSV — handy for filters, pivot tables, and comparing runs.",
+      whereTitle: "Where to find it",
+      where: "After a run finishes on the Analyze page you get \"Skills table\" and \"Phrases table\" blocks. Each table has a CSV button in the top-right corner.",
+      howTitle: "How to export",
+      steps: [
+        {
+          title: "Run an analysis",
+          description: "Wait until the status is succeeded and the summary with tables appears.",
+        },
+        {
+          title: "Sort if needed",
+          description: "Click a column header to change sort order. The CSV uses the current row order.",
+        },
+        {
+          title: "Click CSV",
+          description: "The file downloads in your browser. Repeat for the second table if you need both skills and phrases.",
+        },
+      ],
+      columnsTitle: "Columns in the file",
+      columnsHead: ["Column", "Contents"],
+      columns: [
+        { col: "#", desc: "Row number in the current sort order." },
+        { col: "Name", desc: "A skill or key phrase." },
+        { col: "Count", desc: "How many vacancies in the sample mention this item." },
+        { col: "Share", desc: "Share of successfully processed vacancies." },
+      ],
+      filesTitle: "File names",
+      files: [
+        "skills_top20.csv — skills table.",
+        "phrases_top20.csv — key phrases table.",
+      ],
+      tipTitle: "Tip",
+      tip: "The file is saved as UTF-8 with BOM — Excel on Windows opens Cyrillic without extra settings. The full per-vacancy report is in Excel; see \"Reading the report\".",
+      excelLinkLabel: "Reading the Excel report",
+    },
+    manual: {
+      title: "Manual mode",
+      lead: "Manual mode is for when you already picked specific vacancies and want to analyze exactly those — without a broad search query.",
+      formatTitle: "List format",
+      format: "One vacancy per line. You can use a numeric ID or a full hh.ru vacancy URL.",
+      formatExampleTitle: "Example",
+      formatExample: "131474430\nhttps://hh.ru/vacancy/131474430\n128901234",
+      stepsTitle: "How a manual run works",
+      steps: [
+        {
+          title: "Pick vacancies on HH",
+          description: "Collect 10–20 roles that truly match your target — less noise in the report.",
+        },
+        {
+          title: "Copy IDs or links",
+          description: "One entry per line. IDs and URLs can be mixed in the same list.",
+        },
+        {
+          title: "Paste the list and run",
+          description: "After launch the service processes only the vacancies you passed and returns a summary with Excel.",
+        },
+      ],
+      whenTitle: "When to choose manual mode",
+      when: [
+        {
+          mode: "Manual",
+          use: "You already have a short list of vacancies you want to analyze precisely.",
+        },
+        {
+          mode: "Auto",
+          use: "You need a broad market slice for a role — see \"Modes & parameters\".",
+        },
+      ],
+      limitTitle: "Limit",
+      limit: "Up to 100 vacancies per run. For more, split the list into several runs.",
+      statusTitle: "Current UI status",
+      status:
+        "The Manual / Auto toggle on the analysis page is still in development. Today /analyze offers auto mode by search query. Manual mode parameters are described under \"Modes & parameters\"; once the toggle ships, the steps on this page still apply.",
+      modesLinkLabel: "Modes & parameters",
+    },
+    compare: {
+      title: "Comparing runs",
+      lead: "You can compare different runs via run history on the analysis page or by exporting CSV from the skills and phrase tables.",
+      historyTitle: "Run history",
+      history:
+        "Next to the launch form — a list of recent runs. Click a row to load that job's summary: KPIs, top skills, phrases, and the Excel link if the run succeeded.",
+      metaTitle: "What's shown in the list",
+      meta: [
+        "Search query or a short run description.",
+        "Region, work format, and other parameters when set.",
+        "Status: succeeded, running, failed.",
+        "Run date and time.",
+      ],
+      workflowTitle: "How to compare two runs",
+      steps: [
+        {
+          title: "Run the first analysis (A)",
+          description: "Note the parameters: query, region, phrase count. Wait until it finishes.",
+        },
+        {
+          title: "Run a second analysis (B)",
+          description: "Change the query, region, or period — to compare another segment or point in time.",
+        },
+        {
+          title: "Return to run A via history",
+          description: "Click the row in Run history — the summary on the page updates.",
+        },
+        {
+          title: "Or export CSV from both runs",
+          description: "Download skills_top20.csv and phrases_top20.csv for each run and compare in Excel.",
+        },
+      ],
+      tipTitle: "Tip",
+      tip: "For a fair comparison keep phrase extraction settings the same (count and phrase size). Otherwise top-list differences may come from settings, not the market.",
+      statusTitle: "UI limitation",
+      status:
+        "There is no side-by-side mode with an automatic skills diff yet. Compare by switching runs in history or manually via CSV/Excel.",
+      exportLinkLabel: "CSV export",
     },
     faq: {
       title: "Questions & issues",
