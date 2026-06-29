@@ -88,6 +88,7 @@
 
   /* Layout — fixed header + section vertical rhythm */
   --header-height: 4rem;
+  --header-control-height: 2.25rem;
   --section-py: 5rem;
   --section-py-lg: 7rem;
 
@@ -557,6 +558,24 @@ html.light .glass-strong {
 
 @utility animate-halo-pulse {
   animation: halo-pulse 8s var(--ease-premium) infinite;
+}
+
+@keyframes zone-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgb(var(--zone-accent, var(--rgb-violet)) / 0.5),
+      0 0 22px -2px rgb(var(--zone-accent, var(--rgb-violet)) / 0.28);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgb(var(--zone-accent, var(--rgb-violet)) / 0.7),
+      0 0 30px 0 rgb(var(--zone-accent, var(--rgb-violet)) / 0.42);
+  }
+}
+
+@utility zone-hover-glow {
+  animation: zone-pulse 2.4s var(--ease-premium) infinite;
 }
 @utility animate-fade-up {
   animation: fade-up var(--duration-slow) var(--ease-premium) both;

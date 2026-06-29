@@ -753,13 +753,157 @@ export const en = {
   },
   contact: {
     title: "Contact",
-    lead: "Questions, bugs, and ideas — reach out via GitHub Issues.",
+    lead: "Questions, feedback, and collaboration — pick a channel that works for you.",
     channelsTitle: "How to reach us",
-    githubLabel: "GitHub Issues",
-    githubDescription: "Report a bug or suggest an improvement",
-    githubHref: "https://github.com/Daelijek/RoleSieve/issues",
+    channels: [
+      {
+        id: "telegram",
+        label: "Telegram",
+        description: "Quick questions and feedback",
+        href: "https://t.me/daelijek_og",
+        display: "@daelijek_og",
+      },
+      {
+        id: "linkedin",
+        label: "LinkedIn",
+        description: "Professional inquiries and collaboration",
+        href: "https://www.linkedin.com/in/dias-yermek/",
+        display: "linkedin.com/in/dias-yermek",
+      },
+      {
+        id: "github",
+        label: "GitHub",
+        description: "Bugs, ideas, and source code",
+        href: "https://github.com/Daelijek",
+        display: "github.com/Daelijek",
+      },
+      {
+        id: "email",
+        label: "Email",
+        description: "Detailed requests and business mail",
+        href: "mailto:dias1605ermek@gmail.com",
+        display: "dias1605ermek@gmail.com",
+      },
+    ],
     docsHint: "For how to use RoleSieve, check the documentation first.",
     docsLink: "Documentation",
+  },
+  productPages: {
+    shared: {
+      demoBadge: "Demo",
+      analyzePath: "rolesieve.app/analyze",
+      zoneInfoOpen: "Details",
+      zoneInfoClose: "Close",
+    },
+    sample: {
+      meta: {
+        title: "Sample report",
+        description:
+          "Interactive RoleSieve report sample: top skills, phrases, data quality, and Excel structure — without running an analysis.",
+      },
+      eyebrow: "Sample report",
+      title: "See the output before your first run",
+      lead: "Switch market segments and explore a live summary — the same view you get on the analysis page after a run completes.",
+      presetPickerLabel: "Market segment",
+      errorReasons: {
+        notFound: "HTTP 404 — vacancy removed",
+        timeout: "Timeout on retry",
+      },
+      presets: {
+        python: {
+          region: "Moscow",
+          experience: "1–3 years",
+          period: "Last 30 days",
+          workFormat: "Remote",
+          runId: "1247",
+          fileSizeLabel: "28 KB",
+        },
+        frontend: {
+          region: "St. Petersburg",
+          experience: "3–6 years",
+          period: "Last 14 days",
+          workFormat: "Hybrid",
+          runId: "1183",
+          fileSizeLabel: "31 KB",
+        },
+        product: {
+          region: "Moscow",
+          experience: "3–6 years",
+          period: "Last 30 days",
+          workFormat: "On-site",
+          runId: "1091",
+          fileSizeLabel: "24 KB",
+        },
+        devops: {
+          region: "Any region",
+          experience: "6+ years",
+          period: "Last 7 days",
+          workFormat: "Remote",
+          runId: "1156",
+          fileSizeLabel: "26 KB",
+        },
+      },
+      zones: {
+        kpi: {
+          title: "Key metrics",
+          description:
+            "Run summary: how many vacancies were processed, the success rate, and how many skills and phrases were found. Sparklines show the trend.",
+        },
+        skills: {
+          title: "Top skills",
+          description:
+            "The basis for your resume Skills section — start with the top entries you actually have.",
+        },
+        phrases: {
+          title: "Frequent phrases",
+          description:
+            "Market wordings to reuse in experience descriptions and cover letters.",
+        },
+        coverage: {
+          title: "key_skills coverage",
+          description:
+            "Shows what share of vacancies actually fill the skills field on HH, and where data had to be recovered from the text.",
+        },
+        dedup: {
+          title: "Deduplication",
+          description:
+            "How RoleSieve collapses duplicate and synonymous skills into single wordings so the ranking doesn't fragment.",
+        },
+        cloud: {
+          title: "Skills cloud",
+          description:
+            "Visual weight of skills by frequency — a quick way to see what dominates the market in this segment.",
+        },
+        tables: {
+          title: "Tables and CSV",
+          description:
+            "Full ranked lists — sort and export to CSV for filtering in Excel.",
+        },
+      },
+      excel: {
+        title: "Excel report fragment",
+        lead: "Each vacancy is a block of rows: phrases and skills side by side, ID and link only on the first row of the block.",
+        columnsHead: ["Vacancy Title", "Key Words", "Key Skills"],
+        rows: [
+          [
+            "Python Developer",
+            "team collaboration experience",
+            "Python",
+          ],
+          ["", "SQL knowledge required", "SQL"],
+          ["", "experience with Docker / Kubernetes", "Docker"],
+          [
+            "Backend Developer (Python)",
+            "understanding of REST API",
+            "Django",
+          ],
+          ["", "English — Intermediate", "PostgreSQL"],
+        ],
+      },
+      cta: "Run your own analysis",
+      docsLink: "Reading the report",
+      note: "This demo uses averaged data — not a real run via the HH API.",
+    },
   },
   footer: {
     tagline: "Turn HeadHunter vacancies into a clear plan to improve your resume.",

@@ -14,7 +14,7 @@ type NavItemType = {
 };
 
 const navTriggerClass =
-  "nav-menu-trigger group/trigger inline-flex w-max items-center justify-center rounded-lg px-4 py-1.5 text-sm font-medium outline-none transition-[background,color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-premium)] hover:nav-menu-trigger-hover focus-visible:nav-menu-trigger-hover data-[state=open]:nav-menu-trigger-open focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-canvas)] disabled:pointer-events-none disabled:opacity-50";
+  "nav-menu-trigger group/trigger inline-flex h-[var(--header-control-height)] w-max items-center justify-center rounded-lg px-4 text-sm font-medium outline-none transition-[background,color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-premium)] hover:nav-menu-trigger-hover focus-visible:nav-menu-trigger-hover data-[state=open]:nav-menu-trigger-open focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-canvas)] disabled:pointer-events-none disabled:opacity-50";
 
 const navLinkClass =
   "nav-menu-item flex outline-none transition-[background,color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-premium)] hover:nav-menu-item-hover focus-visible:nav-menu-item-hover focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-canvas)] [&_svg:not([class*='text-'])]:text-[color:var(--color-text-muted)]";

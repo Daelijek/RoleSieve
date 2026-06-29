@@ -155,17 +155,20 @@ export function LivePreview() {
                             {(i + 1).toString().padStart(2, "0")}
                           </span>
                           <div className="relative min-w-0 flex-1">
-                            <span
-                              aria-hidden
-                              className="absolute -inset-y-1 left-0 -z-10 rounded-md bg-[image:var(--signature-gradient-soft)]"
+                            <div
+                              className="flex h-7 max-w-full items-center overflow-hidden rounded-md bg-[image:var(--signature-gradient-soft)]"
                               style={{ width: `${w}%` }}
-                            />
-                            <span className="relative truncate text-[13px] text-[color:var(--color-text-primary)]">
-                              «{phrase.text}»
-                            </span>
+                            >
+                              <span
+                                className="min-w-0 truncate px-2.5 text-[13px] text-[color:var(--color-text-primary)]"
+                                title={`«${phrase.text}»`}
+                              >
+                                «{phrase.text}»
+                              </span>
+                            </div>
                           </div>
                         </div>
-                        <span className="font-mono text-[12px] tabular-nums text-[color:var(--color-text-muted)]">
+                        <span className="shrink-0 font-mono text-[12px] tabular-nums text-[color:var(--color-text-muted)]">
                           {phrase.value}%
                         </span>
                       </li>

@@ -73,7 +73,7 @@ export function Hero() {
                 {h.ctaPrimary}
               </Button>
             </MagneticButton>
-            <Button href="#preview" size="lg" variant="outline">
+            <Button href="/sample" size="lg" variant="outline">
               {h.ctaGhost}
             </Button>
           </Reveal>

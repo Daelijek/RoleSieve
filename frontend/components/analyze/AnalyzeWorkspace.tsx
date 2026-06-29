@@ -7,31 +7,11 @@ import { useDict } from "@/lib/i18n";
 import { getJob, JobFailedError, downloadJob, formatFileSize, isAbortError } from "@/lib/api/client";
 import { runResultFromJob } from "@/lib/analyze/run-from-job";
 import { saveStoredRun } from "@/lib/analyze/local-run-history";
+import { buildSparklines } from "@/lib/product-demo/build-sparklines";
 import { ResultsDashboard } from "./ResultsDashboard";
 import { RunHistory } from "./RunHistory";
 import { RunLauncher, type RunResult } from "./RunLauncher";
-import type { ExportSummary, KpiSparkline } from "@/lib/types/export-summary";
-
-function rampTo(target: number, points = 6): number[] {
-  if (points <= 1) return [target];
-  const out: number[] = [];
-  for (let i = 0; i < points; i++) {
-    const ratio = i / (points - 1);
-    const eased = 1 - Math.pow(1 - ratio, 2);
-    out.push(Math.round(target * eased));
-  }
-  out[out.length - 1] = target;
-  return out;
-}
-
-function buildSparklines(summary: ExportSummary): KpiSparkline[] {
-  return [
-    { key: "requested", sparkline: rampTo(summary.requested) },
-    { key: "processed", sparkline: rampTo(summary.processed) },
-    { key: "errors", sparkline: rampTo(summary.errors) },
-    { key: "uniqueSkills", sparkline: rampTo(summary.top_skills.length) },
-  ];
-}
+import type { KpiSparkline } from "@/lib/types/export-summary";
 
 function ResultsEmptyState() {
   const dict = useDict();
