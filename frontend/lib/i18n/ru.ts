@@ -787,6 +787,123 @@ export const ru = {
     docsHint: "По использованию RoleSieve сначала загляните в документацию.",
     docsLink: "Документация",
   },
+  productPages: {
+    shared: {
+      demoBadge: "Демо",
+      analyzePath: "rolesieve.app/analyze",
+      zoneInfoOpen: "Подробнее",
+      zoneInfoClose: "Закрыть",
+    },
+    sample: {
+      meta: {
+        title: "Пример отчёта",
+        description:
+          "Интерактивный образец сводки RoleSieve: топ навыков, фразы, качество данных и структура Excel — без запуска прогона.",
+      },
+      eyebrow: "Пример отчёта",
+      title: "Посмотрите результат до первого прогона",
+      lead: "Переключайте сегменты рынка и изучайте живую сводку — так же, как на странице анализа после завершения прогона.",
+      presetPickerLabel: "Сегмент рынка",
+      errorReasons: {
+        notFound: "HTTP 404 — вакансия снята",
+        timeout: "Timeout при повторном запросе",
+      },
+      presets: {
+        python: {
+          region: "Москва",
+          experience: "1–3 года",
+          period: "За 30 дней",
+          workFormat: "Удалённо",
+          runId: "1247",
+          fileSizeLabel: "28 KB",
+        },
+        frontend: {
+          region: "СПб",
+          experience: "3–6 лет",
+          period: "За 14 дней",
+          workFormat: "Гибрид",
+          runId: "1183",
+          fileSizeLabel: "31 KB",
+        },
+        product: {
+          region: "Москва",
+          experience: "3–6 лет",
+          period: "За 30 дней",
+          workFormat: "Офис",
+          runId: "1091",
+          fileSizeLabel: "24 KB",
+        },
+        devops: {
+          region: "Любой регион",
+          experience: "6+ лет",
+          period: "За 7 дней",
+          workFormat: "Удалённо",
+          runId: "1156",
+          fileSizeLabel: "26 KB",
+        },
+      },
+      zones: {
+        kpi: {
+          title: "Ключевые метрики",
+          description:
+            "Сводка прогона: сколько вакансий обработано, доля успешных, найдено навыков и фраз. Спарклайны показывают динамику.",
+        },
+        skills: {
+          title: "Топ навыков",
+          description:
+            "Основа для блока Skills в резюме — начните с верхних позиций, если они у вас есть.",
+        },
+        phrases: {
+          title: "Частотные фразы",
+          description:
+            "Готовые формулировки рынка — переиспользуйте в описании опыта и сопроводительном.",
+        },
+        coverage: {
+          title: "Покрытие key_skills",
+          description:
+            "Показывает, у какой доли вакансий работодатель заполнил поле навыков на HH, и где данные пришлось добирать из текста.",
+        },
+        dedup: {
+          title: "Дедупликация",
+          description:
+            "Как RoleSieve свёл повторы и синонимы навыков к единым формулировкам, чтобы рейтинг не дробился.",
+        },
+        cloud: {
+          title: "Облако навыков",
+          description:
+            "Визуальный вес навыков по частоте — быстрый способ увидеть, что доминирует на рынке в этом сегменте.",
+        },
+        tables: {
+          title: "Таблицы и CSV",
+          description:
+            "Полные ранжированные списки — можно отсортировать и экспортировать в CSV для фильтров в Excel.",
+        },
+      },
+      excel: {
+        title: "Фрагмент Excel-отчёта",
+        lead: "Каждая вакансия — блок строк: фразы и навыки рядом, ID и ссылка только в первой строке блока.",
+        columnsHead: ["Vacancy Title", "Key Words", "Key Skills"],
+        rows: [
+          [
+            "Python Developer",
+            "опыт работы в команде",
+            "Python",
+          ],
+          ["", "знание SQL обязательно", "SQL"],
+          ["", "опыт с Docker / Kubernetes", "Docker"],
+          [
+            "Backend Developer (Python)",
+            "понимание REST API",
+            "Django",
+          ],
+          ["", "английский — Intermediate", "PostgreSQL"],
+        ],
+      },
+      cta: "Запустить свой анализ",
+      docsLink: "Как читать отчёт",
+      note: "Демо построено на усреднённых данных — это не реальный прогон через HH API.",
+    },
+  },
   footer: {
     tagline:
       "Превращаем вакансии HeadHunter в понятный план улучшения резюме.",
