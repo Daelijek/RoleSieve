@@ -276,7 +276,7 @@ function DesktopMenu({
           <NavigationMenuLink asChild>
             <Link
               href="/contact"
-              className="nav-menu-trigger cursor-pointer rounded-lg px-4 py-1.5 text-sm font-medium transition-[background,color] duration-[var(--duration-fast)] ease-[var(--ease-premium)] hover:nav-menu-trigger-hover"
+              className="nav-menu-trigger inline-flex h-[var(--header-control-height)] cursor-pointer items-center rounded-lg px-4 text-sm font-medium transition-[background,color] duration-[var(--duration-fast)] ease-[var(--ease-premium)] hover:nav-menu-trigger-hover"
             >
               {dict.header.nav.contact}
             </Link>
@@ -320,7 +320,7 @@ function MobileNav({
   return (
     <Sheet>
       <SheetTrigger
-        className="inline-flex size-10 items-center justify-center rounded-full text-[color:var(--color-text-muted)] transition-colors hover:bg-[color:var(--color-surface-2)] hover:text-[color:var(--color-text-primary)] focus-visible:outline-2 focus-visible:outline-violet focus-visible:outline-offset-2 lg:hidden"
+        className="inline-flex h-[var(--header-control-height)] w-[var(--header-control-height)] items-center justify-center rounded-full text-[color:var(--color-text-muted)] transition-colors hover:bg-[color:var(--color-surface-2)] hover:text-[color:var(--color-text-primary)] focus-visible:outline-2 focus-visible:outline-violet focus-visible:outline-offset-2 lg:hidden"
       >
         <MenuIcon className="size-5" />
         <span className="sr-only">{dict.header.menuOpen}</span>
@@ -331,7 +331,7 @@ function MobileNav({
       >
         <div className="flex h-14 items-center justify-end border-b border-[color:var(--color-border-subtle)] px-4">
           <SheetClose
-            className="inline-flex size-10 items-center justify-center rounded-full text-[color:var(--color-text-muted)] transition-colors hover:bg-[color:var(--color-surface-2)] hover:text-[color:var(--color-text-primary)] focus-visible:outline-2 focus-visible:outline-violet focus-visible:outline-offset-2"
+            className="inline-flex h-[var(--header-control-height)] w-[var(--header-control-height)] items-center justify-center rounded-full text-[color:var(--color-text-muted)] transition-colors hover:bg-[color:var(--color-surface-2)] hover:text-[color:var(--color-text-primary)] focus-visible:outline-2 focus-visible:outline-violet focus-visible:outline-offset-2"
           >
             <XIcon className="size-5" />
             <span className="sr-only">{dict.header.menuClose}</span>

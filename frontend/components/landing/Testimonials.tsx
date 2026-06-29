@@ -32,11 +32,8 @@ export function Testimonials() {
         </div>
 
         <ul className="mt-14 grid gap-5 lg:grid-cols-3">
-          {t.items.map((item, i) => (
-            <li
-              key={item.author}
-              className={i === 1 ? "lg:translate-y-4" : ""}
-            >
+          {t.items.map((item) => (
+            <li key={item.author}>
               <Spotlight
                 tint={item.accent}
                 size={420}

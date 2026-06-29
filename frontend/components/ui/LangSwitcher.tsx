@@ -11,7 +11,7 @@ export function LangSwitcher({ className }: LangSwitcherProps) {
   const { locale, setLocale, dict } = useLocale();
 
   const btn =
-    "relative z-10 rounded-full px-3 py-1 text-[12px] font-mono font-medium tracking-wider transition-colors";
+    "relative z-10 flex h-full items-center rounded-full px-3 text-[12px] font-mono font-medium tracking-wider transition-colors";
 
   function select(next: Locale) {
     if (next !== locale) setLocale(next);
@@ -20,7 +20,7 @@ export function LangSwitcher({ className }: LangSwitcherProps) {
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/60 p-0.5 backdrop-blur",
+        "inline-flex h-[var(--header-control-height)] items-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/60 p-0.5 backdrop-blur",
         className,
       )}
       role="group"

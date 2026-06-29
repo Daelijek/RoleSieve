@@ -88,6 +88,7 @@
 
   /* Layout — fixed header + section vertical rhythm */
   --header-height: 4rem;
+  --header-control-height: 2.25rem;
   --section-py: 5rem;
   --section-py-lg: 7rem;
 
