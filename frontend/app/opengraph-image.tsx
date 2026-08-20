@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
@@ -5,7 +7,12 @@ export const contentType = "image/png";
 export const alt =
   "RoleSieve — vacancy intelligence for HeadHunter, turned into a clear resume plan";
 
-export default function OG() {
+export default async function OG() {
+  const logoData = await readFile(
+    join(process.cwd(), "public/brand/logo.png"),
+  );
+  const logoSrc = `data:image/png;base64,${logoData.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -23,7 +30,6 @@ export default function OG() {
           overflow: "hidden",
         }}
       >
-        {/* Halo glow */}
         <div
           style={{
             position: "absolute",
@@ -51,7 +57,6 @@ export default function OG() {
           }}
         />
 
-        {/* Brand row */}
         <div
           style={{
             display: "flex",
@@ -60,24 +65,13 @@ export default function OG() {
             marginBottom: 56,
           }}
         >
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              background: "linear-gradient(135deg, #8B6CFF, #FF6A5A)",
-              borderRadius: 14,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: 800,
-              fontSize: 28,
-              fontFamily: "monospace",
-              letterSpacing: -1,
-            }}
-          >
-            RS
-          </div>
+          <img
+            src={logoSrc}
+            width={64}
+            height={64}
+            alt=""
+            style={{ borderRadius: 14 }}
+          />
           <div
             style={{
               fontSize: 34,
@@ -90,7 +84,6 @@ export default function OG() {
           </div>
         </div>
 
-        {/* Headline */}
         <div
           style={{
             fontSize: 84,
@@ -115,7 +108,6 @@ export default function OG() {
           </span>
         </div>
 
-        {/* Sub-line */}
         <div
           style={{
             fontSize: 28,
@@ -130,7 +122,6 @@ export default function OG() {
           skills, frequent phrases, a clean Excel report.
         </div>
 
-        {/* Footer chip */}
         <div
           style={{
             position: "absolute",

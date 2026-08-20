@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
@@ -19,11 +20,16 @@ export function Logo({ className, href = "/", showWordmark = true }: LogoProps) 
     >
       <span
         aria-hidden
-        className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-[image:var(--signature-gradient)] shadow-[var(--glow-logo)] transition-transform duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover:scale-105"
+        className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg shadow-[var(--glow-logo)] transition-transform duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover:scale-105"
       >
-        <span className="font-mono text-[11px] font-bold leading-none text-white drop-shadow-[0_1px_0_rgba(0,0,0,0.25)]">
-          RS
-        </span>
+        <Image
+          src="/brand/logo.png"
+          alt=""
+          width={32}
+          height={32}
+          className="h-8 w-8 object-cover"
+          priority
+        />
         <span className="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-white/15" />
       </span>
       {showWordmark ? (
