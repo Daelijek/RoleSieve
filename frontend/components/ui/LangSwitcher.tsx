@@ -34,7 +34,7 @@ export function LangSwitcher({ className }: LangSwitcherProps) {
           btn,
           locale === "ru"
             ? "bg-[color:var(--color-surface-2)] text-[color:var(--color-text-primary)] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset]"
-            : "text-[color:var(--color-text-subtle)] hover:text-[color:var(--color-text-muted)]",
+            : "text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)]",
         )}
       >
         RU
@@ -47,7 +47,7 @@ export function LangSwitcher({ className }: LangSwitcherProps) {
           btn,
           locale === "en"
             ? "bg-[color:var(--color-surface-2)] text-[color:var(--color-text-primary)] shadow-[0_1px_0_rgba(255,255,255,0.06)_inset]"
-            : "text-[color:var(--color-text-subtle)] hover:text-[color:var(--color-text-muted)]",
+            : "text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)]",
         )}
       >
         EN

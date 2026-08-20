@@ -37,9 +37,9 @@
   --color-surface-3: #1c1c26;
 
   /* Text */
-  --color-text-primary: #e8e9ee;
-  --color-text-muted: #9ca0ae;
-  --color-text-subtle: #5f6273;
+  --color-text-primary: #f0f1f5;
+  --color-text-muted: #a6abbd;
+  --color-text-subtle: #8e93a6;
 
   /* Borders */
   --color-border-subtle: rgba(255, 255, 255, 0.06);
@@ -184,8 +184,8 @@ html.light {
   --color-surface-3: #e3e6ef;
 
   --color-text-primary: #0a0d18;
-  --color-text-muted: #525667;
-  --color-text-subtle: #8a8d9e;
+  --color-text-muted: #4a4e61;
+  --color-text-subtle: #616578;
 
   --color-border-subtle: rgb(15 18 30 / 0.06);
   --color-border-strong: rgb(15 18 30 / 0.11);
