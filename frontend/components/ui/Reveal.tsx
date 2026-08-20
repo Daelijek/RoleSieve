@@ -27,7 +27,7 @@ export function Reveal({
   children,
   delay = 0,
   immediate = false,
-  offset = 10,
+  offset = 8,
   className,
   ...rest
 }: RevealProps) {
@@ -42,7 +42,7 @@ export function Reveal({
 
   const initial = { opacity: 0, y: offset };
   const final = { opacity: 1, y: 0 };
-  const transition = { duration: 0.6, ease, delay };
+  const transition = { duration: 0.5, ease, delay };
 
   if (immediate) {
     return (
@@ -62,7 +62,7 @@ export function Reveal({
     <motion.div
       initial={initial}
       whileInView={final}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, amount: "some" }}
       transition={transition}
       className={className}
       {...rest}

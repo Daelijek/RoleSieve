@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Reveal } from "@/components/ui/Reveal";
 import { ProductGlassPanel } from "@/components/product/ProductGlassPanel";
 import { ProductZone } from "@/components/product/ProductZone";
 import type { AnalyzeRunMeta, ExportSummary, KpiSparkline } from "@/lib/types/export-summary";
@@ -74,72 +73,60 @@ export function ResultsDashboard({
       </ProductZone>
 
       <div className="grid auto-rows-fr gap-px bg-[color:var(--color-border-subtle)] lg:grid-cols-2">
-        <Reveal delay={0.05} className="h-full">
-          <ProductZone {...zoneProps("skills")} className="h-full">
-            <SkillsRankChart items={summary.top_skills} successful={successful} />
-          </ProductZone>
-        </Reveal>
-        <Reveal delay={0.1} className="h-full">
-          <ProductZone {...zoneProps("phrases")} className="h-full">
-            <PhrasesRankChart items={summary.top_keywords} successful={successful} />
-          </ProductZone>
-        </Reveal>
+        <ProductZone {...zoneProps("skills")} className="h-full">
+          <SkillsRankChart items={summary.top_skills} successful={successful} />
+        </ProductZone>
+        <ProductZone {...zoneProps("phrases")} className="h-full">
+          <PhrasesRankChart items={summary.top_keywords} successful={successful} />
+        </ProductZone>
       </div>
 
       {(summary.coverage || summary.dedup) && (
         <div className="grid auto-rows-fr gap-px border-t border-[color:var(--color-border-subtle)] bg-[color:var(--color-border-subtle)] lg:grid-cols-2">
           {summary.coverage && (
-            <Reveal delay={0.15} className="h-full">
-              <ProductZone {...zoneProps("coverage")} className="h-full">
-                <CoverageRing coverage={summary.coverage} errors={summary.errors} />
-              </ProductZone>
-            </Reveal>
+            <ProductZone {...zoneProps("coverage")} className="h-full">
+              <CoverageRing coverage={summary.coverage} errors={summary.errors} />
+            </ProductZone>
           )}
           {summary.dedup && (
-            <Reveal delay={0.2} className="h-full">
-              <ProductZone {...zoneProps("dedup")} className="h-full">
-                <DedupFlow dedup={summary.dedup} />
-              </ProductZone>
-            </Reveal>
+            <ProductZone {...zoneProps("dedup")} className="h-full">
+              <DedupFlow dedup={summary.dedup} />
+            </ProductZone>
           )}
         </div>
       )}
 
       <div className="border-t border-[color:var(--color-border-subtle)]">
-        <Reveal delay={0.1}>
-          <ProductZone {...zoneProps("cloud")}>
-            <SkillsCloud items={summary.top_skills} />
-          </ProductZone>
-        </Reveal>
+        <ProductZone {...zoneProps("cloud")}>
+          <SkillsCloud items={summary.top_skills} />
+        </ProductZone>
       </div>
 
       {summary.error_breakdown && summary.error_breakdown.length > 0 && (
         <div className="border-t border-[color:var(--color-border-subtle)]">
-          <Reveal delay={0.15}>
-            <ErrorBreakdown items={summary.error_breakdown} />
-          </Reveal>
+          <ErrorBreakdown items={summary.error_breakdown} />
         </div>
       )}
 
       {summary.coverage && (
         <ProductZone {...zoneProps("tables")}>
           <div className="grid gap-px border-t border-[color:var(--color-border-subtle)] bg-[color:var(--color-border-subtle)] lg:grid-cols-2">
-            <Reveal delay={0.1} className="bg-[color:var(--color-surface)]/40 p-4 sm:p-5">
+            <div className="bg-[color:var(--color-surface)]/40 p-4 sm:p-5">
               <RankedTable
                 title={dict.analyze.table.skillsTitle}
                 items={summary.top_skills}
                 successful={successful}
                 filenameStem="skills_top20"
               />
-            </Reveal>
-            <Reveal delay={0.15} className="bg-[color:var(--color-surface)]/40 p-4 sm:p-5">
+            </div>
+            <div className="bg-[color:var(--color-surface)]/40 p-4 sm:p-5">
               <RankedTable
                 title={dict.analyze.table.keywordsTitle}
                 items={summary.top_keywords}
                 successful={successful}
                 filenameStem="phrases_top20"
               />
-            </Reveal>
+            </div>
           </div>
         </ProductZone>
       )}

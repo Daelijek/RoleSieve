@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/Badge";
 import { GradientText } from "@/components/ui/GradientText";
 import { Halo } from "@/components/ui/Halo";
 import { DotGrid } from "@/components/ui/DotGrid";
-import { Reveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { HeroMockCard } from "./HeroMockCard";
 import { useDict } from "@/lib/i18n";
@@ -37,33 +36,23 @@ export function Hero() {
 
       <Container className="relative flex flex-col gap-14 sm:gap-16">
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-8 text-center sm:gap-10">
-          <Reveal immediate delay={0.05}>
-            <Badge variant="eyebrow" className="justify-center">
-              {h.eyebrow}
-            </Badge>
-          </Reveal>
+          <Badge variant="eyebrow" className="justify-center">
+            {h.eyebrow}
+          </Badge>
 
-          <Reveal immediate delay={0.15}>
-            <h1
-              id="hero-title"
-              className="text-balance text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
-            >
-              {h.titleStart} <GradientText>{h.titleHighlight}</GradientText>{" "}
-              {h.titleEnd}
-            </h1>
-          </Reveal>
-
-          <Reveal immediate delay={0.28}>
-            <p className="max-w-2xl text-pretty text-[17px] leading-[1.6] text-[color:var(--color-text-muted)]">
-              {h.subtitle}
-            </p>
-          </Reveal>
-
-          <Reveal
-            immediate
-            delay={0.4}
-            className="flex flex-col items-center justify-center gap-3 sm:flex-row"
+          <h1
+            id="hero-title"
+            className="text-balance text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
           >
+            {h.titleStart} <GradientText>{h.titleHighlight}</GradientText>{" "}
+            {h.titleEnd}
+          </h1>
+
+          <p className="max-w-2xl text-pretty text-[17px] leading-[1.6] text-[color:var(--color-text-muted)]">
+            {h.subtitle}
+          </p>
+
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <MagneticButton>
               <Button
                 href="/analyze"
@@ -76,26 +65,24 @@ export function Hero() {
             <Button href="/sample" size="lg" variant="outline">
               {h.ctaGhost}
             </Button>
-          </Reveal>
+          </div>
 
-          <Reveal immediate delay={0.55}>
-            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] text-[color:var(--color-text-muted)]">
-              {h.reassurance.map((line) => (
-                <li key={line} className="inline-flex items-center gap-2">
-                  <span
-                    aria-hidden
-                    className="h-1 w-1 rounded-full bg-[color:var(--color-text-subtle)]"
-                  />
-                  {line}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] text-[color:var(--color-text-muted)]">
+            {h.reassurance.map((line) => (
+              <li key={line} className="inline-flex items-center gap-2">
+                <span
+                  aria-hidden
+                  className="h-1 w-1 rounded-full bg-[color:var(--color-text-subtle)]"
+                />
+                {line}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <Reveal immediate delay={0.7} offset={16} className="mx-auto w-full max-w-5xl">
+        <div className="mx-auto w-full max-w-5xl">
           <HeroMockCard />
-        </Reveal>
+        </div>
       </Container>
     </section>
   );
