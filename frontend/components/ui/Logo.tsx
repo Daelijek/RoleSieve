@@ -20,17 +20,17 @@ export function Logo({ className, href = "/", showWordmark = true }: LogoProps) 
     >
       <span
         aria-hidden
-        className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg shadow-[var(--glow-logo)] transition-transform duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover:scale-105"
+        className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-[7px] shadow-[var(--glow-logo)] transition-transform duration-[var(--duration-base)] ease-[var(--ease-premium)] group-hover:scale-105"
       >
         <Image
           src="/brand/logo.png"
           alt=""
           width={32}
           height={32}
-          className="h-8 w-8 object-cover"
+          className="h-8 w-8 object-contain"
           priority
         />
-        <span className="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-white/15" />
+        <span className="pointer-events-none absolute inset-0 rounded-[7px] ring-1 ring-inset ring-white/15" />
       </span>
       {showWordmark ? (
         <span className="text-[15px] font-semibold tracking-tight text-[color:var(--color-text-primary)]">
