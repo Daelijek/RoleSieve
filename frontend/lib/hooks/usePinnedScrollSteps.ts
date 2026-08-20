@@ -35,8 +35,8 @@ export function usePinnedScrollSteps(
     count,
     perStepVh,
     trailingVh = 0,
-    stickyTopVh = 12,
-    stickyTopVhSm = 15,
+    stickyTopVh = 0,
+    stickyTopVhSm = 0,
   }: Options,
 ) {
   const [activeIdx, setActiveIdx] = useState(0);
