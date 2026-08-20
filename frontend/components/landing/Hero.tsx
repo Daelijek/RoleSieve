@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/Badge";
 import { GradientText } from "@/components/ui/GradientText";
 import { Halo } from "@/components/ui/Halo";
 import { DotGrid } from "@/components/ui/DotGrid";
-import { Reveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { HeroMockCard } from "./HeroMockCard";
 import { useDict } from "@/lib/i18n";
@@ -81,9 +80,9 @@ export function Hero() {
           </ul>
         </div>
 
-        <Reveal immediate delay={0.2} offset={16} className="mx-auto w-full max-w-5xl">
+        <div className="mx-auto w-full max-w-5xl">
           <HeroMockCard />
-        </Reveal>
+        </div>
       </Container>
     </section>
   );
