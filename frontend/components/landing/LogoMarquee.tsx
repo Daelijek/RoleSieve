@@ -1,93 +1,12 @@
 "use client";
 
-import {
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-  type Ref,
-} from "react";
 import { Container } from "@/components/ui/Container";
 import { useDict } from "@/lib/i18n";
-
-/** Pixels per second — keeps scroll speed stable as content width grows. */
-const MARQUEE_SPEED_PX_PER_SEC = 72;
-
-type LoopItem = { key: string; name: string };
-
-function MarqueeTrack({
-  items,
-  hidden,
-  trackRef,
-}: {
-  items: LoopItem[];
-  hidden?: boolean;
-  trackRef?: Ref<HTMLUListElement>;
-}) {
-  return (
-    <ul
-      ref={trackRef}
-      className="flex shrink-0 items-center gap-12 pr-12 sm:gap-16 sm:pr-16"
-      aria-hidden={hidden || undefined}
-    >
-      {items.map(({ key, name }) => (
-        <li
-          key={hidden ? `dup-${key}` : key}
-          className="select-none text-[clamp(1.25rem,2vw,1.625rem)] font-semibold tracking-tight text-[color:var(--color-text-muted)]/80 transition-colors duration-300 hover:text-[color:var(--color-text-primary)]"
-          style={{ fontVariationSettings: "'opsz' 32" }}
-        >
-          {name}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export function LogoMarquee() {
   const dict = useDict();
   const l = dict.logos;
   const items = l.items;
-
-  const [repeat, setRepeat] = useState(2);
-  const [shiftPx, setShiftPx] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLUListElement>(null);
-
-  const loopedItems = useMemo(
-    () =>
-      Array.from({ length: repeat }, (_, r) =>
-        items.map((name) => ({ key: `${r}-${name}`, name }))
-      ).flat(),
-    [items, repeat]
-  );
-
-  useLayoutEffect(() => {
-    const container = containerRef.current;
-    const track = trackRef.current;
-    if (!container || !track) return;
-
-    const sync = () => {
-      const containerWidth = container.clientWidth;
-      const trackWidth = track.getBoundingClientRect().width;
-
-      if (trackWidth < containerWidth && repeat < 24) {
-        setShiftPx(0);
-        setRepeat((r) => r + 1);
-        return;
-      }
-
-      setShiftPx(trackWidth);
-    };
-
-    sync();
-    const observer = new ResizeObserver(sync);
-    observer.observe(container);
-    observer.observe(track);
-    return () => observer.disconnect();
-  }, [repeat, items]);
-
-  const duration =
-    shiftPx > 0 ? shiftPx / MARQUEE_SPEED_PX_PER_SEC : 36;
 
   return (
     <section
@@ -100,7 +19,7 @@ export function LogoMarquee() {
         </p>
       </Container>
 
-      <div ref={containerRef} className="group relative overflow-hidden">
+      <div className="group relative overflow-hidden">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[color:var(--color-canvas)] to-transparent sm:w-40"
@@ -110,19 +29,31 @@ export function LogoMarquee() {
           className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[color:var(--color-canvas)] to-transparent sm:w-40"
         />
         <div
-          className="flex w-max group-hover:[animation-play-state:paused]"
-          style={
-            shiftPx > 0
-              ? {
-                  ["--marquee-distance" as string]: `${shiftPx}px`,
-                  animation: `marquee-x ${duration}s linear infinite`,
-                }
-              : undefined
-          }
+          className="flex w-max animate-marquee group-hover:[animation-play-state:paused] [will-change:transform]"
           aria-hidden
         >
-          <MarqueeTrack trackRef={trackRef} items={loopedItems} />
-          <MarqueeTrack items={loopedItems} hidden />
+          <ul className="flex shrink-0 items-center gap-12 pr-12 sm:gap-16 sm:pr-16">
+            {items.map((name, i) => (
+              <li
+                key={`m1-${i}-${name}`}
+                className="select-none text-[clamp(1.25rem,2vw,1.625rem)] font-semibold tracking-tight text-[color:var(--color-text-muted)]/80 transition-colors duration-300 hover:text-[color:var(--color-text-primary)]"
+                style={{ fontVariationSettings: "'opsz' 32" }}
+              >
+                {name}
+              </li>
+            ))}
+          </ul>
+          <ul className="flex shrink-0 items-center gap-12 pr-12 sm:gap-16 sm:pr-16" aria-hidden="true">
+            {items.map((name, i) => (
+              <li
+                key={`m2-${i}-${name}`}
+                className="select-none text-[clamp(1.25rem,2vw,1.625rem)] font-semibold tracking-tight text-[color:var(--color-text-muted)]/80 transition-colors duration-300 hover:text-[color:var(--color-text-primary)]"
+                style={{ fontVariationSettings: "'opsz' 32" }}
+              >
+                {name}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

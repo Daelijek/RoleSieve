@@ -55,10 +55,9 @@ export function SkillsRankChart({
               <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
                 <motion.div
                   className="absolute inset-y-0 left-0 rounded-full bg-[var(--signature-gradient)] shadow-[0_0_12px_rgba(139,108,255,0.45)]"
-                  initial={reduce ? { width: `${w}%` } : { width: 0 }}
-                  whileInView={{ width: `${w}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1], delay: i * 0.04 }}
+                  initial={false}
+                  animate={{ width: `${w}%` }}
+                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
                 />
               </div>
               <span className="hidden w-10 text-right font-mono text-[11px] tabular-nums text-[color:var(--color-text-subtle)] sm:inline">
