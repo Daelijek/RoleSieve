@@ -134,19 +134,19 @@ function VelocityScene() {
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-white/30">
+          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
             Активность запусков
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-white/95">
+            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
               5 230
             </span>
-            <span className="font-mono text-[22px] font-bold text-[rgb(139,108,255)]">
+            <span className="font-mono text-[22px] font-bold text-violet">
               +
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 rounded-full border border-violet/30 bg-violet/10 px-3 py-1 font-mono text-[11px] text-[rgb(139,108,255)]">
+        <div className="flex items-center gap-1.5 rounded-full border border-violet/30 bg-violet/10 px-3 py-1 font-mono text-[11px] text-violet">
           <TrendingUp size={12} />
           <span>+24% MoM</span>
         </div>
@@ -155,7 +155,7 @@ function VelocityScene() {
       {/* SVG Waveform Sparkline */}
       <motion.div
         variants={fadeUp}
-        className="relative overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] p-3"
+        className="relative overflow-hidden rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-3"
       >
         <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: H }}>
           <defs>
@@ -210,13 +210,13 @@ function VelocityScene() {
 
       {/* Telemetry metrics */}
       <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
-        <span className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 font-mono text-[11px] text-white/60">
-          <Zap size={12} className="text-[rgb(139,108,255)]" /> &lt;30 сек / прогон
+        <span className="flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-3 py-1.5 font-mono text-[11px] text-[color:var(--color-text-muted)]">
+          <Zap size={12} className="text-violet" /> &lt;30 сек / прогон
         </span>
-        <span className="flex items-center gap-1.5 rounded-lg border border-emerald-500/25 bg-emerald-500/[0.06] px-3 py-1.5 font-mono text-[11px] text-emerald-400">
+        <span className="flex items-center gap-1.5 rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-3 py-1.5 font-mono text-[11px] text-emerald-500">
           <Check size={12} /> 0 ошибок API
         </span>
-        <span className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 font-mono text-[11px] text-white/40">
+        <span className="flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-3 py-1.5 font-mono text-[11px] text-[color:var(--color-text-subtle)]">
           Экспорт .xlsx
         </span>
       </motion.div>
@@ -246,17 +246,17 @@ function GeospatialScene() {
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-white/30">
+          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
             География анализа
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-white/95">
+            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
               47
             </span>
-            <span className="font-mono text-[16px] text-white/40">регионов</span>
+            <span className="font-mono text-[16px] text-[color:var(--color-text-subtle)]">регионов</span>
           </div>
         </div>
-        <span className="rounded-full border border-coral/30 bg-coral/10 px-3 py-1 font-mono text-[11px] text-[rgb(255,106,90)]">
+        <span className="rounded-full border border-coral/30 bg-coral/10 px-3 py-1 font-mono text-[11px] text-coral">
           РФ · СНГ · Remote
         </span>
       </motion.div>
@@ -266,12 +266,12 @@ function GeospatialScene() {
         {hubs.map((hub, i) => (
           <div key={hub.name} className="space-y-1">
             <div className="flex justify-between font-mono text-[11px]">
-              <span className="text-white/70">{hub.name}</span>
+              <span className="text-[color:var(--color-text-primary)]">{hub.name}</span>
               <span style={{ color: `rgb(${hub.rgb})` }} className="font-bold">
                 {hub.share}%
               </span>
             </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-white/[0.06]">
+            <div className="h-2 w-full overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
               <motion.div
                 className="h-full rounded-full"
                 style={{
@@ -293,9 +293,9 @@ function GeospatialScene() {
 
       <motion.div
         variants={fadeUp}
-        className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] p-2.5 font-mono text-[10.5px] text-white/40"
+        className="flex items-center gap-2 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-2.5 font-mono text-[10.5px] text-[color:var(--color-text-muted)]"
       >
-        <Globe2 size={13} className="text-[rgb(255,106,90)]" />
+        <Globe2 size={13} className="text-coral" />
         <span>Автоматическая нормализация локаций и часовых поясов</span>
       </motion.div>
     </motion.div>
@@ -320,19 +320,19 @@ function NlpGraphScene() {
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-white/30">
+          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
             База распознавания
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-white/95">
+            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
               12 400
             </span>
-            <span className="font-mono text-[22px] font-bold text-[rgb(0,210,211)]">
+            <span className="font-mono text-[22px] font-bold text-aqua">
               +
             </span>
           </div>
         </div>
-        <span className="rounded-full border border-[rgba(0,210,211,0.3)] bg-[rgba(0,210,211,0.1)] px-3 py-1 font-mono text-[11px] text-[rgb(0,210,211)]">
+        <span className="rounded-full border border-aqua/30 bg-aqua/10 px-3 py-1 font-mono text-[11px] text-aqua">
           NLP N-gram Engine
         </span>
       </motion.div>
@@ -340,12 +340,12 @@ function NlpGraphScene() {
       {/* Cyber Equalizer Waveform */}
       <motion.div
         variants={fadeUp}
-        className="flex h-16 items-end justify-between gap-1 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3"
+        className="flex h-16 items-end justify-between gap-1 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-3"
       >
         {bars.map((h, i) => (
           <motion.div
             key={i}
-            className="w-full rounded-t-sm bg-gradient-to-t from-[rgba(0,210,211,0.2)] to-[rgb(0,210,211)]"
+            className="w-full rounded-t-sm bg-gradient-to-t from-[rgba(0,210,211,0.2)] to-aqua"
             initial={{ height: 4 }}
             animate={{
               height: `${h}%`,
@@ -370,7 +370,7 @@ function NlpGraphScene() {
         {tags.map((tag) => (
           <span
             key={tag}
-            className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-white/60"
+            className="rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-2.5 py-1 font-mono text-[11px] text-[color:var(--color-text-muted)]"
           >
             {tag}
           </span>
@@ -395,17 +395,17 @@ function ConfidenceScene() {
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-white/30">
+          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
             Медианное покрытие
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-white/95">
+            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
               89%
             </span>
-            <span className="font-mono text-[16px] text-emerald-400">key_skills</span>
+            <span className="font-mono text-[16px] text-emerald-500">key_skills</span>
           </div>
         </div>
-        <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] text-emerald-400">
+        <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] text-emerald-500">
           Точность 99.8%
         </span>
       </motion.div>
@@ -413,7 +413,7 @@ function ConfidenceScene() {
       {/* Circular Gauge / Target Visualizer */}
       <motion.div
         variants={fadeUp}
-        className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] p-4"
+        className="flex items-center justify-between rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-4"
       >
         <div className="relative flex h-20 w-20 items-center justify-center">
           <svg className="h-full w-full -rotate-90" viewBox="0 0 72 72">
@@ -421,7 +421,7 @@ function ConfidenceScene() {
               cx="36"
               cy="36"
               r="30"
-              className="stroke-white/10"
+              className="stroke-[color:var(--color-surface-3)]"
               strokeWidth="6"
               fill="none"
             />
@@ -429,7 +429,7 @@ function ConfidenceScene() {
               cx="36"
               cy="36"
               r="30"
-              className="stroke-emerald-400"
+              className="stroke-emerald-500"
               strokeWidth="6"
               strokeDasharray={188.5}
               initial={{ strokeDashoffset: 188.5 }}
@@ -440,18 +440,18 @@ function ConfidenceScene() {
               style={{ filter: "drop-shadow(0 0 8px rgba(16,185,129,0.5))" }}
             />
           </svg>
-          <span className="absolute font-mono text-[14px] font-bold text-emerald-400">
+          <span className="absolute font-mono text-[14px] font-bold text-emerald-500">
             89%
           </span>
         </div>
 
         <div className="space-y-2 text-right">
-          <div className="flex items-center justify-end gap-1.5 font-mono text-[11.5px] text-emerald-400">
+          <div className="flex items-center justify-end gap-1.5 font-mono text-[11.5px] text-emerald-500">
             <ShieldCheck size={14} />
             <span>Дедупликация 99.8%</span>
           </div>
-          <div className="flex items-center justify-end gap-1.5 font-mono text-[11.5px] text-white/60">
-            <Check size={14} className="text-emerald-400" />
+          <div className="flex items-center justify-end gap-1.5 font-mono text-[11.5px] text-[color:var(--color-text-muted)]">
+            <Check size={14} className="text-emerald-500" />
             <span>0% ложных срабатываний</span>
           </div>
         </div>
@@ -459,7 +459,7 @@ function ConfidenceScene() {
 
       <motion.div
         variants={fadeUp}
-        className="flex items-center justify-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/[0.04] py-2 font-mono text-[11px] text-emerald-400/90"
+        className="flex items-center justify-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 py-2 font-mono text-[11px] text-emerald-500"
       >
         <Check size={13} />
         <span>Высокая точность извлечения требований</span>
@@ -525,7 +525,7 @@ export function StatsBand() {
   const chamberShadow = useTransform(
     borderGlow,
     (v: string) =>
-      `inset 0 0 0 1px ${v}, 0 0 50px -8px ${v}, 0 40px 100px -20px rgba(0,0,0,0.7)`,
+      `inset 0 0 0 1px ${v}, 0 0 40px -8px ${v}, 0 24px 60px -20px rgba(0,0,0,0.35)`,
   );
 
   const topShimmer = useTransform(
@@ -614,20 +614,20 @@ export function StatsBand() {
                         key={item.label}
                         className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 transition-all duration-300 ${
                           active
-                            ? "border border-white/10 bg-white/[0.04] text-[color:var(--color-text-primary)] shadow-sm"
+                            ? "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-[color:var(--color-text-primary)] shadow-sm"
                             : past
-                              ? "text-[color:var(--color-text-muted)] opacity-60"
-                              : "text-[color:var(--color-text-subtle)] opacity-35"
+                              ? "text-[color:var(--color-text-muted)] opacity-70"
+                              : "text-[color:var(--color-text-subtle)] opacity-40"
                         }`}
                       >
                         <span
                           className={`flex h-6 w-6 items-center justify-center rounded-lg font-mono text-[11px] font-bold transition-colors ${
                             active
                               ? "text-white shadow-[0_0_12px_rgba(255,255,255,0.3)]"
-                              : "text-white/40"
+                              : "bg-[color:var(--color-surface-3)] text-[color:var(--color-text-muted)]"
                           }`}
                           style={{
-                            backgroundColor: active ? `rgb(${cfg.rgb})` : "rgba(255,255,255,0.06)",
+                            backgroundColor: active ? `rgb(${cfg.rgb})` : undefined,
                           }}
                         >
                           {past ? <Check size={12} strokeWidth={2.5} /> : cfg.num}
@@ -644,7 +644,7 @@ export function StatsBand() {
               {/* ── Right: the morphing telemetry chamber ── */}
               <div className="relative flex items-center justify-center">
                 <motion.div
-                  className="relative w-full overflow-hidden rounded-[24px] bg-[#080810]"
+                  className="glass-strong relative w-full overflow-hidden rounded-[24px] bg-[color:var(--color-surface)]/90"
                   style={{ boxShadow: chamberShadow }}
                 >
                   {/* Laser scan on metric change */}
@@ -662,10 +662,10 @@ export function StatsBand() {
                   {/* Dot grid background */}
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-0 opacity-[0.025]"
+                    className="pointer-events-none absolute inset-0 opacity-[0.03]"
                     style={{
                       backgroundImage:
-                        "radial-gradient(circle, white 1px, transparent 1px)",
+                        "radial-gradient(circle, currentColor 1px, transparent 1px)",
                       backgroundSize: "22px 22px",
                     }}
                   />
@@ -683,10 +683,10 @@ export function StatsBand() {
                   </div>
 
                   {/* Bottom status bar */}
-                  <div className="flex items-center justify-between border-t border-white/[0.05] px-5 py-2.5">
+                  <div className="flex items-center justify-between border-t border-[color:var(--color-border-subtle)] px-5 py-2.5">
                     <div className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-                      <span className="font-mono text-[10px] text-white/20">
+                      <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                      <span className="font-mono text-[10px] text-[color:var(--color-text-subtle)]">
                         LIVE MARKET MATRIX
                       </span>
                     </div>
@@ -705,9 +705,9 @@ export function StatsBand() {
                         </motion.span>
                       </AnimatePresence>
                       <div className="flex gap-1">
-                        <div className="h-2 w-2 rounded-full bg-[#ff5f57]/50" />
-                        <div className="h-2 w-2 rounded-full bg-[#febc2e]/50" />
-                        <div className="h-2 w-2 rounded-full bg-[#28c840]/50" />
+                        <div className="h-2 w-2 rounded-full bg-[#ff5f57]/70" />
+                        <div className="h-2 w-2 rounded-full bg-[#febc2e]/70" />
+                        <div className="h-2 w-2 rounded-full bg-[#28c840]/70" />
                       </div>
                     </div>
                   </div>

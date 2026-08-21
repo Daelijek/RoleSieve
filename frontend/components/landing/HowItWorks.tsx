@@ -168,16 +168,16 @@ function QueryPhase() {
       {/* Search input */}
       <motion.div
         variants={fadeUp}
-        className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3.5"
+        className="flex items-center gap-3 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-4 py-3.5"
       >
-        <Search size={16} className="flex-shrink-0 text-[rgb(139,108,255)]" />
-        <span className="font-mono text-[14px] text-white/90">
+        <Search size={16} className="flex-shrink-0 text-violet" />
+        <span className="font-mono text-[14px] text-[color:var(--color-text-primary)]">
           Python Developer
         </span>
         <motion.span
           animate={{ opacity: [1, 0, 1] }}
           transition={{ duration: 1, repeat: Infinity }}
-          className="text-[rgb(139,108,255)]"
+          className="text-violet"
         >
           ▎
         </motion.span>
@@ -189,7 +189,7 @@ function QueryPhase() {
           <motion.span
             key={t}
             variants={fadeUp}
-            className="rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2 font-mono text-[12px] text-white/55"
+            className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 px-3.5 py-2 font-mono text-[12px] text-[color:var(--color-text-muted)]"
           >
             {t}
           </motion.span>
@@ -199,11 +199,11 @@ function QueryPhase() {
       {/* API call */}
       <motion.div
         variants={fadeUp}
-        className="rounded-xl border border-[rgba(139,108,255,0.2)] bg-[rgba(139,108,255,0.06)] p-4"
+        className="rounded-xl border border-violet/30 bg-violet/10 p-4"
       >
         <div className="flex items-center gap-2 font-mono text-[11px]">
-          <span className="font-bold text-[rgb(139,108,255)]">GET</span>
-          <span className="truncate text-white/40">
+          <span className="font-bold text-violet">GET</span>
+          <span className="truncate text-[color:var(--color-text-muted)]">
             /vacancies?text=Python+Developer&amp;area=1&amp;experience=between1And3
           </span>
         </div>
@@ -211,9 +211,9 @@ function QueryPhase() {
           <motion.div
             animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.6)]"
+            className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"
           />
-          <span className="font-mono text-[10px] text-emerald-400/80">
+          <span className="font-mono text-[10px] text-emerald-500">
             HH API Connected · Ready
           </span>
         </div>
@@ -237,20 +237,20 @@ function CollectPhase() {
     >
       {/* Counter */}
       <motion.div variants={fadeUp} className="text-center">
-        <p className="font-mono text-[11px] uppercase tracking-widest text-white/30">
+        <p className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
           Вакансий собрано
         </p>
-        <p className="mt-1 font-mono text-[46px] font-bold leading-none tracking-tight text-white/90">
+        <p className="mt-1 font-mono text-[46px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
           120
-          <span className="ml-1 text-[18px] text-white/30">/ 120</span>
+          <span className="ml-1 text-[18px] text-[color:var(--color-text-subtle)]">/ 120</span>
         </p>
       </motion.div>
 
       {/* Progress bar */}
       <motion.div variants={fadeUp}>
-        <div className="h-3 w-full overflow-hidden rounded-full bg-white/[0.06]">
+        <div className="h-3 w-full overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-[rgb(139,108,255)] via-fuchsia-500 to-[rgb(0,210,211)]"
+            className="h-full rounded-full bg-gradient-to-r from-violet via-fuchsia-500 to-aqua"
             initial={{ width: 0 }}
             animate={{ width: "100%" }}
             transition={{
@@ -275,17 +275,17 @@ function CollectPhase() {
           {
             icon: <ShieldCheck size={13} />,
             text: "Лимиты HH соблюдены",
-            cls: "border-emerald-500/25 bg-emerald-500/[0.06] text-emerald-400/90",
+            cls: "border-emerald-500/25 bg-emerald-500/10 text-emerald-500",
           },
           {
             icon: <Check size={13} />,
             text: "0 ошибок",
-            cls: "border-emerald-500/25 bg-emerald-500/[0.06] text-emerald-400/90",
+            cls: "border-emerald-500/25 bg-emerald-500/10 text-emerald-500",
           },
           {
             icon: <Zap size={13} />,
             text: "28 сек",
-            cls: "border-[rgba(0,210,211,0.25)] bg-[rgba(0,210,211,0.06)] text-[rgba(0,210,211,0.9)]",
+            cls: "border-aqua/25 bg-aqua/10 text-aqua",
           },
         ].map((b) => (
           <motion.div
@@ -317,7 +317,7 @@ function SignalsPhase() {
     >
       <motion.p
         variants={fadeUp}
-        className="mb-4 font-mono text-[10px] uppercase tracking-widest text-white/25"
+        className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]"
       >
         Топ ключевых навыков · 120 вакансий
       </motion.p>
@@ -325,7 +325,7 @@ function SignalsPhase() {
       {SKILLS.map((skill, i) => (
         <motion.div key={skill.name} variants={fadeUp}>
           <div className="mb-1.5 flex justify-between font-mono text-[12px]">
-            <span className="text-white/75">{skill.name}</span>
+            <span className="text-[color:var(--color-text-primary)]">{skill.name}</span>
             <span
               className="font-bold"
               style={{ color: `rgb(${skill.rgb})` }}
@@ -333,7 +333,7 @@ function SignalsPhase() {
               {skill.pct}%
             </span>
           </div>
-          <div className="h-2.5 overflow-hidden rounded-full bg-white/[0.06]">
+          <div className="h-2.5 overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
             <motion.div
               className="h-full rounded-full"
               style={{
@@ -358,7 +358,7 @@ function SignalsPhase() {
           (phrase) => (
             <span
               key={phrase}
-              className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-1.5 font-mono text-[11px] italic text-white/35"
+              className="rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 px-3 py-1.5 font-mono text-[11px] italic text-[color:var(--color-text-muted)]"
             >
               &ldquo;{phrase}&rdquo;
             </span>
@@ -385,27 +385,23 @@ function ResultPhase() {
       {/* Floating 3D document */}
       <motion.div
         variants={fadeUp}
-        className="relative w-full max-w-sm rounded-2xl border border-emerald-400/20 bg-gradient-to-br from-emerald-500/[0.08] to-emerald-500/[0.02] p-6 sm:p-7"
+        className="relative w-full max-w-sm rounded-2xl border border-emerald-500/30 bg-[color:var(--color-surface)] p-6 sm:p-7 shadow-[var(--shadow-lift)]"
         animate={{
           rotateY: [0, 1.5, 0, -1.5, 0],
           rotateX: [0, 0.8, 0, -0.8, 0],
         }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          boxShadow:
-            "0 0 50px -10px rgba(16,185,129,0.25), 0 24px 60px -12px rgba(0,0,0,0.5)",
-        }}
       >
         {/* File header */}
         <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15 font-mono text-[16px] font-bold text-emerald-400 shadow-[0_0_24px_rgba(16,185,129,0.3)]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15 font-mono text-[16px] font-bold text-emerald-500 shadow-[0_0_24px_rgba(16,185,129,0.2)]">
             XLS
           </div>
           <div>
-            <p className="text-[15px] font-semibold text-white/90">
+            <p className="text-[15px] font-semibold text-[color:var(--color-text-primary)]">
               RoleSieve_Export.xlsx
             </p>
-            <p className="mt-0.5 font-mono text-[11px] text-white/35">
+            <p className="mt-0.5 font-mono text-[11px] text-[color:var(--color-text-muted)]">
               4 листа · 120 вакансий · 847 KB
             </p>
           </div>
@@ -423,12 +419,12 @@ function ResultPhase() {
           ].map((s) => (
             <div
               key={s.l}
-              className="rounded-xl bg-white/[0.04] p-3 text-center"
+              className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-3 text-center"
             >
-              <p className="font-mono text-[20px] font-bold text-emerald-400">
+              <p className="font-mono text-[20px] font-bold text-emerald-500">
                 {s.v}
               </p>
-              <p className="mt-0.5 font-mono text-[9px] uppercase tracking-wider text-white/25">
+              <p className="mt-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--color-text-subtle)]">
                 {s.l}
               </p>
             </div>
@@ -438,15 +434,15 @@ function ResultPhase() {
         {/* Ready badge */}
         <motion.div
           variants={fadeUp}
-          className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-emerald-400/25 bg-emerald-400/[0.08] py-2.5"
+          className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-2.5"
         >
           <motion.div
             animate={{ scale: [1, 1.25, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <Check size={14} className="text-emerald-400" />
+            <Check size={14} className="text-emerald-500" />
           </motion.div>
-          <span className="font-mono text-[12px] font-medium text-emerald-400">
+          <span className="font-mono text-[12px] font-medium text-emerald-500">
             Готово к адаптации резюме
           </span>
         </motion.div>
@@ -512,7 +508,7 @@ export function HowItWorks() {
   const chamberShadow = useTransform(
     borderGlow,
     (v: string) =>
-      `inset 0 0 0 1px ${v}, 0 0 50px -8px ${v}, 0 40px 100px -20px rgba(0,0,0,0.7)`,
+      `inset 0 0 0 1px ${v}, 0 0 40px -8px ${v}, 0 24px 60px -20px rgba(0,0,0,0.35)`,
   );
 
   const topShimmer = useTransform(
@@ -593,20 +589,20 @@ export function HowItWorks() {
                         key={step.number}
                         className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 transition-all duration-300 ${
                           active
-                            ? "border border-white/10 bg-white/[0.04] text-[color:var(--color-text-primary)] shadow-sm"
+                            ? "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-[color:var(--color-text-primary)] shadow-sm"
                             : past
-                              ? "text-[color:var(--color-text-muted)] opacity-60"
-                              : "text-[color:var(--color-text-subtle)] opacity-35"
+                              ? "text-[color:var(--color-text-muted)] opacity-70"
+                              : "text-[color:var(--color-text-subtle)] opacity-40"
                         }`}
                       >
                         <span
                           className={`flex h-6 w-6 items-center justify-center rounded-lg font-mono text-[11px] font-bold transition-colors ${
                             active
                               ? "text-white shadow-[0_0_12px_rgba(255,255,255,0.3)]"
-                              : "text-white/40"
+                              : "bg-[color:var(--color-surface-3)] text-[color:var(--color-text-muted)]"
                           }`}
                           style={{
-                            backgroundColor: active ? `rgb(${col.rgb})` : "rgba(255,255,255,0.06)",
+                            backgroundColor: active ? `rgb(${col.rgb})` : undefined,
                           }}
                         >
                           {past ? <Check size={12} strokeWidth={2.5} /> : step.number}
@@ -621,7 +617,7 @@ export function HowItWorks() {
               {/* ── Right: the morphing pipeline chamber ── */}
               <div className="relative flex items-center justify-center">
                 <motion.div
-                  className="relative w-full overflow-hidden rounded-[24px] bg-[#080810]"
+                  className="glass-strong relative w-full overflow-hidden rounded-[24px] bg-[color:var(--color-surface)]/90"
                   style={{ boxShadow: chamberShadow }}
                 >
                   {/* Laser scan on phase change */}
@@ -639,10 +635,10 @@ export function HowItWorks() {
                   {/* Dot grid background */}
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-0 opacity-[0.025]"
+                    className="pointer-events-none absolute inset-0 opacity-[0.03]"
                     style={{
                       backgroundImage:
-                        "radial-gradient(circle, white 1px, transparent 1px)",
+                        "radial-gradient(circle, currentColor 1px, transparent 1px)",
                       backgroundSize: "22px 22px",
                     }}
                   />
@@ -660,8 +656,8 @@ export function HowItWorks() {
                   </div>
 
                   {/* Bottom status bar */}
-                  <div className="flex items-center justify-between border-t border-white/[0.05] px-5 py-2.5">
-                    <span className="font-mono text-[10px] text-white/20">
+                  <div className="flex items-center justify-between border-t border-[color:var(--color-border-subtle)] px-5 py-2.5">
+                    <span className="font-mono text-[10px] text-[color:var(--color-text-subtle)]">
                       RoleSieve Pipeline Engine
                     </span>
                     <div className="flex items-center gap-3">
@@ -679,9 +675,9 @@ export function HowItWorks() {
                         </motion.span>
                       </AnimatePresence>
                       <div className="flex gap-1">
-                        <div className="h-2 w-2 rounded-full bg-[#ff5f57]/50" />
-                        <div className="h-2 w-2 rounded-full bg-[#febc2e]/50" />
-                        <div className="h-2 w-2 rounded-full bg-[#28c840]/50" />
+                        <div className="h-2 w-2 rounded-full bg-[#ff5f57]/70" />
+                        <div className="h-2 w-2 rounded-full bg-[#febc2e]/70" />
+                        <div className="h-2 w-2 rounded-full bg-[#28c840]/70" />
                       </div>
                     </div>
                   </div>

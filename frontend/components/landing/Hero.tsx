@@ -8,7 +8,6 @@ import { GradientText } from "@/components/ui/GradientText";
 import { Halo } from "@/components/ui/Halo";
 import { DotGrid } from "@/components/ui/DotGrid";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { HeroMockCard } from "./HeroMockCard";
 import { useDict } from "@/lib/i18n";
 
 export function Hero() {
@@ -78,10 +77,6 @@ export function Hero() {
               </li>
             ))}
           </ul>
-        </div>
-
-        <div className="mx-auto w-full max-w-5xl">
-          <HeroMockCard />
         </div>
       </Container>
     </section>
