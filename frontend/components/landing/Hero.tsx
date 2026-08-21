@@ -36,27 +36,33 @@ export function Hero() {
 
           <h1
             id="hero-title"
-            className="text-balance text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
+            className="text-balance text-[clamp(2.15rem,6.5vw,4.75rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
           >
             {h.titleStart} <GradientText>{h.titleHighlight}</GradientText>{" "}
             {h.titleEnd}
           </h1>
 
-          <p className="max-w-2xl text-pretty text-[17px] leading-[1.6] text-[color:var(--color-text-muted)]">
+          <p className="max-w-2xl text-pretty text-[15.5px] leading-[1.6] text-[color:var(--color-text-muted)] sm:text-[17px]">
             {h.subtitle}
           </p>
 
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <MagneticButton>
+          <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
+            <MagneticButton className="w-full sm:w-auto">
               <Button
                 href="/analyze"
                 size="lg"
+                className="w-full sm:w-auto"
                 trailing={<ArrowRight size={16} strokeWidth={2.25} />}
               >
                 {h.ctaPrimary}
               </Button>
             </MagneticButton>
-            <Button href="/sample" size="lg" variant="outline">
+            <Button
+              href="/sample"
+              size="lg"
+              variant="outline"
+              className="w-full sm:w-auto"
+            >
               {h.ctaGhost}
             </Button>
           </div>

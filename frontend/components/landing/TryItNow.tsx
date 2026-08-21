@@ -77,7 +77,7 @@ function ChipGroup({
               onClick={() => onChange(opt)}
               aria-pressed={active}
               className={cn(
-                "rounded-full border px-3 py-1.5 text-[12.5px] transition-colors duration-[var(--duration-fast)]",
+                "rounded-full border px-2.5 py-1 text-[11.5px] transition-colors duration-[var(--duration-fast)] sm:px-3 sm:py-1.5 sm:text-[12.5px]",
                 active
                   ? "border-violet/50 bg-[color:var(--color-violet)]/15 text-[color:var(--color-text-primary)]"
                   : "border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]/60 text-[color:var(--color-text-muted)] hover:border-[color:var(--color-border-strong)] hover:text-[color:var(--color-text-primary)]",
@@ -214,7 +214,7 @@ export function TryItNow() {
 
             <div className="grid gap-px bg-[color:var(--color-border-subtle)] lg:grid-cols-5">
               {/* Form column */}
-              <div className="bg-[color:var(--color-surface)]/50 p-6 sm:p-8 lg:col-span-2">
+              <div className="bg-[color:var(--color-surface)]/50 p-4 sm:p-7 lg:col-span-2 lg:p-8">
                 <div className="flex items-center gap-2">
                   <Search size={14} strokeWidth={1.75} className="text-violet" />
                   <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
@@ -235,7 +235,7 @@ export function TryItNow() {
                       onChange={(e) => setQuery(e.target.value)}
                       placeholder={t.placeholder}
                       disabled={phase === "running"}
-                      className="w-full rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-canvas)]/70 px-4 py-3 pr-10 text-[15px] text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-subtle)] outline-none transition-colors focus:border-violet/50 focus:bg-[color:var(--color-canvas)]/90 disabled:opacity-60"
+                      className="w-full rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-canvas)]/70 px-4 py-3 pr-10 text-[14px] text-[color:var(--color-text-primary)] placeholder:text-[color:var(--color-text-subtle)] outline-none transition-colors focus:border-violet/50 focus:bg-[color:var(--color-canvas)]/90 disabled:opacity-60 sm:text-[15px]"
                       autoComplete="off"
                     />
                     <Sparkles
@@ -317,29 +317,29 @@ export function TryItNow() {
               </div>
 
               {/* Result column */}
-              <div className="bg-[color:var(--color-surface)]/30 p-6 sm:p-8 lg:col-span-3">
+              <div className="bg-[color:var(--color-surface)]/30 p-4 sm:p-7 lg:col-span-3 lg:p-8">
                 {/* Header */}
-                <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
+                <div className="mb-5 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center sm:gap-3">
+                  <div className="flex max-w-full flex-wrap items-center gap-2">
                     <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
                       {t.resultLabel}
                     </span>
                     {phase !== "idle" ? (
-                      <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] px-3 py-1 font-mono text-[11px] text-[color:var(--color-text-primary)]">
-                        <span className="h-1 w-1 rounded-full bg-aqua" />
-                        {chipQuery}
+                      <span className="inline-flex max-w-full items-center gap-2 truncate rounded-full border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] px-3 py-1 font-mono text-[11px] text-[color:var(--color-text-primary)]">
+                        <span className="h-1 w-1 shrink-0 rounded-full bg-aqua" />
+                        <span className="truncate">{chipQuery}</span>
                       </span>
                     ) : null}
                   </div>
                   {phase === "result" && preset ? (
-                    <span className="inline-flex items-center gap-1.5 text-[11px] text-[color:var(--color-text-muted)]">
+                    <span className="inline-flex shrink-0 items-center gap-1.5 text-[11px] text-[color:var(--color-text-muted)]">
                       <span className="h-1.5 w-1.5 rounded-full bg-success shadow-[var(--glow-success-dot)]" />
                       {t.sampleSummary.replace("{count}", String(preset.sample))}
                     </span>
                   ) : null}
                 </div>
 
-                <div className="relative min-h-[280px] rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/40 p-5">
+                <div className="relative min-h-[280px] rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/40 p-4 sm:p-5">
                   <AnimatePresence mode="wait">
                     {phase === "idle" ? (
                       <motion.div
@@ -392,7 +392,7 @@ export function TryItNow() {
                             }}
                           />
                         </div>
-                        <ul className="mt-4 grid grid-cols-3 gap-3 text-[12px] text-[color:var(--color-text-subtle)]">
+                        <ul className="mt-4 grid grid-cols-1 gap-2 text-[12px] text-[color:var(--color-text-subtle)] sm:grid-cols-3 sm:gap-3">
                           <li
                             className={cn(
                               "rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/40 px-3 py-2 transition-colors",

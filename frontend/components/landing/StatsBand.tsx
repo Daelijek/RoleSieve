@@ -21,6 +21,7 @@ import {
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "./SectionHeader";
 import { useDict } from "@/lib/i18n";
+import { cn } from "@/lib/cn";
 
 /* ══════════════════════════════════════════════════════
    Constants & Metadata
@@ -134,19 +135,19 @@ function VelocityScene() {
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)] sm:text-[11px]">
             Активность запусков
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
+            <span className="font-mono text-[36px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)] sm:text-[44px]">
               5 230
             </span>
-            <span className="font-mono text-[22px] font-bold text-violet">
+            <span className="font-mono text-[14px] font-bold text-violet sm:text-[22px]">
               +
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 rounded-full border border-violet/30 bg-violet/10 px-3 py-1 font-mono text-[11px] text-violet">
+        <div className="flex items-center gap-1.5 rounded-full border border-violet/30 bg-violet/10 px-2.5 py-0.5 font-mono text-[10px] text-violet sm:px-3 sm:py-1 sm:text-[11px]">
           <TrendingUp size={12} />
           <span>+24% MoM</span>
         </div>
@@ -155,9 +156,9 @@ function VelocityScene() {
       {/* SVG Waveform Sparkline */}
       <motion.div
         variants={fadeUp}
-        className="relative overflow-hidden rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-3"
+        className="relative overflow-hidden rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-2 sm:p-3"
       >
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: H }}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="h-16 w-full sm:h-24" preserveAspectRatio="none" style={{ height: H }}>
           <defs>
             <linearGradient id="vel-grad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor="rgb(139,108,255)" />
@@ -193,7 +194,7 @@ function VelocityScene() {
               key={i}
               cx={p.x}
               cy={p.y}
-              r={i === pts.length - 1 ? 4.5 : 2.5}
+              r={i === pts.length - 1 ? 4 : 2}
               fill={i === pts.length - 1 ? "rgb(0,210,211)" : "rgb(139,108,255)"}
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -209,14 +210,14 @@ function VelocityScene() {
       </motion.div>
 
       {/* Telemetry metrics */}
-      <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
-        <span className="flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-3 py-1.5 font-mono text-[11px] text-[color:var(--color-text-muted)]">
+      <motion.div variants={fadeUp} className="flex flex-wrap gap-1.5 sm:gap-2">
+        <span className="flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-2.5 py-1 font-mono text-[10px] text-[color:var(--color-text-muted)] sm:px-3 sm:py-1.5 sm:text-[11px]">
           <Zap size={12} className="text-violet" /> &lt;30 сек / прогон
         </span>
-        <span className="flex items-center gap-1.5 rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-3 py-1.5 font-mono text-[11px] text-emerald-500">
+        <span className="flex items-center gap-1.5 rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 font-mono text-[10px] text-emerald-500 sm:px-3 sm:py-1.5 sm:text-[11px]">
           <Check size={12} /> 0 ошибок API
         </span>
-        <span className="flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-3 py-1.5 font-mono text-[11px] text-[color:var(--color-text-subtle)]">
+        <span className="flex items-center gap-1.5 rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-2.5 py-1 font-mono text-[10px] text-[color:var(--color-text-subtle)] sm:px-3 sm:py-1.5 sm:text-[11px]">
           Экспорт .xlsx
         </span>
       </motion.div>
@@ -242,36 +243,36 @@ function GeospatialScene() {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="space-y-4"
+      className="space-y-3 sm:space-y-4"
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)] sm:text-[11px]">
             География анализа
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
+            <span className="font-mono text-[36px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)] sm:text-[44px]">
               47
             </span>
-            <span className="font-mono text-[16px] text-[color:var(--color-text-subtle)]">регионов</span>
+            <span className="font-mono text-[14px] text-[color:var(--color-text-subtle)] sm:text-[16px]">регионов</span>
           </div>
         </div>
-        <span className="rounded-full border border-coral/30 bg-coral/10 px-3 py-1 font-mono text-[11px] text-coral">
+        <span className="rounded-full border border-coral/30 bg-coral/10 px-2.5 py-0.5 font-mono text-[10px] text-coral sm:px-3 sm:py-1 sm:text-[11px]">
           РФ · СНГ · Remote
         </span>
       </motion.div>
 
       {/* Regional distribution spectrum */}
-      <motion.div variants={fadeUp} className="space-y-2.5">
+      <motion.div variants={fadeUp} className="space-y-2 sm:space-y-2.5">
         {hubs.map((hub, i) => (
           <div key={hub.name} className="space-y-1">
-            <div className="flex justify-between font-mono text-[11px]">
+            <div className="flex justify-between font-mono text-[10.5px] sm:text-[11px]">
               <span className="text-[color:var(--color-text-primary)]">{hub.name}</span>
               <span style={{ color: `rgb(${hub.rgb})` }} className="font-bold">
                 {hub.share}%
               </span>
             </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-[color:var(--color-surface-3)] sm:h-2">
               <motion.div
                 className="h-full rounded-full"
                 style={{
@@ -293,10 +294,10 @@ function GeospatialScene() {
 
       <motion.div
         variants={fadeUp}
-        className="flex items-center gap-2 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-2.5 font-mono text-[10.5px] text-[color:var(--color-text-muted)]"
+        className="flex items-center gap-2 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-2 font-mono text-[10px] text-[color:var(--color-text-muted)] sm:p-2.5 sm:text-[10.5px]"
       >
-        <Globe2 size={13} className="text-coral" />
-        <span>Автоматическая нормализация локаций и часовых поясов</span>
+        <Globe2 size={13} className="shrink-0 text-coral" />
+        <span className="truncate">Автоматическая нормализация локаций и часовых поясов</span>
       </motion.div>
     </motion.div>
   );
@@ -316,23 +317,23 @@ function NlpGraphScene() {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="space-y-4"
+      className="space-y-3 sm:space-y-4"
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)] sm:text-[11px]">
             База распознавания
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
+            <span className="font-mono text-[36px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)] sm:text-[44px]">
               12 400
             </span>
-            <span className="font-mono text-[22px] font-bold text-aqua">
+            <span className="font-mono text-[16px] font-bold text-aqua">
               +
             </span>
           </div>
         </div>
-        <span className="rounded-full border border-aqua/30 bg-aqua/10 px-3 py-1 font-mono text-[11px] text-aqua">
+        <span className="rounded-full border border-aqua/30 bg-aqua/10 px-2.5 py-0.5 font-mono text-[10px] text-aqua sm:px-3 sm:py-1 sm:text-[11px]">
           NLP N-gram Engine
         </span>
       </motion.div>
@@ -391,21 +392,21 @@ function ConfidenceScene() {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="space-y-4"
+      className="space-y-3 sm:space-y-4"
     >
       <motion.div variants={fadeUp} className="flex items-baseline justify-between">
         <div>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)] sm:text-[11px]">
             Медианное покрытие
           </span>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-mono text-[44px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)]">
+            <span className="font-mono text-[36px] font-bold leading-none tracking-tight text-[color:var(--color-text-primary)] sm:text-[44px]">
               89%
             </span>
-            <span className="font-mono text-[16px] text-emerald-500">key_skills</span>
+            <span className="font-mono text-[13px] text-emerald-500 sm:text-[16px]">key_skills</span>
           </div>
         </div>
-        <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] text-emerald-500">
+        <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[10px] text-emerald-500 sm:px-3 sm:py-1 sm:text-[11px]">
           Точность 99.8%
         </span>
       </motion.div>
@@ -413,9 +414,9 @@ function ConfidenceScene() {
       {/* Circular Gauge / Target Visualizer */}
       <motion.div
         variants={fadeUp}
-        className="flex items-center justify-between rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-4"
+        className="flex items-center justify-between rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-2.5 sm:p-4"
       >
-        <div className="relative flex h-20 w-20 items-center justify-center">
+        <div className="relative flex h-14 w-14 shrink-0 items-center justify-center sm:h-20 sm:w-20">
           <svg className="h-full w-full -rotate-90" viewBox="0 0 72 72">
             <circle
               cx="36"
@@ -440,18 +441,18 @@ function ConfidenceScene() {
               style={{ filter: "drop-shadow(0 0 8px rgba(16,185,129,0.5))" }}
             />
           </svg>
-          <span className="absolute font-mono text-[14px] font-bold text-emerald-500">
+          <span className="absolute font-mono text-[12px] font-bold text-emerald-500 sm:text-[14px]">
             89%
           </span>
         </div>
 
-        <div className="space-y-2 text-right">
-          <div className="flex items-center justify-end gap-1.5 font-mono text-[11.5px] text-emerald-500">
-            <ShieldCheck size={14} />
+        <div className="space-y-1.5 text-right sm:space-y-2">
+          <div className="flex items-center justify-end gap-1.5 font-mono text-[10.5px] text-emerald-500 sm:text-[11.5px]">
+            <ShieldCheck size={13} />
             <span>Дедупликация 99.8%</span>
           </div>
-          <div className="flex items-center justify-end gap-1.5 font-mono text-[11.5px] text-[color:var(--color-text-muted)]">
-            <Check size={14} className="text-emerald-500" />
+          <div className="flex items-center justify-end gap-1.5 font-mono text-[10.5px] text-[color:var(--color-text-muted)] sm:text-[11.5px]">
+            <Check size={13} className="text-emerald-500" />
             <span>0% ложных срабатываний</span>
           </div>
         </div>
@@ -459,9 +460,9 @@ function ConfidenceScene() {
 
       <motion.div
         variants={fadeUp}
-        className="flex items-center justify-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 py-2 font-mono text-[11px] text-emerald-500"
+        className="flex items-center justify-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 py-1.5 font-mono text-[10px] text-emerald-500 sm:py-2 sm:text-[11px]"
       >
-        <Check size={13} />
+        <Check size={12} />
         <span>Высокая точность извлечения требований</span>
       </motion.div>
     </motion.div>
@@ -482,56 +483,21 @@ export function StatsBand() {
   });
 
   const [activeIdx, setActiveIdx] = useState(0);
+
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     const next =
-      v < 0.03 ? 0 : v < 0.28 ? 0 : v < 0.53 ? 1 : v < 0.78 ? 2 : 3;
+      v < 0.05 ? 0 : v < 0.28 ? 0 : v < 0.53 ? 1 : v < 0.78 ? 2 : 3;
     if (next !== activeIdx) setActiveIdx(next);
   });
 
   const currentConfig = STAT_CONFIGS[activeIdx] || STAT_CONFIGS[0];
   const currentItem = s.items[activeIdx] || s.items[0];
+  const shortLabels = ["Прогоны", "Регионы", "Навыки", "Точность"];
 
-  /* ── Dynamic Ambient Background Glow ── */
-  const glowBg = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.3, 0.45, 0.55, 0.7, 0.8, 1],
-    [
-      "rgba(139,108,255,0.12)",
-      "rgba(139,108,255,0.12)",
-      "rgba(255,106,90,0.12)",
-      "rgba(255,106,90,0.12)",
-      "rgba(0,210,211,0.12)",
-      "rgba(0,210,211,0.12)",
-      "rgba(16,185,129,0.12)",
-      "rgba(16,185,129,0.12)",
-    ],
-  );
-
-  const borderGlow = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.3, 0.45, 0.55, 0.7, 0.8, 1],
-    [
-      "rgba(139,108,255,0.22)",
-      "rgba(139,108,255,0.22)",
-      "rgba(255,106,90,0.22)",
-      "rgba(255,106,90,0.22)",
-      "rgba(0,210,211,0.22)",
-      "rgba(0,210,211,0.22)",
-      "rgba(16,185,129,0.22)",
-      "rgba(16,185,129,0.22)",
-    ],
-  );
-
-  const chamberShadow = useTransform(
-    borderGlow,
-    (v: string) =>
-      `inset 0 0 0 1px ${v}, 0 0 40px -8px ${v}, 0 24px 60px -20px rgba(0,0,0,0.35)`,
-  );
-
-  const topShimmer = useTransform(
-    borderGlow,
-    (v: string) => `linear-gradient(90deg, transparent, ${v}, transparent)`,
-  );
+  const glowBg = `rgba(${currentConfig.rgb}, 0.12)`;
+  const borderGlow = `rgba(${currentConfig.rgb}, 0.25)`;
+  const chamberShadow = `inset 0 0 0 1px ${borderGlow}, 0 0 40px -8px ${borderGlow}, 0 24px 60px -20px rgba(0,0,0,0.35)`;
+  const topShimmer = `linear-gradient(90deg, transparent, ${borderGlow}, transparent)`;
 
   return (
     <section
@@ -541,21 +507,20 @@ export function StatsBand() {
     >
       <div
         ref={scrollRef}
-        style={{ height: `${RUNWAY_VH}vh` }}
-        className="relative"
+        className="relative h-[240vh] sm:h-[280vh]"
       >
-        <div className="sticky top-0 flex h-screen w-full flex-col justify-center overflow-hidden">
+        <div className="sticky top-12 flex h-[calc(100dvh-3rem)] w-full flex-col justify-center overflow-hidden sm:top-0 sm:h-screen">
           {/* Ambient Glow */}
-          <motion.div
+          <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px]"
+            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px] transition-colors duration-500 sm:h-[500px] sm:w-[700px] sm:blur-[120px]"
             style={{ backgroundColor: glowBg }}
           />
 
           <Container className="w-full">
             <div
               id="stats-title"
-              className="mb-10 text-center lg:text-left"
+              className="mb-2 text-center sm:mb-8 lg:mb-10 lg:text-left"
             >
               <SectionHeader
                 eyebrow={s.eyebrow}
@@ -564,32 +529,65 @@ export function StatsBand() {
               />
             </div>
 
-            <div className="grid items-start gap-10 lg:grid-cols-[300px_1fr] lg:gap-14 xl:gap-18">
-              {/* ── Left: metric selector & description ── */}
-              <div className="flex flex-col gap-6">
+            <div className="grid items-start gap-3 sm:gap-8 lg:grid-cols-[300px_1fr] lg:gap-14 xl:gap-18">
+              {/* ── Left / Top on mobile: metric selector & description ── */}
+              <div className="flex flex-col gap-2 sm:gap-6">
+                {/* Mobile 4-step Segmented Stepper */}
+                <div className="grid grid-cols-4 gap-1 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-1 lg:hidden">
+                  {s.items.map((item, i) => {
+                    const active = i === activeIdx;
+                    const cfg = STAT_CONFIGS[i];
+                    return (
+                      <button
+                        type="button"
+                        key={item.label}
+                        onClick={() => setActiveIdx(i)}
+                        className={cn(
+                          "flex flex-col items-center justify-center rounded-lg py-1 px-0.5 text-center transition-all duration-200 active:scale-95",
+                          active
+                            ? "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] shadow-sm"
+                            : "opacity-60 hover:opacity-100",
+                        )}
+                      >
+                        <span
+                          className="font-mono text-[10px] font-bold leading-none"
+                          style={{
+                            color: active ? `rgb(${cfg.rgb})` : "var(--color-text-muted)",
+                          }}
+                        >
+                          {cfg.num}
+                        </span>
+                        <span className="mt-0.5 truncate text-[10.5px] font-medium text-[color:var(--color-text-primary)]">
+                          {shortLabels[i] || cfg.tag}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
                 {/* Active metric title */}
-                <div className="relative min-h-[160px]">
+                <div className="relative min-h-[50px] sm:min-h-[100px] lg:min-h-[160px]">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeIdx}
-                      initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+                      initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                      exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
                       transition={{
-                        duration: 0.35,
+                        duration: 0.25,
                         ease: [0.16, 1, 0.3, 1] as const,
                       }}
                     >
                       <span
-                        className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]"
+                        className="font-mono text-[9.5px] font-bold uppercase tracking-[0.18em] sm:text-[11px] sm:tracking-[0.25em]"
                         style={{ color: `rgb(${currentConfig.rgb})` }}
                       >
-                        {currentConfig.num} — {currentConfig.tag}
+                        {currentConfig.num} — {shortLabels[activeIdx]}
                       </span>
-                      <h3 className="mt-2 text-[22px] font-bold tracking-tight text-[color:var(--color-text-primary)] sm:text-[26px]">
+                      <h3 className="mt-0.5 text-[15px] font-bold tracking-tight text-[color:var(--color-text-primary)] sm:mt-2 sm:text-[22px] lg:text-[26px]">
                         {currentItem.label}
                       </h3>
-                      <p className="mt-3 text-[14px] leading-relaxed text-[color:var(--color-text-muted)]">
+                      <p className="mt-0.5 text-[11px] leading-snug text-[color:var(--color-text-muted)] sm:mt-2 sm:text-[14px]">
                         {activeIdx === 0 &&
                           "Каждый прогон обогащает агрегированную выборку новыми трендами рынка."}
                         {activeIdx === 1 &&
@@ -603,8 +601,8 @@ export function StatsBand() {
                   </AnimatePresence>
                 </div>
 
-                {/* Metric Navigation Items */}
-                <div className="flex flex-col gap-2">
+                {/* Desktop Metric Navigation Items */}
+                <div className="hidden flex-col gap-2 lg:flex">
                   {s.items.map((item, i) => {
                     const active = i === activeIdx;
                     const past = i < activeIdx;
@@ -643,8 +641,8 @@ export function StatsBand() {
 
               {/* ── Right: the morphing telemetry chamber ── */}
               <div className="relative flex items-center justify-center">
-                <motion.div
-                  className="glass-strong relative w-full overflow-hidden rounded-[24px] bg-[color:var(--color-surface)]/90"
+                <div
+                  className="glass-strong relative w-full overflow-hidden rounded-[18px] bg-[color:var(--color-surface)]/90 transition-all duration-500 sm:rounded-[24px]"
                   style={{ boxShadow: chamberShadow }}
                 >
                   {/* Laser scan on metric change */}
@@ -653,9 +651,9 @@ export function StatsBand() {
                   </AnimatePresence>
 
                   {/* Top shimmer edge */}
-                  <motion.div
+                  <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
+                    className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px transition-all duration-500"
                     style={{ background: topShimmer }}
                   />
 
@@ -671,7 +669,7 @@ export function StatsBand() {
                   />
 
                   {/* Scene content */}
-                  <div className="relative flex min-h-[370px] items-center p-7 sm:p-8">
+                  <div className="relative flex min-h-[200px] items-center p-3 sm:min-h-[350px] sm:p-7">
                     <div className="w-full">
                       <AnimatePresence mode="wait">
                         {activeIdx === 0 && <VelocityScene key="v" />}
@@ -711,7 +709,7 @@ export function StatsBand() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
           </Container>

@@ -38,7 +38,7 @@ export function Testimonials() {
                 tint={item.accent}
                 size={420}
                 intensity={0.1}
-                className="group glass relative h-full overflow-hidden rounded-3xl p-7 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)]"
+                className="group glass relative h-full overflow-hidden rounded-3xl p-5 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)] sm:p-7"
               >
                 <Quote
                   aria-hidden

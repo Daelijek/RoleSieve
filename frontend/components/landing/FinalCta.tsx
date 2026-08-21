@@ -40,17 +40,18 @@ export function FinalCta() {
           </Badge>
           <h2
             id="finalcta-title"
-            className="mt-5 text-balance text-[clamp(2.25rem,5vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.025em] text-[color:var(--color-text-primary)]"
+            className="mt-4 text-balance text-[clamp(1.85rem,5vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.025em] text-[color:var(--color-text-primary)] sm:mt-5"
           >
             <GradientText>{c.title}</GradientText>
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-[16px] leading-[1.6] text-[color:var(--color-text-muted)]">
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-[1.6] text-[color:var(--color-text-muted)] sm:mt-5 sm:text-[16px]">
             {c.description}
           </p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-8 flex w-full flex-col items-stretch justify-center gap-3 sm:mt-9 sm:w-auto sm:flex-row sm:items-center">
             <Button
               href="/analyze"
               size="lg"
+              className="w-full sm:w-auto"
               trailing={<ArrowRight size={16} strokeWidth={2.25} />}
             >
               {c.ctaPrimary}
@@ -59,6 +60,7 @@ export function FinalCta() {
               href="/docs"
               size="lg"
               variant="outline"
+              className="w-full sm:w-auto"
               leading={<BookOpen size={15} strokeWidth={1.75} />}
             >
               {c.ctaGhost}

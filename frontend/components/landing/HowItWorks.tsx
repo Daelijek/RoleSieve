@@ -12,6 +12,7 @@ import { Search, Check, Zap, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "./SectionHeader";
 import { useDict } from "@/lib/i18n";
+import { cn } from "@/lib/cn";
 
 /* ══════════════════════════════════════════════════════
    Constants & Data
@@ -163,15 +164,15 @@ function QueryPhase() {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="space-y-4"
+      className="space-y-2.5 sm:space-y-3.5"
     >
       {/* Search input */}
       <motion.div
         variants={fadeUp}
-        className="flex items-center gap-3 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-4 py-3.5"
+        className="flex items-center gap-2.5 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/70 px-3.5 py-2.5 sm:gap-3 sm:px-4 sm:py-3"
       >
-        <Search size={16} className="flex-shrink-0 text-violet" />
-        <span className="font-mono text-[14px] text-[color:var(--color-text-primary)]">
+        <Search size={15} className="flex-shrink-0 text-violet" />
+        <span className="font-mono text-[13px] text-[color:var(--color-text-primary)] sm:text-[14px]">
           Python Developer
         </span>
         <motion.span
@@ -184,12 +185,12 @@ function QueryPhase() {
       </motion.div>
 
       {/* Param tags */}
-      <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
+      <motion.div variants={fadeUp} className="flex flex-wrap gap-1.5 sm:gap-2">
         {["Москва", "От 1 до 3 лет", "За 30 дней"].map((t) => (
           <motion.span
             key={t}
             variants={fadeUp}
-            className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 px-3.5 py-2 font-mono text-[12px] text-[color:var(--color-text-muted)]"
+            className="rounded-lg border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 px-2.5 py-1 font-mono text-[11px] text-[color:var(--color-text-muted)] sm:rounded-xl sm:px-3 sm:py-1.5 sm:text-[12px]"
           >
             {t}
           </motion.span>
@@ -199,21 +200,21 @@ function QueryPhase() {
       {/* API call */}
       <motion.div
         variants={fadeUp}
-        className="rounded-xl border border-violet/30 bg-violet/10 p-4"
+        className="rounded-xl border border-violet/30 bg-violet/10 p-2.5 sm:p-3.5"
       >
-        <div className="flex items-center gap-2 font-mono text-[11px]">
+        <div className="flex items-center gap-2 font-mono text-[10.5px] sm:text-[11px]">
           <span className="font-bold text-violet">GET</span>
           <span className="truncate text-[color:var(--color-text-muted)]">
             /vacancies?text=Python+Developer&amp;area=1&amp;experience=between1And3
           </span>
         </div>
-        <div className="mt-2.5 flex items-center gap-2">
+        <div className="mt-1.5 flex items-center gap-2 sm:mt-2">
           <motion.div
             animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"
           />
-          <span className="font-mono text-[10px] text-emerald-500">
+          <span className="font-mono text-[9.5px] text-emerald-500 sm:text-[10px]">
             HH API Connected · Ready
           </span>
         </div>
@@ -385,7 +386,7 @@ function ResultPhase() {
       {/* Floating 3D document */}
       <motion.div
         variants={fadeUp}
-        className="relative w-full max-w-sm rounded-2xl border border-emerald-500/30 bg-[color:var(--color-surface)] p-6 sm:p-7 shadow-[var(--shadow-lift)]"
+        className="relative w-full max-w-sm rounded-2xl border border-emerald-500/30 bg-[color:var(--color-surface)] p-4 sm:p-6 shadow-[var(--shadow-lift)]"
         animate={{
           rotateY: [0, 1.5, 0, -1.5, 0],
           rotateX: [0, 0.8, 0, -0.8, 0],
@@ -393,15 +394,15 @@ function ResultPhase() {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       >
         {/* File header */}
-        <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15 font-mono text-[16px] font-bold text-emerald-500 shadow-[0_0_24px_rgba(16,185,129,0.2)]">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/15 font-mono text-[13px] font-bold text-emerald-500 shadow-[0_0_24px_rgba(16,185,129,0.2)] sm:h-13 sm:w-13 sm:rounded-2xl sm:text-[15px]">
             XLS
           </div>
           <div>
-            <p className="text-[15px] font-semibold text-[color:var(--color-text-primary)]">
+            <p className="text-[13.5px] font-semibold text-[color:var(--color-text-primary)] sm:text-[15px]">
               RoleSieve_Export.xlsx
             </p>
-            <p className="mt-0.5 font-mono text-[11px] text-[color:var(--color-text-muted)]">
+            <p className="mt-0.5 font-mono text-[10.5px] text-[color:var(--color-text-muted)] sm:text-[11px]">
               4 листа · 120 вакансий · 847 KB
             </p>
           </div>
@@ -410,7 +411,7 @@ function ResultPhase() {
         {/* Mini stats */}
         <motion.div
           variants={fadeUp}
-          className="mt-5 grid grid-cols-3 gap-2.5"
+          className="mt-3.5 grid grid-cols-3 gap-1.5 sm:mt-4 sm:gap-2.5"
         >
           {[
             { v: "42", l: "Навыков" },
@@ -419,12 +420,12 @@ function ResultPhase() {
           ].map((s) => (
             <div
               key={s.l}
-              className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-3 text-center"
+              className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-2 text-center sm:p-2.5"
             >
-              <p className="font-mono text-[20px] font-bold text-emerald-500">
+              <p className="font-mono text-[16px] font-bold text-emerald-500 sm:text-[19px]">
                 {s.v}
               </p>
-              <p className="mt-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--color-text-subtle)]">
+              <p className="mt-0.5 font-mono text-[8.5px] uppercase tracking-wider text-[color:var(--color-text-subtle)] sm:text-[9px]">
                 {s.l}
               </p>
             </div>
@@ -434,15 +435,15 @@ function ResultPhase() {
         {/* Ready badge */}
         <motion.div
           variants={fadeUp}
-          className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-2.5"
+          className="mt-3.5 flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-2 sm:mt-4 sm:py-2.5"
         >
           <motion.div
             animate={{ scale: [1, 1.25, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <Check size={14} className="text-emerald-500" />
+            <Check size={13} className="text-emerald-500" />
           </motion.div>
-          <span className="font-mono text-[12px] font-medium text-emerald-500">
+          <span className="font-mono text-[11px] font-medium text-emerald-500 sm:text-[12px]">
             Готово к адаптации резюме
           </span>
         </motion.div>
@@ -465,56 +466,20 @@ export function HowItWorks() {
   });
 
   const [phase, setPhase] = useState(0);
+
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     const next =
-      v < 0.03 ? 0 : v < 0.28 ? 0 : v < 0.53 ? 1 : v < 0.78 ? 2 : 3;
+      v < 0.05 ? 0 : v < 0.28 ? 0 : v < 0.53 ? 1 : v < 0.78 ? 2 : 3;
     if (next !== phase) setPhase(next);
   });
 
   const currentStep = h.steps[phase] || h.steps[0];
   const currentColor = PHASE_COLORS[phase] || PHASE_COLORS[0];
 
-  /* ── Scroll-driven motion values (GPU-only, zero re-renders) ── */
-  const glowBg = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.3, 0.45, 0.55, 0.7, 0.8, 1],
-    [
-      "rgba(139,108,255,0.12)",
-      "rgba(139,108,255,0.12)",
-      "rgba(0,210,211,0.12)",
-      "rgba(0,210,211,0.12)",
-      "rgba(255,106,90,0.12)",
-      "rgba(255,106,90,0.12)",
-      "rgba(16,185,129,0.12)",
-      "rgba(16,185,129,0.12)",
-    ],
-  );
-
-  const borderGlow = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.3, 0.45, 0.55, 0.7, 0.8, 1],
-    [
-      "rgba(139,108,255,0.22)",
-      "rgba(139,108,255,0.22)",
-      "rgba(0,210,211,0.22)",
-      "rgba(0,210,211,0.22)",
-      "rgba(255,106,90,0.22)",
-      "rgba(255,106,90,0.22)",
-      "rgba(16,185,129,0.22)",
-      "rgba(16,185,129,0.22)",
-    ],
-  );
-
-  const chamberShadow = useTransform(
-    borderGlow,
-    (v: string) =>
-      `inset 0 0 0 1px ${v}, 0 0 40px -8px ${v}, 0 24px 60px -20px rgba(0,0,0,0.35)`,
-  );
-
-  const topShimmer = useTransform(
-    borderGlow,
-    (v: string) => `linear-gradient(90deg, transparent, ${v}, transparent)`,
-  );
+  const glowBg = `rgba(${currentColor.rgb}, 0.12)`;
+  const borderGlow = `rgba(${currentColor.rgb}, 0.25)`;
+  const chamberShadow = `inset 0 0 0 1px ${borderGlow}, 0 0 40px -8px ${borderGlow}, 0 24px 60px -20px rgba(0,0,0,0.35)`;
+  const topShimmer = `linear-gradient(90deg, transparent, ${borderGlow}, transparent)`;
 
   return (
     <section
@@ -524,21 +489,20 @@ export function HowItWorks() {
     >
       <div
         ref={scrollRef}
-        style={{ height: `${RUNWAY_VH}vh` }}
-        className="relative"
+        className="relative h-[240vh] sm:h-[280vh]"
       >
-        <div className="sticky top-0 flex h-screen w-full flex-col justify-center overflow-hidden">
+        <div className="sticky top-12 flex h-[calc(100dvh-3rem)] w-full flex-col justify-center overflow-hidden sm:top-0 sm:h-screen">
           {/* ── Background ambient glow ── */}
-          <motion.div
+          <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px]"
+            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px] transition-colors duration-500 sm:h-[500px] sm:w-[700px] sm:blur-[120px]"
             style={{ backgroundColor: glowBg }}
           />
 
           <Container className="w-full">
             <div
               id="how-title"
-              className="mb-10 text-center lg:text-left"
+              className="mb-2 text-center sm:mb-8 lg:mb-10 lg:text-left"
             >
               <SectionHeader
                 eyebrow={h.eyebrow}
@@ -546,40 +510,73 @@ export function HowItWorks() {
               />
             </div>
 
-            <div className="grid items-start gap-10 lg:grid-cols-[300px_1fr] lg:gap-14 xl:gap-18">
-              {/* ── Left: phase info + step navigator ── */}
-              <div className="flex flex-col gap-6">
+            <div className="grid items-start gap-3 sm:gap-8 lg:grid-cols-[300px_1fr] lg:gap-14 xl:gap-18">
+              {/* ── Left / Top on mobile: phase info + step navigator ── */}
+              <div className="flex flex-col gap-2 sm:gap-6">
+                {/* Mobile 4-step Segmented Stepper */}
+                <div className="grid grid-cols-4 gap-1 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-1 lg:hidden">
+                  {h.steps.map((step, i) => {
+                    const active = i === phase;
+                    const col = PHASE_COLORS[i];
+                    return (
+                      <button
+                        type="button"
+                        key={step.number}
+                        onClick={() => setPhase(i)}
+                        className={cn(
+                          "flex flex-col items-center justify-center rounded-lg py-1 px-0.5 text-center transition-all duration-200 active:scale-95",
+                          active
+                            ? "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] shadow-sm"
+                            : "opacity-60 hover:opacity-100",
+                        )}
+                      >
+                        <span
+                          className="font-mono text-[10px] font-bold leading-none"
+                          style={{
+                            color: active ? `rgb(${col.rgb})` : "var(--color-text-muted)",
+                          }}
+                        >
+                          {step.number}
+                        </span>
+                        <span className="mt-0.5 truncate text-[10.5px] font-medium text-[color:var(--color-text-primary)]">
+                          {step.title}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
                 {/* Active Step Content */}
-                <div className="relative min-h-[160px]">
+                <div className="relative min-h-[50px] sm:min-h-[100px] lg:min-h-[160px]">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={phase}
-                      initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+                      initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                      exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
                       transition={{
-                        duration: 0.35,
+                        duration: 0.25,
                         ease: [0.16, 1, 0.3, 1] as const,
                       }}
                     >
                       <span
-                        className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]"
+                        className="font-mono text-[9.5px] font-bold uppercase tracking-[0.18em] sm:text-[11px] sm:tracking-[0.25em]"
                         style={{ color: `rgb(${currentColor.rgb})` }}
                       >
                         {currentStep.number} — {h.stepLabel.replace("{number}", currentStep.number)}
                       </span>
-                      <h3 className="mt-2 text-[22px] font-bold tracking-tight text-[color:var(--color-text-primary)] sm:text-[26px]">
+                      <h3 className="mt-0.5 text-[15px] font-bold tracking-tight text-[color:var(--color-text-primary)] sm:mt-2 sm:text-[22px] lg:text-[26px]">
                         {currentStep.title}
                       </h3>
-                      <p className="mt-3 text-[14px] leading-relaxed text-[color:var(--color-text-muted)]">
+                      <p className="mt-0.5 text-[11px] leading-snug text-[color:var(--color-text-muted)] sm:mt-2 sm:text-[14px]">
                         {currentStep.description}
                       </p>
                     </motion.div>
                   </AnimatePresence>
                 </div>
 
-                {/* Step List navigation */}
-                <div className="flex flex-col gap-2">
+                {/* Desktop Step List navigation */}
+                <div className="hidden flex-col gap-2 lg:flex">
                   {h.steps.map((step, i) => {
                     const active = i === phase;
                     const past = i < phase;
@@ -616,8 +613,8 @@ export function HowItWorks() {
 
               {/* ── Right: the morphing pipeline chamber ── */}
               <div className="relative flex items-center justify-center">
-                <motion.div
-                  className="glass-strong relative w-full overflow-hidden rounded-[24px] bg-[color:var(--color-surface)]/90"
+                <div
+                  className="glass-strong relative w-full overflow-hidden rounded-[18px] bg-[color:var(--color-surface)]/90 transition-all duration-500 sm:rounded-[24px]"
                   style={{ boxShadow: chamberShadow }}
                 >
                   {/* Laser scan on phase change */}
@@ -626,9 +623,9 @@ export function HowItWorks() {
                   </AnimatePresence>
 
                   {/* Top shimmer edge */}
-                  <motion.div
+                  <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
+                    className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px transition-all duration-500"
                     style={{ background: topShimmer }}
                   />
 
@@ -644,7 +641,7 @@ export function HowItWorks() {
                   />
 
                   {/* Phase content */}
-                  <div className="relative flex min-h-[370px] items-center p-7 sm:p-8">
+                  <div className="relative flex min-h-[200px] items-center p-3 sm:min-h-[350px] sm:p-7">
                     <div className="w-full">
                       <AnimatePresence mode="wait">
                         {phase === 0 && <QueryPhase key="q" />}
@@ -681,7 +678,7 @@ export function HowItWorks() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
           </Container>
