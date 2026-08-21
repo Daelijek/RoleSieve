@@ -17,7 +17,7 @@ export default function LandingPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-col">
+      <main className="relative flex flex-col overflow-x-clip">
         <Hero />
         <TrustStrip />
         <LogoMarquee />

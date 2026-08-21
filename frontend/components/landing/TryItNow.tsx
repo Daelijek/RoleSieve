@@ -167,20 +167,20 @@ export function TryItNow() {
     <section
       id="try"
       aria-labelledby="try-title"
-      className="relative overflow-hidden py-20 sm:py-28"
+      className="relative py-20 sm:py-28"
     >
       <Halo
-        size={720}
-        top="-160px"
-        right="-100px"
-        opacity={0.22}
+        size={640}
+        top="40px"
+        right="-40px"
+        opacity={0.28}
         variant="violet"
       />
       <Halo
-        size={520}
-        bottom="-180px"
-        left="-120px"
-        opacity={0.18}
+        size={500}
+        bottom="40px"
+        left="-40px"
+        opacity={0.22}
         variant="coral"
       />
 

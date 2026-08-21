@@ -14,22 +14,22 @@ export function FinalCta() {
   return (
     <section
       aria-labelledby="finalcta-title"
-      className="relative overflow-hidden py-24 sm:py-32"
+      className="relative py-24 sm:py-32"
     >
-      {/* Big centered halo */}
       <Halo
-        size={900}
-        height={520}
-        top="-80px"
+        size={700}
+        height={450}
+        top="10%"
         left="50%"
-        opacity={0.4}
+        opacity={0.35}
+        variant="signature"
         className="-translate-x-1/2"
       />
       <Halo
-        size={520}
-        bottom="-160px"
-        right="-100px"
-        opacity={0.22}
+        size={460}
+        bottom="10px"
+        right="-20px"
+        opacity={0.25}
         variant="coral"
       />
 

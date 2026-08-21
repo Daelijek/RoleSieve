@@ -454,9 +454,7 @@ html.light .glass-strong {
 @utility halo-blob {
   position: absolute;
   pointer-events: none;
-  background: var(--signature-gradient);
-  filter: blur(96px);
-  opacity: 0.35;
+  filter: blur(100px);
   border-radius: 9999px;
   will-change: transform, opacity;
 }

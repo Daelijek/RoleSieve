@@ -16,21 +16,16 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden pt-[calc(var(--header-height)+var(--section-py))] pb-[var(--section-py)] sm:pt-[calc(var(--header-height)+var(--section-py-lg))] sm:pb-[var(--section-py-lg)]"
+      className="relative isolate pt-[calc(var(--header-height)+var(--section-py))] pb-[var(--section-py)] sm:pt-[calc(var(--header-height)+var(--section-py-lg))] sm:pb-[var(--section-py-lg)]"
     >
       <DotGrid fade="center" />
-      <Halo size={760} top="-220px" left="-180px" opacity={0.28} />
+      <Halo size={700} top="20px" left="-60px" opacity={0.3} variant="signature" />
       <Halo
-        size={520}
-        top="-80px"
-        right="-140px"
-        opacity={0.22}
+        size={500}
+        top="40px"
+        right="-40px"
+        opacity={0.24}
         variant="violet"
-      />
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgb(var(--rgb-violet)/0.18),transparent_70%)]"
       />
 
       <Container className="relative flex flex-col gap-14 sm:gap-16">
