@@ -15,7 +15,7 @@ export function Footer() {
       <Container>
         <div
           className={cn(
-            "grid gap-10",
+            "grid gap-10 sm:grid-cols-2",
             colCount <= 1 && "lg:grid-cols-[1.4fr_1fr]",
             colCount === 2 && "lg:grid-cols-[1.4fr_1fr_1fr]",
             colCount >= 3 && "lg:grid-cols-[1.4fr_repeat(3,1fr)]",

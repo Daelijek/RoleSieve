@@ -8,7 +8,6 @@ import { GradientText } from "@/components/ui/GradientText";
 import { Halo } from "@/components/ui/Halo";
 import { DotGrid } from "@/components/ui/DotGrid";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { HeroMockCard } from "./HeroMockCard";
 import { useDict } from "@/lib/i18n";
 
 export function Hero() {
@@ -17,21 +16,16 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden pt-[calc(var(--header-height)+var(--section-py))] pb-[var(--section-py)] sm:pt-[calc(var(--header-height)+var(--section-py-lg))] sm:pb-[var(--section-py-lg)]"
+      className="relative isolate pt-[calc(var(--header-height)+var(--section-py))] pb-[var(--section-py)] sm:pt-[calc(var(--header-height)+var(--section-py-lg))] sm:pb-[var(--section-py-lg)]"
     >
       <DotGrid fade="center" />
-      <Halo size={760} top="-220px" left="-180px" opacity={0.28} />
+      <Halo size={700} top="20px" left="-60px" opacity={0.3} variant="signature" />
       <Halo
-        size={520}
-        top="-80px"
-        right="-140px"
-        opacity={0.22}
+        size={500}
+        top="40px"
+        right="-40px"
+        opacity={0.24}
         variant="violet"
-      />
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgb(var(--rgb-violet)/0.18),transparent_70%)]"
       />
 
       <Container className="relative flex flex-col gap-14 sm:gap-16">
@@ -42,27 +36,33 @@ export function Hero() {
 
           <h1
             id="hero-title"
-            className="text-balance text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
+            className="text-balance text-[clamp(2.15rem,6.5vw,4.75rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[color:var(--color-text-primary)]"
           >
             {h.titleStart} <GradientText>{h.titleHighlight}</GradientText>{" "}
             {h.titleEnd}
           </h1>
 
-          <p className="max-w-2xl text-pretty text-[17px] leading-[1.6] text-[color:var(--color-text-muted)]">
+          <p className="max-w-2xl text-pretty text-[15.5px] leading-[1.6] text-[color:var(--color-text-muted)] sm:text-[17px]">
             {h.subtitle}
           </p>
 
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <MagneticButton>
+          <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
+            <MagneticButton className="w-full sm:w-auto">
               <Button
                 href="/analyze"
                 size="lg"
+                className="w-full sm:w-auto"
                 trailing={<ArrowRight size={16} strokeWidth={2.25} />}
               >
                 {h.ctaPrimary}
               </Button>
             </MagneticButton>
-            <Button href="/sample" size="lg" variant="outline">
+            <Button
+              href="/sample"
+              size="lg"
+              variant="outline"
+              className="w-full sm:w-auto"
+            >
               {h.ctaGhost}
             </Button>
           </div>
@@ -78,10 +78,6 @@ export function Hero() {
               </li>
             ))}
           </ul>
-        </div>
-
-        <div className="mx-auto w-full max-w-5xl">
-          <HeroMockCard />
         </div>
       </Container>
     </section>

@@ -20,7 +20,8 @@ type HaloProps = {
 };
 
 const variants: Record<NonNullable<HaloProps["variant"]>, string> = {
-  signature: "bg-[image:var(--signature-gradient)]",
+  signature:
+    "bg-[image:radial-gradient(ellipse_at_center,_var(--color-violet)_0%,_var(--color-coral)_45%,_transparent_70%)]",
   violet:
     "bg-[image:radial-gradient(circle_at_center,_var(--color-violet)_0%,_transparent_70%)]",
   coral:

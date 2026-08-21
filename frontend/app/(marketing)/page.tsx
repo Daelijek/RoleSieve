@@ -7,7 +7,6 @@ import { HowItWorks } from "@/components/landing/HowItWorks";
 import { StatsBand } from "@/components/landing/StatsBand";
 import { FeaturesGrid } from "@/components/landing/FeaturesGrid";
 import { Audience } from "@/components/landing/Audience";
-import { LivePreview } from "@/components/landing/LivePreview";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { TryItNow } from "@/components/landing/TryItNow";
 import { Faq } from "@/components/landing/Faq";
@@ -18,7 +17,7 @@ export default function LandingPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-col">
+      <main className="relative flex flex-col overflow-x-clip">
         <Hero />
         <TrustStrip />
         <LogoMarquee />
@@ -27,7 +26,6 @@ export default function LandingPage() {
         <StatsBand />
         <FeaturesGrid />
         <Audience />
-        <LivePreview />
         <Testimonials />
         <TryItNow />
         <Faq />
