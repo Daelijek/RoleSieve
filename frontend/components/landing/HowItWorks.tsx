@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import {
   motion,
   useScroll,
-  useTransform,
   useMotionValueEvent,
   AnimatePresence,
 } from "framer-motion";
@@ -32,8 +31,6 @@ const SKILLS = [
   { name: "PostgreSQL", pct: 47, rgb: "168, 139, 250" },
 ];
 
-/** Total scroll runway height — 4 phases × 70vh each. */
-const RUNWAY_VH = 280;
 
 /* ══════════════════════════════════════════════════════
    Animation Variants
@@ -251,7 +248,7 @@ function CollectPhase() {
       <motion.div variants={fadeUp}>
         <div className="h-3 w-full overflow-hidden rounded-full bg-[color:var(--color-surface-3)]">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-violet via-fuchsia-500 to-aqua"
+            className="h-full rounded-full bg-aqua"
             initial={{ width: 0 }}
             animate={{ width: "100%" }}
             transition={{
@@ -261,7 +258,7 @@ function CollectPhase() {
             }}
             style={{
               boxShadow:
-                "0 0 20px rgba(0,210,211,0.5), 0 0 50px rgba(0,210,211,0.15)",
+                "0 0 16px rgba(0, 210, 211, 0.45), 0 0 32px rgba(0, 210, 211, 0.15)",
             }}
           />
         </div>
