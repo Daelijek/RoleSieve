@@ -47,10 +47,11 @@ export function FeaturesGrid() {
                   tint={violet ? "violet" : "coral"}
                   size={360}
                   intensity={0.1}
-                  className="group glass relative h-full overflow-hidden rounded-2xl p-6 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)]"
+                  className="group relative h-full overflow-hidden rounded-2xl p-6 bg-neutral-300/20 hover:bg-neutral-300/30 dark:bg-neutral-400/20 dark:hover:bg-neutral-400/30 backdrop-blur-[1px] border border-neutral-400/20 transition-all duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-1 hover:shadow-xl"
                 >
+                  <div aria-hidden className="hairline-specular" />
                   <div className="relative flex items-start gap-4">
-                    <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]">
+                    <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-neutral-400/25 bg-neutral-300/25 dark:bg-neutral-400/25 shadow-sm">
                       <span
                         aria-hidden
                         className="absolute inset-0 rounded-xl bg-[image:var(--signature-gradient-soft)] opacity-60"

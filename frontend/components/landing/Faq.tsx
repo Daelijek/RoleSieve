@@ -37,7 +37,7 @@ export function Faq() {
           <SectionHeader eyebrow={f.eyebrow} title={f.title} />
         </div>
 
-        <ul className="mx-auto mt-12 max-w-3xl divide-y divide-[color:var(--color-border-subtle)] rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/40 backdrop-blur">
+        <ul className="mx-auto mt-12 max-w-3xl divide-y divide-neutral-400/20 rounded-2xl border border-neutral-400/20 bg-neutral-300/20 dark:bg-neutral-400/15 backdrop-blur-[1px] shadow-lg overflow-hidden">
           {f.items.map((item, idx) => {
             const isOpen = openIndices.has(idx);
             return (

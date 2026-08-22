@@ -43,21 +43,22 @@ export function Audience() {
                   tint={accent}
                   size={420}
                   intensity={0.1}
-                  className="group glass relative h-full overflow-hidden rounded-3xl p-5 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)] sm:p-7"
+                  className="group relative h-full overflow-hidden rounded-3xl p-5 sm:p-7 bg-neutral-300/20 hover:bg-neutral-300/30 dark:bg-neutral-400/20 dark:hover:bg-neutral-400/30 backdrop-blur-[1px] border border-neutral-400/20 transition-all duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="flex items-center gap-3">
+                  <div aria-hidden className="hairline-specular" />
+                  <div className="relative flex items-center gap-3">
                     <span
-                      className={`relative flex h-11 w-11 items-center justify-center rounded-2xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] sm:h-12 sm:w-12 ${accentClasses[accent]}`}
+                      className={`relative flex h-11 w-11 items-center justify-center rounded-2xl border border-neutral-400/25 bg-neutral-300/25 dark:bg-neutral-400/25 sm:h-12 sm:w-12 shadow-sm ${accentClasses[accent]}`}
                     >
                       <Icon size={20} strokeWidth={1.75} />
-                      <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[color:var(--color-border-subtle)]" />
+                      <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-neutral-400/20" />
                     </span>
                     <h3 className="text-[17px] font-semibold tracking-tight text-[color:var(--color-text-primary)] sm:text-[18px]">
                       {p.role}
                     </h3>
                   </div>
 
-                  <div className="relative mt-5 rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/60 p-4 sm:mt-6 sm:p-5">
+                  <div className="relative mt-5 rounded-2xl border border-neutral-400/20 bg-neutral-300/15 dark:bg-neutral-400/15 backdrop-blur-xs p-4 sm:mt-6 sm:p-5">
                     <Quote
                       aria-hidden
                       size={18}

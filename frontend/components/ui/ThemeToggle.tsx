@@ -32,7 +32,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? "Включить светлую тему" : "Включить тёмную тему"}
       className={cn(
-        "flex h-[var(--header-control-height)] w-[var(--header-control-height)] items-center justify-center rounded-lg border border-[color:var(--color-border-subtle)] text-[color:var(--color-text-muted)] transition-all duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:border-[color:var(--color-border-strong)] hover:bg-[color:var(--color-surface-2)] hover:text-[color:var(--color-text-primary)]",
+        "flex h-[var(--header-control-height)] w-[var(--header-control-height)] items-center justify-center rounded-lg border border-neutral-400/25 bg-neutral-300/20 hover:bg-neutral-300/35 dark:bg-neutral-400/20 dark:hover:bg-neutral-400/35 text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text-primary)] backdrop-blur-[1px] transition-all duration-[var(--duration-base)] ease-[var(--ease-premium)] active:scale-95",
         className,
       )}
     >

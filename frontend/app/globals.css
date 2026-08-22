@@ -177,18 +177,18 @@
 html.light {
   color-scheme: light;
 
-  /* Canvas: subtle cool wash. Cards on top = pure white = elevation pops. */
-  --color-canvas: #f6f7fb;
+  /* Canvas: subtle cool luminous wash. Cards on top = pure white with elevation. */
+  --color-canvas: #f5f7fc;
   --color-surface: #ffffff;
-  --color-surface-2: #eff1f7;
-  --color-surface-3: #e3e6ef;
+  --color-surface-2: #eef2f9;
+  --color-surface-3: #e0e5f2;
 
   --color-text-primary: #0a0d18;
   --color-text-muted: #4a4e61;
   --color-text-subtle: #616578;
 
-  --color-border-subtle: rgb(15 18 30 / 0.06);
-  --color-border-strong: rgb(15 18 30 / 0.11);
+  --color-border-subtle: rgb(15 18 30 / 0.08);
+  --color-border-strong: rgb(15 18 30 / 0.14);
 
   /* Accents tuned for light: slightly more saturated to keep contrast on white */
   --color-violet: #6f4ce5;
@@ -204,24 +204,42 @@ html.light {
   --rgb-success: 21 161 74;
   --rgb-text-primary: 10 13 24;
 
-  /* Effects: softer halos, dark dots, disabled grain (too visible on white) */
-  --halo-multiplier: 0.5;
-  --dot-grid-color: rgb(15 18 30 / 0.08);
+  /* Effects: luminous ambient halos and crisp architectural dot grid */
+  --halo-multiplier: 0.85;
+  --dot-grid-color: rgb(15 18 30 / 0.09);
   --grain-opacity: 0;
   --grain-card-opacity: 0;
   --noise-blend-mode: multiply;
 
   --color-shimmer: rgb(15 18 30 / 0.12);
 
-  /* Light theme: tinted cool shadows + softer violet glows */
-  --shadow-card: 0 1px 2px rgb(15 18 30 / 0.04),
-    0 10px 28px -14px rgb(15 18 30 / 0.10);
-  --shadow-lift: 0 2px 4px rgb(15 18 30 / 0.06),
-    0 24px 50px -16px rgb(var(--rgb-violet) / 0.18);
+  /* Inner card washes for light mode - luminous frosted tint */
+  --wash-violet: radial-gradient(
+    circle,
+    rgb(var(--rgb-violet) / 0.18) 0%,
+    transparent 70%
+  );
+  --wash-coral: radial-gradient(
+    circle,
+    rgb(var(--rgb-coral) / 0.16) 0%,
+    transparent 70%
+  );
 
-  --glow-button: 0 8px 24px -12px rgb(var(--rgb-violet) / 0.5);
-  --glow-button-hover: 0 16px 36px -14px rgb(var(--rgb-violet) / 0.65);
-  --glow-logo: 0 6px 18px -8px rgb(var(--rgb-violet) / 0.4);
+  /* Light theme: multi-layered tactile shadows with top inner highlight & colored hover glow */
+  --shadow-card: inset 0 1px 0 0 rgba(255, 255, 255, 1),
+    0 1px 3px 0 rgba(15, 23, 42, 0.04),
+    0 12px 28px -6px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(15, 23, 42, 0.05);
+  --shadow-lift: inset 0 1px 0 0 rgba(255, 255, 255, 1),
+    0 4px 6px -1px rgba(15, 23, 42, 0.04),
+    0 20px 40px -10px rgba(111, 76, 229, 0.20),
+    0 0 0 1px rgba(111, 76, 229, 0.25);
+
+  --spotlight-mult: 1.4;
+
+  --glow-button: 0 8px 24px -8px rgb(var(--rgb-violet) / 0.5);
+  --glow-button-hover: 0 16px 36px -10px rgb(var(--rgb-violet) / 0.65);
+  --glow-logo: 0 6px 18px -6px rgb(var(--rgb-violet) / 0.4);
   --glow-dot: 0 0 8px 1px rgb(var(--rgb-violet) / 0.45);
   --glow-line: 0 0 10px rgb(var(--rgb-violet) / 0.5);
   --glow-bar-sm: 0 0 10px rgb(var(--rgb-violet) / 0.32);
@@ -236,7 +254,7 @@ html.light {
 
   --header-glass-bg: color-mix(in srgb, var(--color-canvas) 72%, transparent);
   --header-glass-bg-scrolled: color-mix(in srgb, var(--color-canvas) 88%, transparent);
-  --header-glass-highlight: rgb(255 255 255 / 0.65);
+  --header-glass-highlight: rgb(255 255 255 / 0.85);
 
   --nav-menu-panel-bg: color-mix(in srgb, var(--color-canvas) 94%, transparent);
 }
@@ -260,6 +278,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Atmospheric ambient light for light theme — soft luminous auras at top and sides */
+html.light body {
+  background-image:
+    radial-gradient(1200px 700px at 50% -50px, rgb(var(--rgb-violet) / 0.08) 0%, rgb(var(--rgb-coral) / 0.04) 40%, transparent 100%),
+    radial-gradient(900px 600px at 85% 45%, rgb(var(--rgb-aqua) / 0.04) 0%, transparent 100%),
+    radial-gradient(1000px 700px at 15% 80%, rgb(var(--rgb-violet) / 0.05) 0%, transparent 100%);
+  background-attachment: fixed;
 }
 
 /* Premium grain on the entire viewport */
@@ -355,38 +382,132 @@ body > * {
 }
 
 @utility glass {
-  background-color: color-mix(in oklab, var(--color-surface) 80%, transparent);
-  border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-card);
-  backdrop-filter: blur(12px);
+  background-color: rgb(212 212 216 / 0.2);
+  border: 1px solid rgb(163 163 163 / 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-@utility glass-strong {
-  background-color: color-mix(
-    in oklab,
-    var(--color-surface-2) 88%,
-    transparent
-  );
-  border: 1px solid var(--color-border-strong);
-  box-shadow: var(--shadow-card);
-  backdrop-filter: blur(16px);
+.glass:hover {
+  background-color: rgb(212 212 216 / 0.3);
+  border-color: rgb(163 163 163 / 0.3);
 }
 
-/* On light theme glass should rest on TRUE white (the surface) to maximise
-   elevation against the canvas wash, and the strong variant should keep a
-   slight cool tint so it reads as "secondary surface". */
-html.light .glass {
-  background-color: color-mix(
-    in oklab,
-    var(--color-surface) 96%,
-    transparent
-  );
+html.dark .glass,
+:root:not(.light) .glass {
+  background-color: rgb(163 163 163 / 0.2);
+  border: 1px solid rgb(163 163 163 / 0.2);
+}
+
+html.dark .glass:hover,
+:root:not(.light) .glass:hover {
+  background-color: rgb(163 163 163 / 0.3);
+  border-color: rgb(163 163 163 / 0.3);
 }
 html.light .glass-strong {
   background-color: color-mix(
     in oklab,
-    var(--color-surface) 96%,
+    var(--color-surface) 98%,
     transparent
+  );
+  border: 1px solid var(--color-border-strong);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(20px);
+}
+
+/* ============================================================
+   Apple Liquid Glass — visionOS/macOS style frosted liquid glass
+   ============================================================ */
+
+@utility liquid-glass {
+  position: relative;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(1.04);
+  backdrop-filter: blur(28px) saturate(190%) contrast(1.04);
+  background-color: color-mix(in oklab, var(--color-surface) 70%, transparent);
+  background-image: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.03),
+    inset 0 -1.5px 1px 0 rgba(0, 0, 0, 0.35),
+    0 1px 2px 0 rgba(0, 0, 0, 0.3),
+    0 24px 48px -18px rgba(0, 0, 0, 0.65);
+}
+
+.liquid-glass:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.55),
+    inset 0 0 28px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1.5px 1px 0 rgba(0, 0, 0, 0.25),
+    0 2px 4px 0 rgba(0, 0, 0, 0.25),
+    0 32px 64px -16px rgba(0, 0, 0, 0.75),
+    var(--shadow-lift);
+}
+
+/* Light mode Apple Liquid Glass: lustrous porcelain glass with optical specular rim */
+html.light .liquid-glass {
+  -webkit-backdrop-filter: blur(28px) saturate(200%) contrast(1.02);
+  backdrop-filter: blur(28px) saturate(200%) contrast(1.02);
+  background-color: color-mix(in oklab, var(--color-surface) 85%, transparent);
+  background-image: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(238, 242, 252, 0.6) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+    inset 0 0 24px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1.5px 1px 0 rgba(15, 23, 42, 0.05),
+    0 1px 3px 0 rgba(15, 23, 42, 0.04),
+    0 16px 36px -10px rgba(15, 23, 42, 0.09),
+    0 0 0 1px rgba(15, 23, 42, 0.05);
+}
+
+html.light .liquid-glass:hover {
+  background-color: color-mix(in oklab, var(--color-surface) 92%, transparent);
+  background-image: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(240, 244, 254, 0.7) 100%
+  );
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow:
+    inset 0 2px 2px 0 rgba(255, 255, 255, 1),
+    inset 0 0 32px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1.5px 1px 0 rgba(15, 23, 42, 0.04),
+    0 4px 10px -2px rgba(15, 23, 42, 0.06),
+    0 28px 52px -12px rgba(111, 76, 229, 0.22),
+    0 0 0 1px rgba(111, 76, 229, 0.28);
+}
+
+@utility hairline-specular {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+html.light .hairline-specular {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.95) 50%,
+    transparent 100%
   );
 }
 

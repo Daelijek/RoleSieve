@@ -532,8 +532,8 @@ export function StatsBand() {
             <div className="grid items-start gap-3 sm:gap-8 lg:grid-cols-[300px_1fr] lg:gap-14 xl:gap-18">
               {/* ── Left / Top on mobile: metric selector & description ── */}
               <div className="flex flex-col gap-2 sm:gap-6">
-                {/* Mobile 4-step Segmented Stepper */}
-                <div className="grid grid-cols-4 gap-1 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/60 p-1 lg:hidden">
+                {/* Mobile 4-metric Segmented Switcher */}
+                <div className="grid grid-cols-4 gap-1 rounded-xl border border-neutral-400/20 bg-neutral-300/20 dark:bg-neutral-400/20 backdrop-blur-[1px] p-1 lg:hidden">
                   {s.items.map((item, i) => {
                     const active = i === activeIdx;
                     const cfg = STAT_CONFIGS[i];
@@ -545,7 +545,7 @@ export function StatsBand() {
                         className={cn(
                           "flex flex-col items-center justify-center rounded-lg py-1 px-0.5 text-center transition-all duration-200 active:scale-95",
                           active
-                            ? "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] shadow-sm"
+                            ? "border border-neutral-400/30 bg-neutral-300/30 dark:bg-neutral-400/30 shadow-sm"
                             : "opacity-60 hover:opacity-100",
                         )}
                       >
@@ -612,7 +612,7 @@ export function StatsBand() {
                         key={item.label}
                         className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 transition-all duration-300 ${
                           active
-                            ? "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] text-[color:var(--color-text-primary)] shadow-sm"
+                            ? "border border-neutral-400/30 bg-neutral-300/25 dark:bg-neutral-400/25 text-[color:var(--color-text-primary)] backdrop-blur-[1px] shadow-sm"
                             : past
                               ? "text-[color:var(--color-text-muted)] opacity-70"
                               : "text-[color:var(--color-text-subtle)] opacity-40"
@@ -642,9 +642,10 @@ export function StatsBand() {
               {/* ── Right: the morphing telemetry chamber ── */}
               <div className="relative flex items-center justify-center">
                 <div
-                  className="glass-strong relative w-full overflow-hidden rounded-[18px] bg-[color:var(--color-surface)]/90 transition-all duration-500 sm:rounded-[24px]"
+                  className="relative w-full overflow-hidden rounded-[18px] sm:rounded-[24px] bg-neutral-300/20 hover:bg-neutral-300/30 dark:bg-neutral-400/20 dark:hover:bg-neutral-400/30 backdrop-blur-[1px] border border-neutral-400/20 shadow-2xl transition-all duration-500"
                   style={{ boxShadow: chamberShadow }}
                 >
+                  <div aria-hidden className="hairline-specular" />
                   {/* Laser scan on metric change */}
                   <AnimatePresence mode="popLayout">
                     <ScanLine key={activeIdx} rgb={currentConfig.rgb} />

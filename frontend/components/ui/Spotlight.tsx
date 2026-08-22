@@ -71,7 +71,7 @@ export const Spotlight = React.forwardRef<HTMLDivElement, SpotlightProps>(
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[var(--duration-base)] group-hover/spot:opacity-100"
           style={{
             borderRadius: "inherit",
-            background: `radial-gradient(${size}px circle at var(--mx) var(--my), rgb(${channel} / ${intensity}), transparent 55%)`,
+            background: `radial-gradient(${size}px circle at var(--mx) var(--my), rgb(${channel} / calc(${intensity} * var(--spotlight-mult, 1))), transparent 55%)`,
           }}
         />
         {children}

@@ -20,7 +20,7 @@ export function LangSwitcher({ className }: LangSwitcherProps) {
   return (
     <div
       className={cn(
-        "inline-flex h-[var(--header-control-height)] items-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface)]/60 p-0.5 backdrop-blur",
+        "inline-flex h-[var(--header-control-height)] items-center rounded-full border border-neutral-400/25 bg-neutral-300/20 dark:bg-neutral-400/20 p-0.5 backdrop-blur-[1px]",
         className,
       )}
       role="group"

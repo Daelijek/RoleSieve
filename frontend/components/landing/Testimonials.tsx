@@ -38,8 +38,9 @@ export function Testimonials() {
                 tint={item.accent}
                 size={420}
                 intensity={0.1}
-                className="group glass relative h-full overflow-hidden rounded-3xl p-5 transition-[transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)] sm:p-7"
+                className="group relative h-full overflow-hidden rounded-3xl p-5 sm:p-7 bg-neutral-300/20 hover:bg-neutral-300/30 dark:bg-neutral-400/20 dark:hover:bg-neutral-400/30 backdrop-blur-[1px] border border-neutral-400/20 transition-all duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-1 hover:shadow-xl"
               >
+                <div aria-hidden className="hairline-specular" />
                 <Quote
                   aria-hidden
                   size={28}

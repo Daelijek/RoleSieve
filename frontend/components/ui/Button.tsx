@@ -33,11 +33,11 @@ const variants: Record<Variant, string> = {
     "before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] " +
     "before:bg-[image:var(--signature-gradient)] hover:before:brightness-110 " +
     "after:absolute after:inset-0 after:-z-10 after:rounded-[inherit] after:pointer-events-none " +
-    "after:bg-[image:linear-gradient(180deg,rgba(255,255,255,0.2),transparent_45%)]",
+    "after:bg-[image:linear-gradient(180deg,rgba(255,255,255,0.3),transparent_45%)] active:scale-[0.98]",
   ghost:
-    "text-[color:var(--color-text-primary)] hover:bg-[color:var(--color-surface-2)] border border-transparent hover:border-[color:var(--color-border-subtle)]",
+    "text-[color:var(--color-text-primary)] hover:bg-neutral-300/20 dark:hover:bg-neutral-400/20 border border-transparent hover:border-neutral-400/20 active:scale-[0.98]",
   outline:
-    "text-[color:var(--color-text-primary)] bg-[color:var(--color-surface)]/60 border border-[color:var(--color-border-strong)] hover:bg-[color:var(--color-surface-2)] hover:border-[color:var(--color-border-strong)] backdrop-blur",
+    "text-[color:var(--color-text-primary)] bg-neutral-300/20 hover:bg-neutral-300/35 dark:bg-neutral-400/20 dark:hover:bg-neutral-400/35 border border-neutral-400/25 hover:border-neutral-400/40 backdrop-blur-[1px] shadow-sm hover:shadow-md active:scale-[0.98]",
 };
 
 const base =

@@ -7,7 +7,7 @@ import { SectionHeader } from "./SectionHeader";
 import { useDict } from "@/lib/i18n";
 
 const cardClasses =
-  "group glass relative overflow-hidden rounded-3xl p-5 transition-[transform,box-shadow,border-color] duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:border-[color:var(--color-border-strong)] sm:p-8 lg:p-9";
+  "group relative overflow-hidden rounded-3xl p-5 sm:p-8 lg:p-9 bg-neutral-300/20 hover:bg-neutral-300/30 dark:bg-neutral-400/20 dark:hover:bg-neutral-400/30 backdrop-blur-[1px] border border-neutral-400/20 transition-all duration-[var(--duration-base)] ease-[var(--ease-premium)] hover:-translate-y-1 hover:shadow-xl";
 
 export function TwoModes() {
   const dict = useDict();
@@ -27,15 +27,20 @@ export function TwoModes() {
           />
         </div>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-2">
+        <div className="mt-14 grid gap-6 lg:grid-cols-2">
           {/* Manual mode */}
-          <Spotlight tint="violet" size={480} className={cardClasses}>
+          <Spotlight tint="violet" size={500} className={cardClasses}>
+            {/* Top specular reflection glint */}
+            <div aria-hidden className="hairline-specular" />
+
+            {/* Fluid ambient liquid aura */}
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[image:var(--wash-violet)] blur-2xl"
+              className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[image:var(--wash-violet)] blur-3xl transition-transform duration-700 ease-out group-hover:scale-125 group-hover:opacity-100"
             />
+
             <div className="relative flex items-start gap-3.5 sm:gap-4">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] text-violet sm:h-11 sm:w-11">
+              <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]/90 text-violet shadow-sm sm:h-11 sm:w-11">
                 <ClipboardList size={18} strokeWidth={1.75} />
               </span>
               <div className="min-w-0 flex-1">
@@ -51,7 +56,7 @@ export function TwoModes() {
               {m.manual.hint}
             </p>
 
-            <div className="relative mt-5 overflow-hidden rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/60 sm:mt-6">
+            <div className="relative mt-5 overflow-hidden rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/80 backdrop-blur-md shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)] sm:mt-6">
               <div className="flex items-center justify-between border-b border-[color:var(--color-border-subtle)] px-4 py-2.5">
                 <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
                   {m.manual.mockTitle}
@@ -81,13 +86,18 @@ export function TwoModes() {
           </Spotlight>
 
           {/* Auto mode */}
-          <Spotlight tint="coral" size={480} className={cardClasses}>
+          <Spotlight tint="coral" size={500} className={cardClasses}>
+            {/* Top specular reflection glint */}
+            <div aria-hidden className="hairline-specular" />
+
+            {/* Fluid ambient liquid aura */}
             <div
               aria-hidden
-              className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[image:var(--wash-coral)] blur-2xl"
+              className="pointer-events-none absolute -left-20 -bottom-20 h-80 w-80 rounded-full bg-[image:var(--wash-coral)] blur-3xl transition-transform duration-700 ease-out group-hover:scale-125 group-hover:opacity-100"
             />
+
             <div className="relative flex items-start gap-3.5 sm:gap-4">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)] text-coral sm:h-11 sm:w-11">
+              <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-2)]/90 text-coral shadow-sm sm:h-11 sm:w-11">
                 <SlidersHorizontal size={18} strokeWidth={1.75} />
               </span>
               <div className="min-w-0 flex-1">
@@ -103,7 +113,7 @@ export function TwoModes() {
               {m.auto.hint}
             </p>
 
-            <div className="relative mt-5 overflow-hidden rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-canvas)]/60 sm:mt-6">
+            <div className="relative mt-5 overflow-hidden rounded-2xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-2)]/80 backdrop-blur-md shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)] sm:mt-6">
               <div className="flex items-center justify-between border-b border-[color:var(--color-border-subtle)] px-4 py-2.5">
                 <span className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
                   {m.auto.mockTitle}
@@ -117,7 +127,7 @@ export function TwoModes() {
                 {m.auto.fields.map((f) => (
                   <div
                     key={f.label}
-                    className="bg-[color:var(--color-canvas)]/60 p-3.5 sm:p-4"
+                    className="bg-[color:var(--color-surface)]/60 p-3.5 backdrop-blur-sm transition-colors hover:bg-[color:var(--color-surface)]/85 sm:p-4"
                   >
                     <dt className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-text-subtle)]">
                       {f.label}
