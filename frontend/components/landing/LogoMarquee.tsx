@@ -6,7 +6,9 @@ import { useDict } from "@/lib/i18n";
 export function LogoMarquee() {
   const dict = useDict();
   const l = dict.logos;
-  const items = l.items;
+  // Repeat items 3 times per track so a single track is wider than 4K screens (>4000px),
+  // ensuring completely seamless infinite scrolling without gaps or abrupt resets.
+  const items = [...l.items, ...l.items, ...l.items];
 
   return (
     <section

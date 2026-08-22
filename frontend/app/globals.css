@@ -551,7 +551,7 @@ html.light .glass-strong {
 }
 
 @utility animate-marquee {
-  animation: marquee-x 36s linear infinite;
+  animation: marquee-x var(--marquee-duration, 65s) linear infinite;
 }
 
 @utility animate-halo-pulse {
