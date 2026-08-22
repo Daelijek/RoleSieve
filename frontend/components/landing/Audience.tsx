@@ -3,6 +3,7 @@
 import { Quote, User, UserCheck, LineChart } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Spotlight } from "@/components/ui/Spotlight";
+import { DotGrid } from "@/components/ui/DotGrid";
 import { SectionHeader } from "./SectionHeader";
 import { useDict } from "@/lib/i18n";
 
@@ -26,9 +27,10 @@ export function Audience() {
     <section
       id="audience"
       aria-labelledby="audience-title"
-      className="relative py-20 sm:py-28"
+      className="relative py-20 sm:py-28 overflow-hidden"
     >
-      <Container>
+      <DotGrid fade="center" />
+      <Container className="relative">
         <div id="audience-title">
           <SectionHeader eyebrow={a.eyebrow} title={a.title} />
         </div>

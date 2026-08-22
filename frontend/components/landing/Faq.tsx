@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { DotGrid } from "@/components/ui/DotGrid";
 import { SectionHeader } from "./SectionHeader";
 import { useDict } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
@@ -30,9 +31,10 @@ export function Faq() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="relative py-20 sm:py-28"
+      className="relative py-20 sm:py-28 overflow-hidden"
     >
-      <Container>
+      <DotGrid fade="center" />
+      <Container className="relative">
         <div id="faq-title">
           <SectionHeader eyebrow={f.eyebrow} title={f.title} />
         </div>

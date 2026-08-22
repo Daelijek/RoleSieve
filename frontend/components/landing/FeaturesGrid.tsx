@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Spotlight } from "@/components/ui/Spotlight";
+import { DotGrid } from "@/components/ui/DotGrid";
 import { SectionHeader } from "./SectionHeader";
 import { useDict } from "@/lib/i18n";
 
@@ -30,9 +31,10 @@ export function FeaturesGrid() {
     <section
       id="features"
       aria-labelledby="features-title"
-      className="relative py-20 sm:py-28"
+      className="relative py-20 sm:py-28 overflow-hidden"
     >
-      <Container>
+      <DotGrid fade="center" />
+      <Container className="relative">
         <div id="features-title">
           <SectionHeader eyebrow={f.eyebrow} title={f.title} />
         </div>
